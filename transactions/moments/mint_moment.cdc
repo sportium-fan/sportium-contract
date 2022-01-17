@@ -6,7 +6,7 @@ import Moments from "../../contracts/Moments.cdc"
 // It must be run with the account that has the minter resource
 // stored at path /storage/NFTMinter.
 
-transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
+transaction(recipient: Address, metadata: {String: String}) {
 
     // local variable for storing the minter reference
     let minter: &Moments.NFTMinter
@@ -29,6 +29,6 @@ transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
             ?? panic("Could not get receiver reference to the NFT Collection")
 
         // mint the NFT and deposit it to the recipient's collection
-        self.minter.mintNFT(recipient: receiver, typeID: typeID, rarityID: rarityID)
+        self.minter.mintNFT(recipient: receiver, metadata: metadata)
     }
 }

@@ -9,7 +9,7 @@ import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 // It must be run with the account that has the minter resource
 // stored at path /storage/NFTMinter.
 
-transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
+transaction(recipient: Address, metadata: {String: String}, saleItemPrice: UFix64) {
 
     // local variable for storing the minter reference
     let minter: &Moments.NFTMinter
@@ -53,12 +53,12 @@ transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
             ?? panic("Could not get receiver reference to the NFT Collection")
 
         // mint the NFT and deposit it to the recipient's collection
-        let result = self.minter.mintNFT(recipient: receiver, typeID: typeID, rarityID: rarityID)
+        let result = self.minter.mintNFT(recipient: receiver, metadata: metadata)
 
 
         let saleCut = NFTStorefront.SaleCut(
             receiver: self.elvnReceiver,
-            amount: Moments.itemRarityPriceMap[rarityID]!
+            amount: saleItemPrice
         )
         
         self.storefront.createListing(

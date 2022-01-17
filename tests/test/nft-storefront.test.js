@@ -54,7 +54,7 @@ describe("NFT Storefront", () => {
 		await setupStorefrontOnAccount(Alice);
 
 		// Mint Moment for Alice's account
-		await shallPass(mintMoment(Alice, types.fishbowl, rarities.blue));
+		await shallPass(mintMoment(Alice));
 
 		const itemID = 0;
 
@@ -68,7 +68,7 @@ describe("NFT Storefront", () => {
 		// Setup seller account
 		const Alice = await getAccountAddress("Alice");
 		await setupStorefrontOnAccount(Alice);
-		await mintMoment(Alice, types.fishbowl, rarities.blue);
+		await mintMoment(Alice);
 
 		const itemId = 0;
 
@@ -106,7 +106,7 @@ describe("NFT Storefront", () => {
 		// seller
 		const Alice = await getAccountAddress("Alice");
 		await setupStorefrontOnAccount(Alice);
-		await mintMoment(Alice, types.fishbowl, rarities.blue);
+		await mintMoment(Alice);
 
 		const itemId = 0;
 
@@ -140,7 +140,7 @@ describe("NFT Storefront", () => {
 		await shallPass(setupStorefrontOnAccount(Alice));
 
 		// Mint instruction shall pass
-		await shallPass(mintMoment(Alice, types.fishbowl, rarities.blue));
+		await shallPass(mintMoment(Alice));
 
 		const itemId = 0;
 
