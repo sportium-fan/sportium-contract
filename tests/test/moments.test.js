@@ -20,7 +20,7 @@ jest.setTimeout(50000);
 describe("Moments", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async () => {
-		const basePath = path.resolve(__dirname, "../../../");
+		const basePath = path.resolve(__dirname, "../../");
 		const port = 7002;
 		await init(basePath, { port });
 		await emulator.start(port, false);
