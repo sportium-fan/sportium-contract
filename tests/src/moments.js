@@ -6,22 +6,6 @@ import {
 	getElvnAdminAddress,
 } from "./common";
 
-export const types = {
-	fishbowl: 1,
-	fishhat: 2,
-	milkshake: 3,
-	tuktuk: 4,
-	skateboard: 5,
-	shades: 6,
-};
-
-export const rarities = {
-	blue: 1,
-	green: 2,
-	purple: 3,
-	gold: 4,
-};
-
 /*
  * Deploys NonFungibleToken and Moments contracts to ElvnAdmin.
  * @throws Will throw an error if transaction is reverted.
@@ -68,11 +52,24 @@ export const getMomentSupply = async () => {
  * @throws Will throw an error if execution will be halted
  * @returns {Promise<*>}
  * */
-export const mintMoment = async (recipient, itemType, itemRarity) => {
+export const mintMoment = async (
+	recipient,
+	metadata = {
+		sportEvent: "soccer",
+		playerId: "1",
+		season: "2020",
+		position: "goalkeeper",
+		gameId: "1",
+		cardSituationTag: "save",
+		cardTierId: "1",
+		cardSerialNumber: "1",
+		cardBadgeId: "1",
+	}
+) => {
 	const ElvnAdmin = await getElvnAdminAddress();
 
 	const name = "moments/mint_moment";
-	const args = [recipient, itemType, itemRarity];
+	const args = [recipient, metadata];
 	const signers = [ElvnAdmin];
 
 	return sendTransactionWithErrorRaised({ name, args, signers });

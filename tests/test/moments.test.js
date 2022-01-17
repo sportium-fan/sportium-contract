@@ -10,8 +10,6 @@ import {
 	mintMoment,
 	setupMomentsOnAccount,
 	transferMoment,
-	types,
-	rarities,
 } from "../src/moments";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
@@ -56,7 +54,7 @@ describe("Moments", () => {
 		await setupMomentsOnAccount(Alice);
 
 		// Mint instruction for Alice account shall be resolved
-		await shallPass(mintMoment(Alice, types.fishbowl, rarities.blue));
+		await shallPass(mintMoment(Alice));
 	});
 
 	it("shall be able to create a new empty NFT Collection", async () => {
@@ -92,7 +90,7 @@ describe("Moments", () => {
 		await setupMomentsOnAccount(Bob);
 
 		// Mint instruction for Alice account shall be resolved
-		await shallPass(mintMoment(Alice, types.fishbowl, rarities.blue));
+		await shallPass(mintMoment(Alice));
 
 		// Transfer transaction shall pass
 		await shallPass(transferMoment(Alice, Bob, 0));

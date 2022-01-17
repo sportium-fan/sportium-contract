@@ -4,15 +4,13 @@ import Moments from "../../contracts/Moments.cdc"
 
 pub struct SaleItem {
     pub let itemID: UInt64
-    pub let typeID: UInt64
-    pub let rarityID: UInt64
+    pub let metadata: {String: String}
     pub let owner: Address
     pub let price: UFix64
 
-    init(itemID: UInt64, typeID: UInt64, rarityID: UInt64, owner: Address, price: UFix64) {
+    init(itemID: UInt64, metadata: {String: String}, owner: Address, price: UFix64) {
         self.itemID = itemID
-        self.typeID = typeID
-        self.rarityID = rarityID
+        self.metadata = metadata
         self.owner = owner
         self.price = price
     }
@@ -30,7 +28,7 @@ pub fun main(address: Address, listingResourceID: UInt64): SaleItem? {
 
             if let collection = account.getCapability<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath).borrow() {
                 if let item = collection.borrowMoment(id: itemID) {
-                    return SaleItem(itemID: itemID, typeID: item.typeID, rarityID: item.rarityID, owner: address, price: itemPrice)
+                    return SaleItem(itemID: itemID, metadata: item.metadata, owner: address, price: itemPrice)
                 }
             }
         }

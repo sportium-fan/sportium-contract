@@ -10,7 +10,7 @@ pub contract Moments: NonFungibleToken {
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
-    pub event Minted(id: UInt64, typeID: UInt64, rarityID: UInt64)
+    pub event Minted(id: UInt64, metadata: {String: String})
 
     // Named Paths
     //
@@ -23,26 +23,20 @@ pub contract Moments: NonFungibleToken {
     //
     pub var totalSupply: UInt64
 
-    // Rarity -> Price mapping
-    pub var itemRarityPriceMap: {UInt64: UFix64}
-
     // NFT
     // A Moment as an NFT
     //
     pub resource NFT: NonFungibleToken.INFT {
         // The token's ID
         pub let id: UInt64
-        // The token's type, e.g. 1 == Fishbowl
-        pub let typeID: UInt64
-        // The token's rarity, e.g. 1 == Gold
-        pub let rarityID: UInt64
+
+        pub let metadata: {String: String}
 
         // initializer
         //
-        init(initID: UInt64, initTypeID: UInt64, initRarityID: UInt64) {
-            self.id = initID
-            self.typeID = initTypeID
-            self.rarityID = initRarityID
+        init(tokenId: UInt64, metadata: {String: String}) {
+            self.id = tokenId
+            self.metadata = metadata
         }
     }
 
@@ -117,7 +111,6 @@ pub contract Moments: NonFungibleToken {
 
         // borrowMoment
         // Gets a reference to an NFT in the collection as a Moment,
-        // exposing all of its fields (including the typeID & rarityID).
         // This is safe as there are no functions that can be called on the Moment.
         //
         pub fun borrowMoment(id: UInt64): &Moments.NFT? {
@@ -158,11 +151,11 @@ pub contract Moments: NonFungibleToken {
         // Mints a new NFT with a new ID
 		// and deposit it in the recipients collection using their collection reference
         //
-		pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, typeID: UInt64, rarityID: UInt64) {
-            emit Minted(id: Moments.totalSupply, typeID: typeID, rarityID: rarityID)
+		pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, metadata: {String: String}) {
+            emit Minted(id: Moments.totalSupply, metadata: metadata)
 
 			// deposit it in the recipient's account using their reference
-			recipient.deposit(token: <-create Moments.NFT(initID: Moments.totalSupply, initTypeID: typeID, initRarityID: rarityID))
+			recipient.deposit(token: <-create Moments.NFT(tokenId: Moments.totalSupply, metadata: metadata))
 
             Moments.totalSupply = Moments.totalSupply + (1 as UInt64)
 
@@ -175,27 +168,19 @@ pub contract Moments: NonFungibleToken {
     // If it has a collection but does not contain the itemID, return nil.
     // If it has a collection and that collection contains the itemID, return a reference to that.
     //
-    pub fun fetch(_ from: Address, itemID: UInt64): &Moments.NFT? {
+    pub fun fetch(_ from: Address, itemId: UInt64): &Moments.NFT? {
         let collection = getAccount(from)
             .getCapability(Moments.CollectionPublicPath)!
             .borrow<&Moments.Collection{Moments.MomentsCollectionPublic}>()
             ?? panic("Couldn't get collection")
         // We trust Moments.Collection.borowMoment to get the correct itemID
         // (it checks it before returning it).
-        return collection.borrowMoment(id: itemID)
+        return collection.borrowMoment(id: itemId)
     }
 
     // initializer
     //
 	init() {
-        // set rarity price mapping
-        self.itemRarityPriceMap = {
-            1: 125.0,
-            2: 25.0,
-            3: 5.0,
-            4: 1.0
-        }
-
         // Set our named paths
         self.CollectionStoragePath = /storage/momentsCollectionV9
         self.CollectionPublicPath = /public/momentsCollectionV9
@@ -211,3 +196,4 @@ pub contract Moments: NonFungibleToken {
         emit ContractInitialized()
 	}
 }
+ 
