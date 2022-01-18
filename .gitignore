@@ -24,3 +24,8 @@ lerna-debug.log*
 
 # emulator datastore
 flowdb
+
+
+# flow json
+flow.testnet.json
+flow.mainnet.json
