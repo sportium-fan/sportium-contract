@@ -18,7 +18,7 @@ pub struct AccountItem {
 pub fun main(address: Address, itemID: UInt64): AccountItem? {
   if let collection = getAccount(address).getCapability<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath).borrow() {
     if let item = collection.borrowMoment(id: itemID) {
-      return AccountItem(itemID: itemID, metadata: item.metadata, resourceID: item.uuid, owner: address)
+      return AccountItem(itemID: itemID, metadata: item.getMetadata(), resourceID: item.uuid, owner: address)
     }
   }
 

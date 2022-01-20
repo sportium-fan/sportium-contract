@@ -30,7 +30,11 @@ pub contract Moments: NonFungibleToken {
         // The token's ID
         pub let id: UInt64
 
-        pub let metadata: {String: String}
+        access(self) let metadata: {String: String}
+
+        pub fun getMetadata(): {String: String} {
+            return self.metadata
+        }
 
         // initializer
         //
