@@ -186,9 +186,9 @@ pub contract Moments: NonFungibleToken {
     //
 	init() {
         // Set our named paths
-        self.CollectionStoragePath = /storage/momentsCollectionV9
-        self.CollectionPublicPath = /public/momentsCollectionV9
-        self.MinterStoragePath = /storage/momentsMinterV9
+        self.CollectionStoragePath = /storage/sportiumMomentsCollection
+        self.CollectionPublicPath = /public/sportiumMomentsCollection
+        self.MinterStoragePath = /storage/sportiumMomentsMinter
 
         // Initialize the total supply
         self.totalSupply = 0
