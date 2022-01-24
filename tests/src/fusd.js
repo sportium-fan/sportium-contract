@@ -6,11 +6,11 @@ import {
 	getElvnAdminAddress,
 } from "./common";
 
-/*
+/**
  * Deploys FUSD contract to ElvnAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
- * */
+ */
 export const deployFUSD = async () => {
 	const ElvnAdmin = await getElvnAdminAddress();
 	await mintFlow(ElvnAdmin, "10.0");
@@ -18,12 +18,12 @@ export const deployFUSD = async () => {
 	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "FUSD" });
 };
 
-/*
+/**
  * Setups FUSD Vault on account and exposes public capability.
  * @param {string} account - account address
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
- * */
+ */
 export const setupFUSDOnAccount = async (account) => {
 	const name = "fusd/setup_account";
 	const signers = [account];
@@ -31,12 +31,12 @@ export const setupFUSDOnAccount = async (account) => {
 	return sendTransactionWithErrorRaised({ name, signers });
 };
 
-/*
+/**
  * Returns FUSD balance for **account**.
  * @param {string} account - account address
  * @throws Will throw an error if execution will be halted
  * @returns {UFix64}
- * */
+ */
 export const getFUSDBalance = async (account) => {
 	const name = "fusd/get_balance";
 	const args = [account];

@@ -6,11 +6,11 @@ import {
 	getElvnAdminAddress,
 } from "./common";
 
-/*
+/**
  * Deploys Elvn contract to ElvnAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
- * */
+ */
 export const deployElvn = async () => {
 	const ElvnAdmin = await getElvnAdminAddress();
 	await mintFlow(ElvnAdmin, "10.0");
@@ -18,12 +18,12 @@ export const deployElvn = async () => {
 	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "Elvn" });
 };
 
-/*
+/**
  * Setups Elvn Vault on account and exposes public capability.
  * @param {string} account - account address
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
- * */
+ */
 export const setupElvnOnAccount = async (account) => {
 	const name = "elvn/setup_account";
 	const signers = [account];
@@ -31,12 +31,12 @@ export const setupElvnOnAccount = async (account) => {
 	return sendTransactionWithErrorRaised({ name, signers });
 };
 
-/*
+/**
  * Returns Elvn balance for **account**.
  * @param {string} account - account address
  * @throws Will throw an error if execution will be halted
  * @returns {UFix64}
- * */
+ */
 export const getElvnBalance = async (account) => {
 	const name = "elvn/get_balance";
 	const args = [account];
@@ -44,23 +44,23 @@ export const getElvnBalance = async (account) => {
 	return executeScriptWithErrorRaised({ name, args });
 };
 
-/*
+/**
  * Returns Elvn supply.
  * @throws Will throw an error if execution will be halted
  * @returns {UFix64}
- * */
+ */
 export const getElvnSupply = async () => {
 	const name = "elvn/get_supply";
 	return executeScriptWithErrorRaised({ name });
 };
 
-/*
+/**
  * Mints **amount** of Elvn tokens and transfers them to recipient.
  * @param {string} recipient - recipient address
  * @param {string} amount - UFix64 amount to mint
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
- * */
+ */
 export const mintElvn = async (recipient, amount) => {
 	const ElvnAdmin = await getElvnAdminAddress();
 
@@ -71,14 +71,14 @@ export const mintElvn = async (recipient, amount) => {
 	return sendTransactionWithErrorRaised({ name, args, signers });
 };
 
-/*
+/**
  * Transfers **amount** of Elvn tokens from **sender** account to **recipient**.
  * @param {string} sender - sender address
  * @param {string} recipient - recipient address
  * @param {string} amount - UFix64 amount to transfer
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
- * */
+ */
 export const transferElvn = async (sender, recipient, amount) => {
 	const name = "elvn/transfer_tokens";
 	const args = [amount, recipient];
