@@ -33,6 +33,55 @@ pub fun swapFUSDToElvn(account: AuthAccount, amount: UFix64): @FungibleToken.Vau
     return <- ElvnFUSDTreasury.swapFUSDToElvn(vault: <- fusdVault)
 }
 
+pub fun setupAccount(account: AuthAccount) {
+    // If the account doesn't already have a Storefront
+    if account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) == nil {
+
+        // Create a new empty .Storefront
+        let storefront <- NFTStorefront.createStorefront()
+        
+        // save it to the account
+        account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)
+
+        // create a public capability for the .Storefront
+        account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+    }
+
+    if account.borrow<&Elvn.Vault>(from: /storage/elvnVault) == nil {
+        // Create a new Elvn Vault and put it in storage
+        account.save(<-Elvn.createEmptyVault(), to: /storage/elvnVault)
+
+        // Create a public capability to the stored Vault that only exposes
+        // the `deposit` method through the `Receiver` interface
+        //
+        account.link<&Elvn.Vault{FungibleToken.Receiver}>(
+            /public/elvnReceiver,
+            target: /storage/elvnVault
+        )
+
+        // Create a public capability to the stored Vault that only exposes
+        // the `balance` field through the `Balance` interface
+        //
+        account.link<&Elvn.Vault{FungibleToken.Balance}>(
+            /public/elvnBalance,
+            target: /storage/elvnVault
+        )
+    }
+
+    if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
+        account.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
+
+        account.link<&FUSD.Vault{FungibleToken.Receiver}>(
+            /public/fusdReceiver,
+            target: /storage/fusdVault
+        )
+
+        account.link<&FUSD.Vault{FungibleToken.Balance}>(
+            /public/fusdBalance,
+            target: /storage/fusdVault
+        )
+    }
+}
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
     let paymentVault: @FungibleToken.Vault
@@ -41,6 +90,8 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
     let listing: &NFTStorefront.Listing{NFTStorefront.ListingPublic}
 
     prepare(account: AuthAccount) {
+        setupAccount(account: account)
+
         self.storefront = getAccount(storefrontAddress)
             .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(
                 NFTStorefront.StorefrontPublicPath

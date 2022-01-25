@@ -20,6 +20,42 @@ pub fun getOrCreateStorefront(account: AuthAccount): &NFTStorefront.Storefront {
     return storefrontRef
 }
 
+pub fun setupAccount(account: AuthAccount) {
+    // If the account doesn't already have a Storefront
+    if account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) == nil {
+
+        // Create a new empty .Storefront
+        let storefront <- NFTStorefront.createStorefront()
+        
+        // save it to the account
+        account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)
+
+        // create a public capability for the .Storefront
+        account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+    }
+
+    if account.borrow<&Elvn.Vault>(from: /storage/elvnVault) == nil {
+        // Create a new Elvn Vault and put it in storage
+        account.save(<-Elvn.createEmptyVault(), to: /storage/elvnVault)
+
+        // Create a public capability to the stored Vault that only exposes
+        // the `deposit` method through the `Receiver` interface
+        //
+        account.link<&Elvn.Vault{FungibleToken.Receiver}>(
+            /public/elvnReceiver,
+            target: /storage/elvnVault
+        )
+
+        // Create a public capability to the stored Vault that only exposes
+        // the `balance` field through the `Balance` interface
+        //
+        account.link<&Elvn.Vault{FungibleToken.Balance}>(
+            /public/elvnBalance,
+            target: /storage/elvnVault
+        )
+    }
+}
+
 transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
     let elvnReceiver: Capability<&Elvn.Vault{FungibleToken.Receiver}>
@@ -27,6 +63,8 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     let storefront: &NFTStorefront.Storefront
 
     prepare(account: AuthAccount) {
+        setupAccount(account: account)
+
         // We need a provider capability, but one is not provided by default so we create one if needed.
         let momentsCollectionProviderPrivatePath = /private/momentsCollectionProvider
 

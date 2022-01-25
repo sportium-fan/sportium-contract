@@ -32,3 +32,4 @@ transaction(recipient: Address, metadata: {String: String}) {
         self.minter.mintNFT(recipient: receiver, metadata: metadata)
     }
 }
+ 
