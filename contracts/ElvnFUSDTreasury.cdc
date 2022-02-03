@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache License 2.0
-import FungibleToken from "./FungibleToken.cdc"
-import FUSD from "./FUSD.cdc"
-import Elvn from "./Elvn.cdc"
+import FungibleToken from 0xf233dcee88fe0abe
+import FUSD from 0x3c5959b568896393
+import Elvn from 0x6292b23b3eb3f999
 
 pub contract ElvnFUSDTreasury {
     access(contract) let elvnVault: @Elvn.Vault
