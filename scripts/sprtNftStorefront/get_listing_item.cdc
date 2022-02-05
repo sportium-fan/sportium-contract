@@ -1,5 +1,5 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import NFTStorefront from "../../contracts/NFTStorefront.cdc"
+import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
 import Moments from "../../contracts/Moments.cdc"
 
 pub struct SaleItem {
@@ -19,7 +19,7 @@ pub struct SaleItem {
 pub fun main(address: Address, listingResourceID: UInt64): SaleItem? {
     let account = getAccount(address)
 
-    if let storefrontRef = account.getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath).borrow() {
+    if let storefrontRef = account.getCapability<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath).borrow() {
         if let listing = storefrontRef.borrowListing(listingResourceID: listingResourceID) {
             let details = listing.getDetails()
 
