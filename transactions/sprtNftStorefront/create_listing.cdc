@@ -2,36 +2,36 @@ import FungibleToken from "../../contracts/FungibleToken.cdc"
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import Elvn from "../../contracts/Elvn.cdc"
 import Moments from "../../contracts/Moments.cdc"
-import NFTStorefront from "../../contracts/NFTStorefront.cdc"
+import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
 
-pub fun getOrCreateStorefront(account: AuthAccount): &NFTStorefront.Storefront {
-    if let storefrontRef = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) {
+pub fun getOrCreateStorefront(account: AuthAccount): &SprtNFTStorefront.Storefront {
+    if let storefrontRef = account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath) {
         return storefrontRef
     }
 
-    let storefront <- NFTStorefront.createStorefront()
+    let storefront <- SprtNFTStorefront.createStorefront()
 
-    let storefrontRef = &storefront as &NFTStorefront.Storefront
+    let storefrontRef = &storefront as &SprtNFTStorefront.Storefront
 
-    account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)
+    account.save(<-storefront, to: SprtNFTStorefront.StorefrontStoragePath)
 
-    account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+    account.link<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath, target: SprtNFTStorefront.StorefrontStoragePath)
 
     return storefrontRef
 }
 
 pub fun setupAccount(account: AuthAccount) {
     // If the account doesn't already have a Storefront
-    if account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) == nil {
+    if account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath) == nil {
 
         // Create a new empty .Storefront
-        let storefront <- NFTStorefront.createStorefront()
+        let storefront <- SprtNFTStorefront.createStorefront()
         
         // save it to the account
-        account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)
+        account.save(<-storefront, to: SprtNFTStorefront.StorefrontStoragePath)
 
         // create a public capability for the .Storefront
-        account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+        account.link<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath, target: SprtNFTStorefront.StorefrontStoragePath)
     }
 
     if account.borrow<&Elvn.Vault>(from: /storage/elvnVault) == nil {
@@ -60,7 +60,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
     let elvnReceiver: Capability<&Elvn.Vault{FungibleToken.Receiver}>
     let momentsProvider: Capability<&Moments.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
-    let storefront: &NFTStorefront.Storefront
+    let storefront: &SprtNFTStorefront.Storefront
 
     prepare(account: AuthAccount) {
         setupAccount(account: account)
@@ -84,7 +84,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     }
 
     execute {
-        let saleCut = NFTStorefront.SaleCut(
+        let saleCut = SprtNFTStorefront.SaleCut(
             receiver: self.elvnReceiver,
             amount: saleItemPrice
         )
