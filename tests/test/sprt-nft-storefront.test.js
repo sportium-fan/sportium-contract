@@ -12,10 +12,10 @@ import {
 	setupStorefrontOnAccount,
 	getListingCount,
 	purchaseItemListingPaymentByFUSD,
-} from "../src/nft-storefront";
+} from "../src/sprt-nft-storefront";
 import { getElvnBalance, mintElvn } from "../src/elvn";
 import { getFUSDBalance, mintFUSD } from "../src/fusd";
-import { depositElvn } from "../src/treasury";
+import { depositElvn, getFeeVaultBalance } from "../src/treasury";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(500000);
@@ -85,6 +85,8 @@ describe("NFT Storefront", () => {
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
 		await shallPass(purchaseItemListing(Bob, listingResourceID, Alice));
+		const feeAmount = 0.10545;
+		await checkBalance(getFeeVaultBalance(), feeAmount);
 
 		const itemCount = await getMomentCount(Bob);
 		expect(itemCount).toBe(1);
@@ -92,7 +94,7 @@ describe("NFT Storefront", () => {
 
 		const listingCount = await getListingCount(Alice);
 		expect(listingCount).toBe(0);
-		await checkBalance(getElvnBalance(Alice), 1.11);
+		await checkBalance(getElvnBalance(Alice), 1.11 - feeAmount);
 	});
 
 	it("shall be able to accept a listing, payment by FUSD", async () => {
@@ -121,6 +123,8 @@ describe("NFT Storefront", () => {
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
 		await shallPass(purchaseItemListingPaymentByFUSD(Bob, listingResourceID, Alice));
+		const feeAmount = 0.10545;
+		await checkBalance(getFeeVaultBalance(), feeAmount);
 
 		const itemCount = await getMomentCount(Bob);
 		expect(itemCount).toBe(1);
@@ -128,7 +132,7 @@ describe("NFT Storefront", () => {
 
 		const listingCount = await getListingCount(Alice);
 		expect(listingCount).toBe(0);
-		await checkBalance(getElvnBalance(Alice), 1.11);
+		await checkBalance(getElvnBalance(Alice), 1.11 - feeAmount);
 	});
 
 	it("shall be able to remove a listing", async () => {

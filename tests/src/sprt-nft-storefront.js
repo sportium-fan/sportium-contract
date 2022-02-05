@@ -26,9 +26,10 @@ export const deployNFTStorefront = async () => {
 		Elvn: ElvnAdmin,
 		FUSD: ElvnAdmin,
 		ElvnFUSDTreasury: ElvnAdmin,
+		ElvnFeeTreasury: ElvnAdmin,
 	};
 
-	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "NFTStorefront", addressMap });
+	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "SprtNFTStorefront", addressMap });
 };
 
 /**
@@ -45,7 +46,7 @@ export const setupStorefrontOnAccount = async (account) => {
 	// Account shall be able to store Moments
 	await setupMomentsOnAccount(account);
 
-	const name = "nftStorefront/setup_account";
+	const name = "sprtNftStorefront/setup_account";
 	const signers = [account];
 
 	return sendTransactionWithErrorRaised({ name, signers });
@@ -60,7 +61,7 @@ export const setupStorefrontOnAccount = async (account) => {
  * @returns {Promise<*>}
  */
 export const createItemListing = async (seller, itemId, price) => {
-	const name = "nftStorefront/create_listing";
+	const name = "sprtNftStorefront/create_listing";
 	const args = [itemId, price];
 	const signers = [seller];
 
@@ -76,7 +77,7 @@ export const createItemListing = async (seller, itemId, price) => {
  * @returns {Promise<*>}
  */
 export const purchaseItemListing = async (buyer, resourceId, seller) => {
-	const name = "nftStorefront/purchase_listing";
+	const name = "sprtNftStorefront/purchase_listing";
 	const args = [resourceId, seller];
 	const signers = [buyer];
 
@@ -84,7 +85,7 @@ export const purchaseItemListing = async (buyer, resourceId, seller) => {
 };
 
 export const purchaseItemListingPaymentByFUSD = async (buyer, resourceId, seller) => {
-	const name = "nftStorefront/purchase_listing_payment_by_fusd";
+	const name = "sprtNftStorefront/purchase_listing_payment_by_fusd";
 	const args = [resourceId, seller];
 	const signers = [buyer];
 
@@ -99,7 +100,7 @@ export const purchaseItemListingPaymentByFUSD = async (buyer, resourceId, seller
  * @returns {Promise<*>}
  */
 export const removeItemListing = async (owner, itemId) => {
-	const name = "nftStorefront/remove_listing";
+	const name = "sprtNftStorefront/remove_listing";
 	const signers = [owner];
 	const args = [itemId];
 
@@ -113,7 +114,7 @@ export const removeItemListing = async (owner, itemId) => {
  * @returns {UInt64}
  */
 export const getListingCount = async (account) => {
-	const name = "nftStorefront/get_listings_length";
+	const name = "sprtNftStorefront/get_listings_length";
 	const args = [account];
 
 	return executeScriptWithErrorRaised({ name, args });
