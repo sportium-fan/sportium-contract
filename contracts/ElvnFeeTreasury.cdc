@@ -49,8 +49,14 @@ pub contract ElvnFeeTreasury {
 	emit Deposited(amount: amount)
     }
 
-    pub fun getVault(): &Elvn.Vault {
-	return self.account.borrow<&Elvn.Vault>(from: /storage/elvnVault) as! &Elvn.Vault
+    access(self) fun getVault(): &Elvn.Vault {
+	return self.account.borrow<&Elvn.Vault>(from: /storage/elvnVault) ?? panic("failed borrow elvn vault")
+    }
+
+    pub fun getBalance(): UFix64 {
+	let vault = ElvnFeeTreasury.getVault()
+
+	return vault.balance
     }
 
     pub fun getReceiver(): Capability<&Elvn.Vault{FungibleToken.Receiver}> {
