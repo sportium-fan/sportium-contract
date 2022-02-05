@@ -8,16 +8,29 @@ import {
 import { deployFUSD } from "./fusd";
 import { deployElvn } from "./elvn";
 
+export const deployElvnFeeTreasury = async () => {
+	const ElvnAdmin = await getElvnAdminAddress();
+
+	const addressMap = {
+		Elvn: ElvnAdmin,
+		NonFungibleToken: ElvnAdmin,
+	};
+
+	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "ElvnFeeTreasury", addressMap });
+};
+
 export const deployTreasury = async () => {
 	const ElvnAdmin = await getElvnAdminAddress();
 	await mintFlow(ElvnAdmin, "10.0");
 
 	await deployFUSD();
 	await deployElvn();
+	await deployElvnFeeTreasury();
 
 	const addressMap = {
 		FUSD: ElvnAdmin,
 		Elvn: ElvnAdmin,
+		ElvnFeeTreasury: ElvnAdmin,
 	};
 
 	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "ElvnFUSDTreasury", addressMap });
@@ -25,6 +38,12 @@ export const deployTreasury = async () => {
 
 export const getVaultBalance = async () => {
 	const name = "treasury/get_vault_balance";
+
+	return executeScriptWithErrorRaised({ name });
+};
+
+export const getFeeVaultBalance = async () => {
+	const name = "treasury/get_fee_balance";
 
 	return executeScriptWithErrorRaised({ name });
 };
