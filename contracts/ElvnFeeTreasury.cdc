@@ -59,7 +59,7 @@ pub contract ElvnFeeTreasury {
 
     init() { 
 	let admin <- create Administrator()
-	self.account.save(<- admin, to: /storage/treasuryAdmin)
+	self.account.save(<- admin, to: /storage/elvnFeeTreasuryAdmin)
 
         if self.account.borrow<&Elvn.Vault>(from: /storage/elvnVault) == nil {
             self.account.save(<-Elvn.createEmptyVault(), to: /storage/elvnVault)
