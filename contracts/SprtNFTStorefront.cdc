@@ -397,11 +397,11 @@ pub contract SprtNFTStorefront {
             for saleCut in saleCuts {
                 accAmount = accAmount + saleCut.amount
             }
-
             let feeRate = SprtNFTStorefront.getFeeRate(amount: accAmount)
+
             for saleCut in saleCuts {
-                let feeAmount = feeRate * (saleCut.amount / accAmount)
-            
+                let feeAmount = feeRate * saleCut.amount
+
                 newSaleCuts.appendAll([
                     SaleCut(receiver: saleCut.receiver, amount: saleCut.amount - feeAmount),
                     SaleCut(receiver: ElvnFeeTreasury.getReceiver(), amount: feeAmount)
@@ -520,13 +520,16 @@ pub contract SprtNFTStorefront {
     }
 
     pub fun getFeeRate(amount: UFix64): UFix64 {
+        pre {
+            amount > 0.0: "price cannot be negative"
+        }
         var price = amount 
 
-        if price < self.feeInfo.minimumPrice {
+        if price <= self.feeInfo.minimumPrice {
             return self.feeInfo.baseFeeRate
         }
 
-        if price >= self.feeInfo.maximumPrice {
+        if price > self.feeInfo.maximumPrice {
             price = self.feeInfo.maximumPrice
         }
 
@@ -548,7 +551,7 @@ pub contract SprtNFTStorefront {
         self.StorefrontPublicPath = /public/SprtNFTStorefront
 
         self.feeInfo = FeeInfo(minimumPrice: 1.0, maximumPrice: 23.5, 
-            priceTickSize: 0.5, baseFeeRate: 9.5, feeTickSize: 0.1) 
+            priceTickSize: 0.5, baseFeeRate: 0.095, feeTickSize: 0.001) 
 
         emit NFTStorefrontInitialized()
     }
