@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache License 2.0
-import FungibleToken from "./FungibleToken.cdc"
-import Elvn from "./Elvn.cdc"
+import FungibleToken from 0xf233dcee88fe0abe
+import Elvn from 0x6292b23b3eb3f999
 
 pub contract ElvnFeeTreasury {
     pub event Initialize()
