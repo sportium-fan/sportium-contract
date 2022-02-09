@@ -1,4 +1,4 @@
-export const getCollectionIdsScript = `import NonFungibleToken from 0xNonFungibleToken
+export const getCollectionIds = `import NonFungibleToken from 0xNonFungibleToken
 import Moments from 0xMoments
 
 // This script returns an array of all the NFT IDs in an account's collection.

@@ -1,4 +1,4 @@
-export const getListingItemScript = `import NonFungibleToken from 0xNonFungibleToken
+export const getListingItem = `import NonFungibleToken from 0xNonFungibleToken
 import SprtNFTStorefront from 0xSprtNFTStorefront
 import Moments from 0xMoments
 

@@ -1,4 +1,4 @@
-export const setupAccountTransaction = `import FungibleToken from 0xFungibleToken
+export const setupAccount = `import FungibleToken from 0xFungibleToken
 import Elvn from 0xElvn
 
 // This transaction is a template for a transaction

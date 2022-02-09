@@ -1,4 +1,4 @@
-export const mintMomentTransaction = `import NonFungibleToken from 0xNonFungibleToken
+export const mintMoment = `import NonFungibleToken from 0xNonFungibleToken
 import Moments from 0xMoments
 
 // This transction uses the NFTMinter resource to mint a new NFT.

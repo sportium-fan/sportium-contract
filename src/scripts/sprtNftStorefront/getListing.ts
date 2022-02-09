@@ -1,4 +1,4 @@
-export const getListingScript = `import SprtNFTStorefront from 0xSprtNFTStorefront
+export const getListing = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 // This script returns the details for a listing within a storefront
 

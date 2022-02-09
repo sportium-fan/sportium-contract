@@ -1,4 +1,4 @@
-export const getCollectionLengthScript = `import NonFungibleToken from 0xNonFungibleToken
+export const getCollectionLength = `import NonFungibleToken from 0xNonFungibleToken
 import Moments from 0xMoments
 
 // This script returns the size of an account's Moments collection.

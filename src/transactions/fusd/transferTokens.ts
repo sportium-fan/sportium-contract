@@ -1,4 +1,4 @@
-export const transferTokensTransaction = `import FungibleToken from 0xFungibleToken
+export const transferTokens = `import FungibleToken from 0xFungibleToken
 import FUSD from 0xFUSD
 
 transaction(amount: UFix64, recipient: Address) {

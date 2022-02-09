@@ -1,4 +1,4 @@
-export const swapFusdToElvnTransaction = `import FungibleToken from 0xFungibleToken
+export const swapFusdToElvn = `import FungibleToken from 0xFungibleToken
 import Elvn from 0xElvn
 import FUSD from 0xFUSD
 import ElvnFUSDTreasury from 0xElvnFUSDTreasury

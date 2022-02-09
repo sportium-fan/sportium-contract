@@ -1,4 +1,4 @@
-export const transferTokensTransaction = `
+export const transferTokens = `
    
 import FungibleToken from 0xFungibleToken
 import Elvn from 0xElvn

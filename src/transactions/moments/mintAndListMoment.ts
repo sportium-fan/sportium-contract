@@ -1,4 +1,4 @@
-export const mintAndListMomentTransaction = `import NonFungibleToken from 0xNonFungibleToken
+export const mintAndListMoment = `import NonFungibleToken from 0xNonFungibleToken
 import Moments from 0xMoments
 import FungibleToken from 0xFungibleToken
 import Elvn from 0xElvn

@@ -1,4 +1,4 @@
-export const getMomentsSupplyScript = `import Moments from 0xMoments
+export const getMomentsSupply = `import Moments from 0xMoments
 
 // This scripts returns the number of Moments currently in existence.
 

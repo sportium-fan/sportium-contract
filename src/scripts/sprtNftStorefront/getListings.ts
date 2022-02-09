@@ -1,4 +1,4 @@
-export const getListingsScript = `import SprtNFTStorefront from 0xSprtNFTStorefront
+export const getListings = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 // This script returns an array of all the NFTs uuids for sale through a Storefront
 

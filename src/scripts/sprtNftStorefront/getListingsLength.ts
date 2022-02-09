@@ -1,4 +1,4 @@
-export const getListingsLengthScript = `import SprtNFTStorefront from 0xSprtNFTStorefront
+export const getListingsLength = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 // This script returns the number of NFTs for sale in a given account's storefront.
 

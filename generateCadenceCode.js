@@ -12,25 +12,24 @@ const getDirList = (dirName) =>
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
 
-const convertCadenceToJs = (content, fName, kind) => {
+const convertCadenceToJs = (content, fName) => {
   const fileName = camelCase(fName);
 
   const currentFile = content
     .replace(/\"\.\.\/\.\.\/contracts\//g, "0x")
     .replace(/\.cdc\"/g, "")
     .replace(/\`/g, "");
-  const code = `export const ${camelCase(
-    `${fileName}_${kind.replace("./", "")}`
-  )} = \`${currentFile}\`;`;
+  const code = `export const ${fileName} = \`${currentFile}\`;`;
   return prettier.format(code, { parser: "typescript" });
 };
 
 const compileCadenceFile = (kind, dirList) => {
+  const pathList = [];
   fs.mkdirSync(kind, { recursive: true });
 
   console.log(`generating ${kind} typescript file`);
 
-  dirList.forEach((dir, index) => {
+  dirList.forEach((dir) => {
     const path = `${kind}/${dir}`;
     fs.mkdirSync(`./src${camelCase(path)}`, { recursive: true });
 
@@ -48,26 +47,43 @@ const compileCadenceFile = (kind, dirList) => {
       }
 
       const content = fs.readFileSync(`${path}/${file}`, "utf8");
-      const newContent = convertCadenceToJs(
-        content,
-        fileName,
-        kind.slice(0, -1)
-      );
+      const newContent = convertCadenceToJs(content, fileName);
 
+      pathList.push(`./src${camelCase(path)}/${camelCase(fileName)}.ts`);
       fs.writeFileSync(
-        `./src/${camelCase(path)}/${camelCase(fileName)}.ts`,
+        `./src${camelCase(path)}/${camelCase(fileName)}.ts`,
         newContent,
         "utf8"
       );
     });
   });
+  return pathList;
+};
+
+const generateIndexCode = (pathList) => {
+  const exportCode = [];
+
+  pathList.forEach((path) => {
+    const variable = path.split("/").pop().replace(".ts", "");
+
+    const code = `export {${variable} as ${camelCase(
+      `${path.split("/")[3]}_${variable}`
+    )}} from "${path.replace("./src", ".").replace(".ts", "")}"`;
+    exportCode.push(code);
+  });
+
+  const code = prettier.format(exportCode.join("\n"), { parser: "typescript" });
+  fs.writeFileSync("./src/index.ts", code, "utf8");
 };
 
 (() => {
-  const generate = (dir) => {
+  const generateTypescriptCode = (dir) => {
     const dirList = getDirList(dir);
-    compileCadenceFile(dir, dirList);
+    return compileCadenceFile(dir, dirList);
   };
 
-  ["./transactions", "./scripts"].map(generate);
+  const pathList = ["./transactions", "./scripts"]
+    .map(generateTypescriptCode)
+    .flat();
+  generateIndexCode(pathList);
 })();

@@ -1,4 +1,4 @@
-export const removeListingTransaction = `import SprtNFTStorefront from 0xSprtNFTStorefront
+export const removeListing = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 pub fun setupAccount(account: AuthAccount) {
     // If the account doesn't already have a Storefront

@@ -1,4 +1,4 @@
-export const initializeAccountTransaction = `import FungibleToken from 0xFungibleToken
+export const initializeAccount = `import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import FUSD from 0xFUSD
 import Moments from 0xMoments 

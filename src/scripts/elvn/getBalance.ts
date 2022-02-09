@@ -1,4 +1,4 @@
-export const getBalanceScript = `import Elvn from 0xElvn
+export const getBalance = `import Elvn from 0xElvn
 import FungibleToken from 0xFungibleToken
 
 // This script returns an account's Elvn balance.

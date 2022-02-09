@@ -1,4 +1,4 @@
-export const depositFusdTransaction = `import FungibleToken from 0xFungibleToken
+export const depositFusd = `import FungibleToken from 0xFungibleToken
 import FUSD from 0xFUSD
 import ElvnFUSDTreasury from 0xElvnFUSDTreasury
 

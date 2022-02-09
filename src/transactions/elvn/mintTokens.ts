@@ -1,4 +1,4 @@
-export const mintTokensTransaction = `import FungibleToken from 0xFungibleToken
+export const mintTokens = `import FungibleToken from 0xFungibleToken
 import Elvn from 0xElvn
 
 transaction(recipient: Address, amount: UFix64) {

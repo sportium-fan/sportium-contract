@@ -1,4 +1,4 @@
-export const setupAccountTransaction = `import SprtNFTStorefront from 0xSprtNFTStorefront
+export const setupAccount = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 // This transaction installs the Storefront ressource in an account.
 

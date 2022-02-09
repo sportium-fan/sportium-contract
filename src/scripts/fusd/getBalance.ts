@@ -1,4 +1,4 @@
-export const getBalanceScript = `// This script returns the balance of an account's FUSD vault.
+export const getBalance = `// This script returns the balance of an account's FUSD vault.
 //
 // Parameters:
 // - address: The address of the account holding the FUSD vault.

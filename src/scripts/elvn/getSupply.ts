@@ -1,4 +1,4 @@
-export const getSupplyScript = `import Elvn from 0xElvn
+export const getSupply = `import Elvn from 0xElvn
 
 // This script returns the total amount of Elvn currently in existence.
 

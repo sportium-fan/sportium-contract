@@ -1,4 +1,4 @@
-export const transferMomentTransaction = `import NonFungibleToken from 0xNonFungibleToken
+export const transferMoment = `import NonFungibleToken from 0xNonFungibleToken
 import Moments from 0xMoments
 
 // This transaction transfers a Moment from one account to another.

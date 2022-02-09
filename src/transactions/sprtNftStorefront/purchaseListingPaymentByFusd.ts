@@ -1,4 +1,4 @@
-export const purchaseListingPaymentByFusdTransaction = `import FungibleToken from 0xFungibleToken
+export const purchaseListingPaymentByFusd = `import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import FUSD from 0xFUSD
 import Elvn from 0xElvn

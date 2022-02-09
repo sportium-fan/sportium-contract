@@ -1,4 +1,4 @@
-export const setupAccountTransaction = `import NonFungibleToken from 0xNonFungibleToken
+export const setupAccount = `import NonFungibleToken from 0xNonFungibleToken
 import Moments from 0xMoments
 
 // This transaction configures an account to hold Moments.

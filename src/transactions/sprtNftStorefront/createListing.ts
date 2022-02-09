@@ -1,4 +1,4 @@
-export const createListingTransaction = `import FungibleToken from 0xFungibleToken
+export const createListing = `import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import Elvn from 0xElvn
 import Moments from 0xMoments
