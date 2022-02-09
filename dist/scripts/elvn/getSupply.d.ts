@@ -1,0 +1,1 @@
+export declare const getSupply = "import Elvn from 0xElvn\n\n// This script returns the total amount of Elvn currently in existence.\n\npub fun main(): UFix64 {\n\n    let supply = Elvn.totalSupply\n\n    log(supply)\n\n    return supply\n}\n";

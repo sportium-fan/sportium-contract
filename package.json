@@ -4,8 +4,11 @@
   "repository": "git@github.com:sportium-fan/sportium-contract.git",
   "author": "Jiseok CHOI <jiseok.dev@gmail.com>",
   "license": "MIT",
-  "main": "src/index.ts",
-  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:ts": "tsc"
+  },
   "dependencies": {
     "camelcase": "^6.3.0",
     "prettier": "^2.5.1"
