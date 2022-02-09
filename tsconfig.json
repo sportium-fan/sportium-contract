@@ -1,0 +1,13 @@
+{
+    // https://github.com/fastify/tsconfig
+    "extends": "fastify-tsconfig",
+    "compilerOptions": {
+        "outDir": "dist",
+        "strict": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        // conflict eslint no-unused-vars options
+        "noUnusedLocals": false
+    },
+    "include": ["src/**/*.ts", "ormconfig.js"]
+}
