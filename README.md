@@ -2,13 +2,12 @@
 
 ## Mainnet Contract Address
 
-
 | name             | address                                                                                         |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
 | Elvn             | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Elvn)             |
 | ElvnFUSDTreasury | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.ElvnFUSDTreasury) |
-| Moments          | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Moments)          |
 | ElvnFeeTreasury | [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.ElvnFeeTreasury) |
+| Moments          | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Moments)          |
 | SprtNFTStorefront| [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.SprtNFTStorefront)          |
 
 ## TestNet Contract Address
