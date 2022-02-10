@@ -15,6 +15,10 @@ Sportium MarketPlace에서 사용될 NonFungibleToken 입니다.
 
 - 사용자가 보유한 collections의 Id를 불러옵니다.
 
+#### GetCollectionIds Use case
+
+1. 사용자는 본인이 보유한 Moment들을 알 수 있습니다.
+
 #### GetCollectionIds Example
 
 ```javascript
@@ -35,6 +39,10 @@ fcl.query({
 ### [Get Moment](../../scripts/moments/get_moment.cdc)
 
 - 사용자가 보유한 moment를 불러옵니다.
+
+#### GetMoment Use case
+
+1. 사용자는 Moment의 Metadata, Id, Owner와 같이 detail한 정보를 알 수 있습니다.
 
 #### GetMoment Example
 

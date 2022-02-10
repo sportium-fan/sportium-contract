@@ -78,6 +78,10 @@ fcl.mutate({
 - 지정한 amount 만큼 사용자가 보유한 FUSD를 Elvn으로 교환합니다.
 - Elvn:FUSD 는 항상 1:1 입니다.
 
+#### SwapFUSDToElvn Use case
+
+1. fusd를 elvn으로 교환하는 버튼 이외는 사용될 상황이 없습니다.
+
 #### SwapFUSDToElvn Example
 
 ```javascript
@@ -101,6 +105,10 @@ fcl.mutate({
 
 - 지정한 amount 만큼 사용자가 보유한 Elvn을 FUSD로 교환합니다.
 - Elvn:FUSD 는 항상 1:1 입니다.
+
+#### SwapElvnToFUSD Use case
+
+1. FUSD 출금
 
 #### SwapElvnToFUSD Example
 

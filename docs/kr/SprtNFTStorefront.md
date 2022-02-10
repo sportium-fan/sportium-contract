@@ -16,6 +16,10 @@ Sportium MarketPlace
 - 사용자가 보유한 listing ids를 불러옵니다.
 - listing = MarketPlace에 올리기 위해 NFT를 한번 wrapping한 구조체입니다.
 
+#### GetListings Use case
+
+1. 사용자는 본인이 MarketPlace올린 Listing 목록을 알 수 있습니다.
+
 #### GetListings Example
 
 ```javascript
@@ -36,6 +40,10 @@ fcl.query({
 ### [Get Listing](../../scripts/sprtNftStorefront/get_listing.cdc)
 
 - 사용자가 보유한 listing 중 명시한 resource Id의 detail 내역을 가져옵니다.
+
+#### GetListing Use case
+
+1. 사용자는 본인이 올린 Listing의 detail 정보를 알 수 있습니다.
 
 #### GetListing Example
 
@@ -72,6 +80,11 @@ fcl.query({
 - 사용자가 보유한 listing 중 명시한 resource Id의 detail 내역을 가져옵니다.
 - `Get Listing`과는 return type만 다를뿐 이외는 같습니다.
 
+#### GetListingItem Use case
+
+1. 사용자는 본인이 올린 Listing의 detail 정보를 알 수 있습니다.
+
+
 #### GetListingItem Example
 
 ```javascript
@@ -104,6 +117,10 @@ fcl.query({
 
 - MarketPlace에 NFT를 등록합니다.
 - 거래 통화는 Elvn입니다.
+
+#### CreateListing Use case
+
+1. 사용자는 MarketPlace에 NFT를 등록할 수 있습니다.
 
 #### CreateListing Example
 
@@ -160,6 +177,10 @@ fcl.mutate({
 - MarketPlace에 등록되어 있는 Listing을 구매합니다.
 - Elvn으로 구매합니다.
 
+#### PurchaseListing Use case
+
+1. 사용자는 MarketPlace에 올라와 있는 NFT를 Elvn으로 구매할 수 있습니다.
+
 #### PurchaseListing Example
 
 ```javascript
@@ -187,6 +208,10 @@ fcl.mutate({
 - MarketPlace에 등록되어 있는 Listing을 구매합니다.
 - FUSD를 Elvn으로 바꾼뒤 Listing을 구매합니다.
 
+#### PurchaseListingPaymentByFUSD Use case
+
+1. 사용자는 MarketPlace에 올라와 있는 NFT를 FUSD로 구매할 수 있습니다.
+
 #### PurchaseListingPaymentByFUSD Example
 
 ```javascript
@@ -212,6 +237,10 @@ fcl.mutate({
 ### [Remove Listing](../../transactions/sprtNftStorefront/remove_listing.cdc)
 
 - MarketPlace에 등록되어 있는 Listing을 취소합니다.
+
+#### RemoveListing Use case
+
+1. 사용자는 MarketPlace에 올라와 있는 NFT를 취소할 수 있습니다.
 
 #### RemoveListing Example
 
