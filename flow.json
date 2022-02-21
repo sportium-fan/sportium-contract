@@ -28,6 +28,7 @@
     "Elvn": "./contracts/Elvn.cdc",
     "Moments": "./contracts/Moments.cdc",
     "ElvnFUSDTreasury": "./contracts/ElvnFUSDTreasury.cdc",
+    "ElvnPackPurchaseTreasury": "./contracts/ElvnPackPurchaseTreasury.cdc",
     "SprtNFTStorefront": "./contracts/SprtNFTStorefront.cdc",
     "ElvnFeeTreasury": "./contracts/ElvnFeeTreasury.cdc"
   },
@@ -48,6 +49,7 @@
         "Elvn",
         "Moments",
         "ElvnFUSDTreasury",
+        "ElvnPackPurchaseTreasury",
         "SprtNFTStorefront",
         "ElvnFeeTreasury"
       ]
