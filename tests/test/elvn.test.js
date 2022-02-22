@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
+import { emulator, init, getAccountAddress, shallPass, shallRevert } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import { deployElvn, getElvnSupply, setupElvnOnAccount, getElvnBalance, mintElvn, transferElvn } from "../src/elvn";
@@ -32,17 +32,15 @@ describe("Elvn", () => {
 		await deployElvn();
 
 		const Alice = await getAccountAddress("Alice");
-		await shallResolve(setupElvnOnAccount(Alice));
+		await setupElvnOnAccount(Alice);
 	});
 
 	it("shall have initialized supply field correctly", async () => {
 		// Deploy contract
 		await shallPass(deployElvn());
 
-		await shallResolve(async () => {
-			const supply = await getElvnSupply();
-			expect(supply).toBe(toUFix64(0));
-		});
+		const supply = await getElvnSupply();
+		expect(supply).toBe(toUFix64(0));
 	});
 
 	it("shall be able to create empty Vault that doesn't affect supply", async () => {
@@ -51,12 +49,10 @@ describe("Elvn", () => {
 		const Alice = await getAccountAddress("Alice");
 		await shallPass(setupElvnOnAccount(Alice));
 
-		await shallResolve(async () => {
-			const supply = await getElvnSupply();
-			const aliceBalance = await getElvnBalance(Alice);
-			expect(supply).toBe(toUFix64(0));
-			expect(aliceBalance).toBe(toUFix64(0));
-		});
+		const supply = await getElvnSupply();
+		const aliceBalance = await getElvnBalance(Alice);
+		expect(supply).toBe(toUFix64(0));
+		expect(aliceBalance).toBe(toUFix64(0));
 	});
 
 	it("shall not be able to mint zero tokens", async () => {
@@ -66,7 +62,9 @@ describe("Elvn", () => {
 		await setupElvnOnAccount(Alice);
 
 		// Mint instruction with amount equal to 0 shall be reverted
-		await shallRevert(mintElvn(Alice, toUFix64(0)));
+		let error = null;
+		await mintElvn(Alice, toUFix64(0)).catch((err) => (error = err));
+		expect(error).not.toEqual(null);
 	});
 
 	it("shall mint tokens, deposit, and update balance and total supply", async () => {
@@ -77,18 +75,16 @@ describe("Elvn", () => {
 		const amount = toUFix64(50);
 
 		// Mint Elvn tokens for Alice
-		await shallPass(mintElvn(Alice, amount));
+		await mintElvn(Alice, amount);
 
 		// Check Elvn total supply and Alice's balance
-		await shallResolve(async () => {
-			// Check Alice balance to equal amount
-			const balance = await getElvnBalance(Alice);
-			expect(balance).toBe(amount);
+		// Check Alice balance to equal amount
+		const balance = await getElvnBalance(Alice);
+		expect(balance).toBe(amount);
 
-			// Check Elvn supply to equal amount
-			const supply = await getElvnSupply();
-			expect(supply).toBe(amount);
-		});
+		// Check Elvn supply to equal amount
+		const supply = await getElvnSupply();
+		expect(supply).toBe(amount);
 	});
 
 	it("shall not be able to withdraw more than the balance of the Vault", async () => {
@@ -104,19 +100,19 @@ describe("Elvn", () => {
 		const overflowAmount = toUFix64(30000);
 
 		// Mint instruction shall resolve
-		await shallResolve(mintElvn(ElvnAdmin, amount));
+		await mintElvn(ElvnAdmin, amount);
 
 		// Transaction shall revert
-		await shallRevert(transferElvn(ElvnAdmin, Alice, overflowAmount));
+		let error = null;
+		await transferElvn(ElvnAdmin, Alice, overflowAmount).catch((err) => (error = err));
+		expect(error).not.toEqual(null);
 
 		// Balances shall be intact
-		await shallResolve(async () => {
-			const aliceBalance = await getElvnBalance(Alice);
-			expect(aliceBalance).toBe(toUFix64(0));
+		const aliceBalance = await getElvnBalance(Alice);
+		expect(aliceBalance).toBe(toUFix64(0));
 
-			const ElvnAdminBalance = await getElvnBalance(ElvnAdmin);
-			expect(ElvnAdminBalance).toBe(amount);
-		});
+		const ElvnAdminBalance = await getElvnBalance(ElvnAdmin);
+		expect(ElvnAdminBalance).toBe(amount);
 	});
 
 	it("shall be able to withdraw and deposit tokens from a Vault", async () => {
@@ -127,18 +123,16 @@ describe("Elvn", () => {
 		await setupElvnOnAccount(Alice);
 		await mintElvn(ElvnAdmin, toUFix64(1000));
 
-		await shallPass(transferElvn(ElvnAdmin, Alice, toUFix64(300)));
+		await transferElvn(ElvnAdmin, Alice, toUFix64(300));
 
-		await shallResolve(async () => {
-			// Balances shall be updated
-			const ElvnAdminBalance = await getElvnBalance(ElvnAdmin);
-			expect(ElvnAdminBalance).toBe(toUFix64(700));
+		// Balances shall be updated
+		const ElvnAdminBalance = await getElvnBalance(ElvnAdmin);
+		expect(ElvnAdminBalance).toBe(toUFix64(700));
 
-			const aliceBalance = await getElvnBalance(Alice);
-			expect(aliceBalance).toBe(toUFix64(300));
+		const aliceBalance = await getElvnBalance(Alice);
+		expect(aliceBalance).toBe(toUFix64(300));
 
-			const supply = await getElvnSupply();
-			expect(supply).toBe(toUFix64(1000));
-		});
+		const supply = await getElvnSupply();
+		expect(supply).toBe(toUFix64(1000));
 	});
 });

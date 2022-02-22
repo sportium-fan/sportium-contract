@@ -41,10 +41,8 @@ describe("Moments", () => {
 		const ElvnAdmin = await getElvnAdminAddress();
 		await shallPass(setupMomentsOnAccount(ElvnAdmin));
 
-		await shallResolve(async () => {
-			const supply = await getMomentSupply();
-			expect(supply).toBe(0);
-		});
+		const supply = await getMomentSupply();
+		expect(supply).toBe(0);
 	});
 
 	it("shall be able to mint a moments", async () => {
@@ -54,7 +52,7 @@ describe("Moments", () => {
 		await setupMomentsOnAccount(Alice);
 
 		// Mint instruction for Alice account shall be resolved
-		await shallPass(mintMoment(Alice));
+		await mintMoment(Alice);
 	});
 
 	it("shall be able to create a new empty NFT Collection", async () => {
@@ -64,10 +62,8 @@ describe("Moments", () => {
 		await setupMomentsOnAccount(Alice);
 
 		// shall be able te read Alice collection and ensure it's empty
-		await shallResolve(async () => {
-			const itemCount = await getMomentCount(Alice);
-			expect(itemCount).toBe(0);
-		});
+		const itemCount = await getMomentCount(Alice);
+		expect(itemCount).toBe(0);
 	});
 
 	it("shall not be able to withdraw an NFT that doesn't exist in a collection", async () => {
@@ -79,7 +75,9 @@ describe("Moments", () => {
 		await setupMomentsOnAccount(Bob);
 
 		// Transfer transaction shall fail for non-existent item
-		await shallRevert(transferMoment(Alice, Bob, 1337));
+		let error = null;
+		await transferMoment(Alice, Bob, 1337).catch((err) => (error = err));
+		expect(error).not.toEqual(null);
 	});
 
 	it("shall be able to withdraw an NFT and deposit to another accounts collection", async () => {

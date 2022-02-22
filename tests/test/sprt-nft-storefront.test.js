@@ -3,7 +3,7 @@ import path from "path";
 import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
-import { getMomentCount, mintMoment, getMoment, types, rarities } from "../src/moments";
+import { getMomentCount, mintMoment, getMoment } from "../src/moments";
 import {
 	deployNFTStorefront,
 	purchaseItemListing,
