@@ -31,7 +31,7 @@ pub fun main(address: Address, listingResourceID: UInt64): SaleItem? {
 
             if let collection = account.getCapability<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath).borrow() {
                 if let item = collection.borrowMoment(id: itemID) {
-                    return SaleItem(itemID: itemID, metadata: item.metadata, owner: address, price: itemPrice)
+                    return SaleItem(itemID: itemID, metadata: item.getMetadata(), owner: address, price: itemPrice)
                 }
             }
         }
