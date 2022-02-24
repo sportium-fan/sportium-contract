@@ -10,6 +10,7 @@
 | ElvnPackPurchaseTreasury | [TODO](https://flowscan.org/contract) |
 | Moments          | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Moments)          |
 | SprtNFTStorefront| [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.SprtNFTStorefront)          |
+| FlowToken| 0x1654653399040a61          |
 
 ## TestNet Contract Address
 
@@ -21,6 +22,7 @@
 | ElvnPackPurchaseTreasury | [0xbc6b405dab3b3b34](https://testnet.flowscan.org/contract/A.bc6b405dab3b3b34.ElvnPackPurchaseTreasury) |
 | Moments          | [0xe85ee62e8901ac6f](https://testnet.flowscan.org/contract/A.e85ee62e8901ac6f.Moments)          |
 | SprtNFTStorefront| [0x0824f629af58747d](https://testnet.flowscan.org/contract/A.0824f629af58747d.SprtNFTStorefront)          |
+| FlowToken| 0x7e60df042a9c0868          |
 
 ## How to get fusd fungible token in testnet for testnet blocto wallet users
 
