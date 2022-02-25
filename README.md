@@ -11,6 +11,9 @@
 | Moments          | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Moments)          |
 | SprtNFTStorefront| [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.SprtNFTStorefront)          |
 | FlowToken| 0x1654653399040a61          |
+| FungibleToken| 0xf233dcee88fe0abe          |
+| NonFungibleToken| 0x1d7e57aa55817448      |
+| FUSD| 0x3c5959b568896393  |
 
 ## TestNet Contract Address
 
@@ -23,6 +26,9 @@
 | Moments          | [0xe85ee62e8901ac6f](https://testnet.flowscan.org/contract/A.e85ee62e8901ac6f.Moments)          |
 | SprtNFTStorefront| [0x0824f629af58747d](https://testnet.flowscan.org/contract/A.0824f629af58747d.SprtNFTStorefront)          |
 | FlowToken| 0x7e60df042a9c0868          |
+| FungibleToken| 0x9a0766d93b6608b7      |
+| NonFungibleToken| 0x631e88ae7f1d7c20      |
+| FUSD|  0xe223d8a629e49c68     |
 
 ## How to get fusd fungible token in testnet for testnet blocto wallet users
 
