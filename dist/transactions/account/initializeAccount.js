@@ -4,83 +4,66 @@ exports.initializeAccount = void 0;
 exports.initializeAccount = `import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import FUSD from 0xFUSD
-import Moments from 0xMoments 
+import Moments from 0xMoments
 import Elvn from 0xElvn
-// import NFTStorefront from 0xNFTStorefront
+import SprtNFTStorefront from 0xSprtNFTStorefront
 
-pub fun hasFUSD(_ address: Address): Bool {
-  let receiver = getAccount(address)
-    .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)
-    .check()
+pub fun setupFUSD(account: AuthAccount)  {
+  if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
+    account.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
 
-  let balance = getAccount(address)
-    .getCapability<&FUSD.Vault{FungibleToken.Balance}>(/public/fusdBalance)
-    .check()
+    account.link<&FUSD.Vault{FungibleToken.Receiver}>(
+        /public/elvnReceiver,
+        target: /storage/elvnVault
+    )
 
-  return receiver && balance
+    account.link<&FUSD.Vault{FungibleToken.Balance}>(
+        /public/elvnBalance,
+        target: /storage/elvnVault
+    )
+  }
 }
 
-pub fun hasElvn(_ address: Address): Bool {
-  let receiver: Bool = getAccount(address)
-    .getCapability<&Elvn.Vault{FungibleToken.Receiver}>(/public/elvnReceiver)
-    .check()
+pub fun setupElvn(account: AuthAccount) {
+  if account.borrow<&Elvn.Vault>(from: /storage/elvnVault) == nil {
+    account.save(<-Elvn.createEmptyVault(), to: /storage/elvnVault)
 
-  let balance: Bool = getAccount(address)
-    .getCapability<&Elvn.Vault{FungibleToken.Balance}>(/public/elvnBalance)
-    .check()
+    account.link<&Elvn.Vault{FungibleToken.Receiver}>(
+        /public/elvnReceiver,
+        target: /storage/elvnVault
+    )
 
-  return receiver && balance
+    account.link<&Elvn.Vault{FungibleToken.Balance}>(
+        /public/elvnBalance,
+        target: /storage/elvnVault
+    )
+  }
 }
 
-pub fun hasItems(_ address: Address): Bool {
-  return getAccount(address)
-    .getCapability<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath)
-    .check()
+pub fun setupMoments(account: AuthAccount) {
+  if account.borrow<&Moments.Collection>(from: Moments.CollectionStoragePath) == nil {
+      let collection <- Moments.createEmptyCollection()
+      account.save(<-collection, to: Moments.CollectionStoragePath)
+
+      account.link<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath, target: Moments.CollectionStoragePath)
+  }
 }
 
-// pub fun hasStorefront(_ address: Address): Bool {
-//   return getAccount(address)
-//     .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath)
-//     .check()
-// }
+pub fun setupSprtStorefront(account: AuthAccount)  {
+  if account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath) == nil {
+      let storefront <- SprtNFTStorefront.createStorefront()
+      account.save(<-storefront, to: SprtNFTStorefront.StorefrontStoragePath)
+
+      account.link<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath, target: SprtNFTStorefront.StorefrontStoragePath)
+  }
+}
 
 transaction {
-  prepare(acct: AuthAccount) {
-    if !hasFUSD(acct.address) {
-      if acct.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
-        acct.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
-      }
-      acct.unlink(/public/fusdReceiver)
-      acct.unlink(/public/fusdBalance)
-      acct.link<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver, target: /storage/fusdVault)
-      acct.link<&FUSD.Vault{FungibleToken.Balance}>(/public/fusdBalance, target: /storage/fusdVault)
-    }
-
-    if !hasElvn(acct.address) {
-      if acct.borrow<&Elvn.Vault>(from: /storage/elvnVault) == nil {
-        acct.save(<-Elvn.createEmptyVault(), to: /storage/elvnVault)
-      }
-      acct.unlink(/public/elvnReceiver)
-      acct.unlink(/public/elvnBalance)
-      acct.link<&Elvn.Vault{FungibleToken.Receiver}>(/public/elvnReceiver, target: /storage/elvnVault)
-      acct.link<&Elvn.Vault{FungibleToken.Balance}>(/public/elvnBalance, target: /storage/elvnVault)
-    }
-
-    if !hasItems(acct.address) {
-      if acct.borrow<&Moments.Collection>(from: Moments.CollectionStoragePath) == nil {
-        acct.save(<-Moments.createEmptyCollection(), to: Moments.CollectionStoragePath)
-      }
-      acct.unlink(Moments.CollectionPublicPath)
-      acct.link<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath, target: Moments.CollectionStoragePath)
-    }
-
-    // if !hasStorefront(acct.address) {
-    //   if acct.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) == nil {
-    //     acct.save(<-NFTStorefront.createStorefront(), to: NFTStorefront.StorefrontStoragePath)
-    //   }
-    //   acct.unlink(NFTStorefront.StorefrontPublicPath)
-    //   acct.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
-    // }
+  prepare(account: AuthAccount) {
+    setupFUSD(account: account)
+    setupElvn(account: account)
+    setupMoments(account: account)
+    setupSprtStorefront(account: account)
   }
 }
 `;
