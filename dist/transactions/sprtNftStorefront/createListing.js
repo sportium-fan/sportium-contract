@@ -57,6 +57,17 @@ pub fun setupAccount(account: AuthAccount) {
             target: /storage/elvnVault
         )
     }
+
+    if account.borrow<&Moments.Collection>(from: Moments.CollectionStoragePath) == nil {
+        // create a new empty collection
+        let collection <- Moments.createEmptyCollection()
+        
+        // save it to the account
+        account.save(<-collection, to: Moments.CollectionStoragePath)
+
+        // create a public capability for the collection
+        account.link<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath, target: Moments.CollectionStoragePath)
+    }
 }
 
 transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
