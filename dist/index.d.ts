@@ -6,6 +6,7 @@ export { mintTokens as fusdMintTokens } from "./transactions/fusd/mintTokens";
 export { setupAccount as fusdSetupAccount } from "./transactions/fusd/setupAccount";
 export { transferTokens as fusdTransferTokens } from "./transactions/fusd/transferTokens";
 export { batchMintMoments as momentsBatchMintMoments } from "./transactions/moments/batchMintMoments";
+export { batchTransferMoments as momentsBatchTransferMoments } from "./transactions/moments/batchTransferMoments";
 export { mintAndListMoment as momentsMintAndListMoment } from "./transactions/moments/mintAndListMoment";
 export { mintMoment as momentsMintMoment } from "./transactions/moments/mintMoment";
 export { setupAccount as momentsSetupAccount } from "./transactions/moments/setupAccount";

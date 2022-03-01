@@ -28,11 +28,10 @@ transaction(recipient: Address, metadataList: [{String: String}]) {
             .borrow<&{NonFungibleToken.CollectionPublic}>()
             ?? panic("Could not get receiver reference to the NFT Collection")
 
-	for metadata in metadataList {
-	    // mint the NFT and deposit it to the recipient's collection
-	    self.minter.mintNFT(recipient: receiver, metadata: metadata)
-	}
-
+        for metadata in metadataList {
+            // mint the NFT and deposit it to the recipient's collection
+            self.minter.mintNFT(recipient: receiver, metadata: metadata)
+        }
     }
 }
  
