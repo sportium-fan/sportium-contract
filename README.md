@@ -7,7 +7,7 @@
 | Elvn             | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Elvn)             |
 | ElvnFUSDTreasury | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.ElvnFUSDTreasury) |
 | ElvnFeeTreasury | [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.ElvnFeeTreasury) |
-| ElvnPackPurchaseTreasury | [TODO](https://flowscan.org/contract) |
+| ElvnPackPurchaseTreasury | [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.ElvnPackPurchaseTreasury) |
 | Moments          | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Moments)          |
 | SprtNFTStorefront| [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.SprtNFTStorefront)          |
 | FlowToken| 0x1654653399040a61          |
