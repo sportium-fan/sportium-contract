@@ -2,6 +2,7 @@ export { initializeAccount as accountInitializeAccount } from "./transactions/ac
 export { mintTokens as elvnMintTokens } from "./transactions/elvn/mintTokens";
 export { setupAccount as elvnSetupAccount } from "./transactions/elvn/setupAccount";
 export { transferTokens as elvnTransferTokens } from "./transactions/elvn/transferTokens";
+export { transferTokens as flowTokenTransferTokens } from "./transactions/flowToken/transferTokens";
 export { mintTokens as fusdMintTokens } from "./transactions/fusd/mintTokens";
 export { setupAccount as fusdSetupAccount } from "./transactions/fusd/setupAccount";
 export { transferTokens as fusdTransferTokens } from "./transactions/fusd/transferTokens";
