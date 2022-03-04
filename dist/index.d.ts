@@ -29,7 +29,7 @@ export { swapFusdToElvn as treasurySwapFusdToElvn } from "./transactions/treasur
 export { withdrawElvn as treasuryWithdrawElvn } from "./transactions/treasury/withdrawElvn";
 export { withdrawFusd as treasuryWithdrawFusd } from "./transactions/treasury/withdrawFusd";
 export { isAccountInitialized as accountIsAccountInitialized } from "./scripts/account/isAccountInitialized";
-export { getElvnFusdFlowBalance as balanceGetElvnFusdFlowBalance } from "./scripts/balance/getElvnFusdFlowBalance";
+export { getBalanceDictWithBloctoPrice as balanceGetBalanceDictWithBloctoPrice } from "./scripts/balance/getBalanceDictWithBloctoPrice";
 export { getBalance as elvnGetBalance } from "./scripts/elvn/getBalance";
 export { getSupply as elvnGetSupply } from "./scripts/elvn/getSupply";
 export { getBalance as fusdGetBalance } from "./scripts/fusd/getBalance";

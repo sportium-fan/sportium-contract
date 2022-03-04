@@ -1,7 +1,9 @@
-import Elvn from "../../contracts/Elvn.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
-import FlowToken from "../../contracts/FlowToken.cdc"
-import FungibleToken from "../../contracts/FungibleToken.cdc"
+export const getBalanceDictWithBloctoPrice = `import Elvn from 0xElvn
+import FUSD from 0xFUSD
+import FlowToken from 0xFlowToken
+import FungibleToken from 0xFungibleToken
+import FlowSwapPair from 0xFlowSwapPair
+import FusdUsdtSwapPair from 0xFusdUsdtSwapPair
 
 pub fun main(address: Address): {String: UFix64} {
     let account = getAccount(address)
@@ -17,9 +19,15 @@ pub fun main(address: Address): {String: UFix64} {
         .borrow<&FlowToken.Vault{FungibleToken.Balance}>()
         ?? panic("Could not borrow Balance reference to the Vault")
 
+    let flowFUSDPairQuote = FlowSwapPair.quoteSwapExactToken1ForToken2(
+        amount: 1.0 * (1.0 - FlowSwapPair.feePercentage)
+    )
+
     return {
         "elvn": elvnRef.balance,
         "fusd": fusdRef.balance,
-        "flow": flowRef.balance
+        "flow": flowRef.balance,
+        "bloctoSwapFlowFUSDPairPrice": flowFUSDPairQuote
     }
 }
+`;
