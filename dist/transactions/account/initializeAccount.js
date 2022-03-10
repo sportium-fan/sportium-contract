@@ -13,13 +13,13 @@ pub fun setupFUSD(account: AuthAccount)  {
     account.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
 
     account.link<&FUSD.Vault{FungibleToken.Receiver}>(
-        /public/elvnReceiver,
-        target: /storage/elvnVault
+      /public/fusdReceiver,
+      target: /storage/fusdVault
     )
 
     account.link<&FUSD.Vault{FungibleToken.Balance}>(
-        /public/elvnBalance,
-        target: /storage/elvnVault
+      /public/fusdBalance,
+      target: /storage/fusdVault
     )
   }
 }
