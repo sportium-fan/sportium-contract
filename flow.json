@@ -30,7 +30,8 @@
     "ElvnFUSDTreasury": "./contracts/ElvnFUSDTreasury.cdc",
     "ElvnPackPurchaseTreasury": "./contracts/ElvnPackPurchaseTreasury.cdc",
     "SprtNFTStorefront": "./contracts/SprtNFTStorefront.cdc",
-    "ElvnFeeTreasury": "./contracts/ElvnFeeTreasury.cdc"
+    "ElvnFeeTreasury": "./contracts/ElvnFeeTreasury.cdc",
+    "Pack": "./contracts/Pack.cdc"
   },
   "networks": {
     "emulator": "127.0.0.1:3569"
@@ -51,7 +52,8 @@
         "ElvnFUSDTreasury",
         "ElvnPackPurchaseTreasury",
         "SprtNFTStorefront",
-        "ElvnFeeTreasury"
+        "ElvnFeeTreasury",
+        "Pack"
       ]
     }
   }
