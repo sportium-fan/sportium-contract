@@ -17,6 +17,9 @@ pub contract Pack {
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
 
+    pub event BuyPack(packId: UInt64, price: UFix64)
+    pub event OpenPack(packId: UInt64, momentsIds: [UInt64], address: Address?)
+
     pub resource Token {
         pub let id: UInt64
 
@@ -31,11 +34,14 @@ pub contract Pack {
             }
 
             let map: @[Moments.NFT] <- []
+            let momentsIds: [UInt64] = []
             while self.momentsMap.length > 0 {
                 let moment <- self.momentsMap.removeFirst()
+                momentsIds.append(moment.id)
                 map.append(<- moment)
             }
 
+            emit OpenPack(packId: self.id, momentsIds: momentsIds, address: self.owner?.address)
             return <- map
         }
 
@@ -111,6 +117,7 @@ pub contract Pack {
         let pack <- salePacks.remove(at: randomIndex)
         self.salePacks[releaseId] <-! salePacks
 
+        emit BuyPack(packId: pack.id, price: pack.price)
         return <- pack
     }
 
