@@ -75,8 +75,7 @@ pub contract Pack {
             let token <- self.ownedPacks.remove(key: withdrawID) ?? panic("missing NFT")
 
             emit Withdraw(id: token.id, from: self.owner?.address)
-
-            return <-token
+            return <- token
         }
 
         pub fun deposit(token: @Pack.Token) {
