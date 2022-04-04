@@ -69,7 +69,13 @@ pub contract SprtNFTStorefront {
     // ListingCompleted
     // The listing has been resolved. It has either been purchased, or removed and destroyed.
     //
-    pub event ListingCompleted(listingResourceID: UInt64, storefrontResourceID: UInt64, purchased: Bool)
+    pub event ListingCompleted(
+        listingResourceID: UInt64, 
+        storefrontResourceID: UInt64, 
+        purchased: Bool,
+        nftType: Type,
+        nftID: UInt64
+    )
 
     // StorefrontStoragePath
     // The location in storage that a Storefront resource should be located.
@@ -80,7 +86,6 @@ pub contract SprtNFTStorefront {
     pub let StorefrontPublicPath: PublicPath
 
     pub let feeInfo: FeeInfo
-
 
     // SaleCut
     // A struct representing a recipient that must be sent a certain amount
@@ -105,7 +110,6 @@ pub contract SprtNFTStorefront {
             self.amount = amount
         }
     }
-
 
     // ListingDetails
     // A struct containing a Listing's data.
@@ -284,7 +288,9 @@ pub contract SprtNFTStorefront {
             emit ListingCompleted(
                 listingResourceID: self.uuid,
                 storefrontResourceID: self.details.storefrontID,
-                purchased: self.details.purchased
+                purchased: self.details.purchased,
+                nftType: self.details.nftType,
+                nftID: self.details.nftID
             )
 
             return <-nft
@@ -302,7 +308,9 @@ pub contract SprtNFTStorefront {
                 emit ListingCompleted(
                     listingResourceID: self.uuid,
                     storefrontResourceID: self.details.storefrontID,
-                    purchased: self.details.purchased
+                    purchased: self.details.purchased,
+                    nftType: self.details.nftType,
+                    nftID: self.details.nftID
                 )
             }
         }
