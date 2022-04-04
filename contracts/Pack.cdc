@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache License 2.0
 import FungibleToken from "./FungibleToken.cdc"
-import NonFungibleToken from "./NonFungibleToken.cdc"
 
 import Elvn from "./Elvn.cdc"
 import Moments from "./Moments.cdc"
