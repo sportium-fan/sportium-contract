@@ -20,6 +20,9 @@ pub contract Pack {
     pub event BuyPack(packId: UInt64, price: UFix64)
     pub event OpenPack(packId: UInt64, momentsIds: [UInt64], address: Address?)
 
+    pub event Deposit(id: UInt64, to: Address?)
+    pub event Withdraw(id: UInt64, from: Address?)
+
     pub resource Token {
         pub let id: UInt64
 
@@ -62,23 +65,26 @@ pub contract Pack {
     }
     
     pub resource Collection: MomentsCollectionPublic {
-        pub var ownedPacks: @[Pack.Token]
+        pub var ownedPacks: @{UInt64: Pack.Token}
 
         pub fun getIds(): [UInt64] {
-            let packIds: [UInt64] = []
+            return self.ownedPacks.keys
+        }
 
-            var index = 0
-            while index < self.ownedPacks.length {
-                let packRef = &self.ownedPacks[index] as &Pack.Token
-                packIds.append(packRef.id)
-                index = index + 1
-            }
+        pub fun withdraw(withdrawID: UInt64): @Pack.Token {
+            let token <- self.ownedPacks.remove(key: withdrawID) ?? panic("missing NFT")
 
-            return packIds
+            emit Withdraw(id: token.id, from: self.owner?.address)
+
+            return <-token
         }
 
         pub fun deposit(token: @Pack.Token) {
-            self.ownedPacks.append(<- token)
+            let id: UInt64 = token.id
+
+            self.ownedPacks[id] <-! token
+
+            emit Deposit(id: id, to: self.owner?.address)
         }
 
         destroy() {
@@ -86,7 +92,7 @@ pub contract Pack {
         }
 
         init() {
-            self.ownedPacks <- []
+            self.ownedPacks <- {}
         }
     }
 
