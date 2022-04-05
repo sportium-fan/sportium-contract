@@ -87,6 +87,8 @@ pub contract SprtNFTStorefront {
 
     pub let feeInfo: FeeInfo
 
+    access(self) let addressMap: {UInt64: Address}
+
     // SaleCut
     // A struct representing a recipient that must be sent a certain amount
     // of the payment when a token is sold.
@@ -489,6 +491,11 @@ pub contract SprtNFTStorefront {
             destroy listing
         }
 
+        pub fun saveAddress() {
+            let address = self.owner?.address ?? panic("Not owned Storefront")
+            SprtNFTStorefront.addressMap[self.uuid] = address
+        }
+
         // destructor
         //
         destroy () {
@@ -546,12 +553,15 @@ pub contract SprtNFTStorefront {
         return self.feeInfo.baseFeeRate - self.feeInfo.feeRateTickSize * UFix64(index)
     }
 
+    pub fun getAddressList(): [Address] {
+        return self.addressMap.values
+    }
 
     // createStorefront
     // Make creating a Storefront publicly accessible.
     //
     pub fun createStorefront(): @Storefront {
-        return <-create Storefront()
+        return <- create Storefront()
     }
 
     init () {
@@ -560,6 +570,7 @@ pub contract SprtNFTStorefront {
 
         self.feeInfo = FeeInfo(minimumPrice: 1.0, maximumPrice: 23.5, 
             priceTickSize: 0.5, baseFeeRate: 0.095, feeTickSize: 0.001) 
+        self.addressMap = {}
 
         emit NFTStorefrontInitialized()
     }
