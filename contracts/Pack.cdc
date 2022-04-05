@@ -158,10 +158,13 @@ pub contract Pack {
                 return
             }
 
-            let packPrice = Pack.getPackPrice(releaseId: releaseId)
-            if packPrice != token.price {
-                destroy token
-                return panic("Pack price is not equal")
+            let remainingCount = Pack.getPackRemainingCount(releaseId: releaseId)
+            if remainingCount > 0 {
+                let packPrice = Pack.getPackPrice(releaseId: releaseId)
+                if packPrice != token.price {
+                    destroy token
+                    return panic("Pack price is not equal")
+                }
             }
 
             let packs <- Pack.salePacks.remove(key: releaseId) ?? panic("unreachable")
