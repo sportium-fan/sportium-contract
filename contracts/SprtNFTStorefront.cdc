@@ -70,8 +70,8 @@ pub contract SprtNFTStorefront {
     // The listing has been resolved. It has either been purchased, or removed and destroyed.
     //
     pub event ListingCompleted(
-        listingResourceID: UInt64, 
-        storefrontResourceID: UInt64, 
+        listingResourceID: UInt64,
+        storefrontResourceID: UInt64,
         purchased: Bool,
         nftType: Type,
         nftID: UInt64
@@ -551,6 +551,10 @@ pub contract SprtNFTStorefront {
         let index = Int((price - 1.0) / self.feeInfo.priceTickSize)
 
         return self.feeInfo.baseFeeRate - self.feeInfo.feeRateTickSize * UFix64(index)
+    }
+
+    pub fun getAddress(storefrontId: UInt64): Address {
+        return self.addressMap[storefrontId] ?? panic("Not found storefrontId")
     }
 
     pub fun getAddressList(): [Address] {
