@@ -53,6 +53,9 @@ pub fun setupSprtStorefront(account: AuthAccount)  {
 
       account.link<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath, target: SprtNFTStorefront.StorefrontStoragePath)
   }
+
+  let storefront = account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath) ?? panic("unreachable")
+  storefront.saveAddress()
 }
 
 transaction {
