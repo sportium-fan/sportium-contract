@@ -6,7 +6,7 @@ transaction {
             let collection <- Pack.createEmptyCollection()
             
             signer.save(<-collection, to: Pack.CollectionStoragePath)
-            signer.link<&Pack.Collection>(Pack.CollectionPublicPath, target: Pack.CollectionStoragePath)
+            signer.link<&Pack.Collection{Pack.PackCollectionPublic}>(Pack.CollectionPublicPath, target: Pack.CollectionStoragePath)
         }
     }
 }
