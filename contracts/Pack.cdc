@@ -61,6 +61,7 @@ pub contract Pack {
 
     pub resource interface PackCollectionPublic {
         pub fun getIds(): [UInt64]
+        pub fun deposit(token: @Pack.Token)
     }
     
     pub resource Collection: PackCollectionPublic {
