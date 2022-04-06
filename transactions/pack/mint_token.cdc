@@ -5,7 +5,7 @@ transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentToke
     let admin: &Pack.Administrator
     let adminMomentsCollectionRef: &Moments.Collection
 
-    let recipientCollectionRef: &Pack.Collection
+    let recipientCollectionRef: &Pack.Collection{Pack.PackCollectionPublic}
 
     prepare(account: AuthAccount) {
         self.admin = account
@@ -18,7 +18,7 @@ transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentToke
         
         self.recipientCollectionRef = getAccount(recipient)
             .getCapability(Pack.CollectionPublicPath)
-            .borrow<&Pack.Collection>()
+            .borrow<&Pack.Collection{Pack.PackCollectionPublic}>()
             ?? panic("Unable to borrow receiver reference")
     }
 
