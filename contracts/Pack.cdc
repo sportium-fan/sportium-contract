@@ -100,24 +100,14 @@ pub contract Pack {
 
     pub fun buyPack(releaseId: UInt64, vault: @FungibleToken.Vault): @Pack.Token { 
         pre {
-            !self.isNonExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
+            self.getPackPrice(releaseId: releaseId) == vault.balance: "Not enough balance"
         }
 
         let balance = vault.balance
         self.vault.deposit(from: <- vault)
 
-        let packsRef = &self.salePacks[releaseId] as &[Pack.Token]
-        if packsRef.length == 0 {
-            return panic("Sold out pack")
-        }
-        let packRef = &packsRef[0] as &Pack.Token
-
-        if packRef.price > balance {
-            return panic("Not enough vault balance")
-        }
-
         let salePacks <- self.salePacks.remove(key: releaseId) ?? panic("unreachable")
-        let randomIndex = unsafeRandom() % UInt64(packsRef.length)
+        let randomIndex = unsafeRandom() % UInt64(salePacks.length)
         let pack <- salePacks.remove(at: randomIndex)
         self.salePacks[releaseId] <-! salePacks
 
