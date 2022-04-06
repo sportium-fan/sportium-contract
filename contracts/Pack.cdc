@@ -94,13 +94,13 @@ pub contract Pack {
         }
     }
 
-    pub fun isNonExists(releaseId: UInt64): Bool {
-        return self.salePacks[releaseId] == nil
+    pub fun isExists(releaseId: UInt64): Bool {
+        return self.salePacks[releaseId] != nil
     }
 
     pub fun getPackRemainingCount(releaseId: UInt64): Int {
         pre {
-            !self.isNonExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
+            self.isExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
         }
 
         let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
