@@ -59,11 +59,11 @@ pub contract Pack {
         }
     }
 
-    pub resource interface MomentsCollectionPublic {
+    pub resource interface PackCollectionPublic {
         pub fun getIds(): [UInt64]
     }
     
-    pub resource Collection: MomentsCollectionPublic {
+    pub resource Collection: PackCollectionPublic {
         pub var ownedPacks: @{UInt64: Pack.Token}
 
         pub fun getIds(): [UInt64] {
@@ -71,7 +71,7 @@ pub contract Pack {
         }
 
         pub fun withdraw(withdrawID: UInt64): @Pack.Token {
-            let token <- self.ownedPacks.remove(key: withdrawID) ?? panic("missing NFT")
+            let token <- self.ownedPacks.remove(key: withdrawID) ?? panic("missing Pack")
 
             emit Withdraw(id: token.id, from: self.owner?.address)
             return <- token
@@ -98,6 +98,25 @@ pub contract Pack {
         return self.salePacks[releaseId] == nil
     }
 
+    pub fun getPackRemainingCount(releaseId: UInt64): Int {
+        pre {
+            !self.isNonExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
+        }
+
+        let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
+        return packsRef.length
+    }
+
+    pub fun getPackPrice(releaseId: UInt64): UFix64 {
+        pre {
+            self.getPackRemainingCount(releaseId: releaseId) > 0: "Sold out pack"
+        }
+
+        let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
+        let packRef = &packsRef[0] as? &Pack.Token
+        return packRef.price
+    }
+
     pub fun buyPack(releaseId: UInt64, vault: @FungibleToken.Vault): @Pack.Token { 
         pre {
             self.getPackPrice(releaseId: releaseId) == vault.balance: "Not enough balance"
@@ -113,29 +132,6 @@ pub contract Pack {
 
         emit BuyPack(packId: pack.id, price: pack.price)
         return <- pack
-    }
-
-    pub fun getPackRemainingCount(releaseId: UInt64): Int {
-        pre {
-            !self.isNonExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
-        }
-
-        let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
-        return packsRef.length
-    }
-
-    pub fun getPackPrice(releaseId: UInt64): UFix64 {
-        pre {
-            !self.isNonExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
-        }
-
-        let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
-        if packsRef.length == 0 {
-            return panic("Sold out pack")
-        }
-
-        let packRef = &packsRef[0] as? &Pack.Token
-        return packRef.price
     }
 
     pub resource Administrator {
