@@ -1,9 +1,11 @@
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
+
 import FUSD from "../../contracts/FUSD.cdc"
 import Moments from "../../contracts/Moments.cdc"
 import Elvn from "../../contracts/Elvn.cdc"
 import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
+import Pack from "../../contracts/Pack.cdc"
 
 pub fun setupFUSD(account: AuthAccount)  {
   if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
@@ -58,11 +60,21 @@ pub fun setupSprtStorefront(account: AuthAccount)  {
   storefront.saveAddress()
 }
 
+pub fun setupPack(account: AuthAccount) {
+  if account.borrow<&Pack.Collection>(from: Pack.CollectionStoragePath) == nil {
+    let collection <- Pack.createEmptyCollection()
+    account.save(<-collection, to: Pack.CollectionStoragePath)
+
+    account.link<&Pack.Collection{Pack.PackCollectionPublic}>(Pack.CollectionPublicPath, target: Pack.CollectionStoragePath)
+  }
+}
+
 transaction {
   prepare(account: AuthAccount) {
     setupFUSD(account: account)
     setupElvn(account: account)
     setupMoments(account: account)
     setupSprtStorefront(account: account)
+    setupPack(account: account)
   }
 }
