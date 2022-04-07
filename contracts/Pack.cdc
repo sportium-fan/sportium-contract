@@ -16,6 +16,7 @@ pub contract Pack {
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
 
+    pub event CreatePackToken(packId: UInt64, releaseId: UInt64)
     pub event BuyPack(packId: UInt64, price: UFix64)
     pub event OpenPack(packId: UInt64, momentsIds: [UInt64], address: Address?)
 
@@ -162,6 +163,8 @@ pub contract Pack {
         pub fun createPackToken(releaseId: UInt64, price: UFix64, momentsMap: @[Moments.NFT]): @Pack.Token {
             let pack <- create Pack.Token(tokenId: Pack.totalSupply, releaseId: releaseId, price: price, momentsMap: <- momentsMap)
             Pack.totalSupply = Pack.totalSupply + 1
+
+            emit CreatePackToken(packId: pack.id, releaseId: releaseId)
             return <- pack
         }
 
