@@ -10,8 +10,7 @@ transaction(packId: UInt64) {
             ?? panic("Signer is not the pack admin")
         
         self.packCollectionRef = account
-            .getCapability(Pack.CollectionPublicPath)
-            .borrow<&Pack.Collection>()
+            .borrow<&Pack.Collection>(from: Pack.CollectionStoragePath)
             ?? panic("Unable to borrow receiver reference")
     }
 
