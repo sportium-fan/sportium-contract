@@ -117,3 +117,10 @@ export const getMomentCount = async (account) => {
 
 	return executeScriptWithErrorRaised({ name, args });
 };
+
+export const getMomentIds = async (account) => {
+	const name = "moments/get_collection_ids";
+	const args = [account];
+
+	return executeScriptWithErrorRaised({ name, args });
+};
