@@ -6,6 +6,7 @@ import Moments from "../../contracts/Moments.cdc"
 import Elvn from "../../contracts/Elvn.cdc"
 import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
 import Pack from "../../contracts/Pack.cdc"
+import TeleportedSportiumToken from "../../contracts/TeleportedSportiumToken.cdc"
 
 pub fun setupFUSD(account: AuthAccount)  {
   if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
@@ -66,6 +67,22 @@ pub fun setupPack(account: AuthAccount) {
     account.save(<-collection, to: Pack.CollectionStoragePath)
 
     account.link<&Pack.Collection{Pack.PackCollectionPublic}>(Pack.CollectionPublicPath, target: Pack.CollectionStoragePath)
+  }
+}
+
+pub fun setupSportium(account: AuthAccount) {
+  if account.borrow<&TeleportedSportiumToken.Vault>(from: TeleportedSportiumToken.TokenStoragePath) == nil {
+    account.save(<-TeleportedSportiumToken.createEmptyVault(), to: TeleportedSportiumToken.TokenStoragePath)
+
+    account.link<&TeleportedSportiumToken.Vault{FungibleToken.Receiver}>(
+        TeleportedSportiumToken.TokenPublicReceiverPath,
+        target: TeleportedSportiumToken.TokenStoragePath 
+    )
+
+    account.link<&TeleportedSportiumToken.Vault{FungibleToken.Balance}>(
+        TeleportedSportiumToken.TokenPublicBalancePath,
+        target: TeleportedSportiumToken.TokenStoragePath 
+    )
   }
 }
 
