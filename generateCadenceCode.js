@@ -77,6 +77,9 @@ const generateIndexCode = (pathList) => {
 };
 
 (() => {
+  fs.rmSync("src", { recursive: true, force: true });
+  fs.mkdirSync("src");
+
   const generateTypescriptCode = (dir) => {
     const dirList = getDirList(dir);
     return compileCadenceFile(dir, dirList);
