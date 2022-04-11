@@ -31,7 +31,8 @@
     "ElvnPackPurchaseTreasury": "./contracts/ElvnPackPurchaseTreasury.cdc",
     "SprtNFTStorefront": "./contracts/SprtNFTStorefront.cdc",
     "ElvnFeeTreasury": "./contracts/ElvnFeeTreasury.cdc",
-    "Pack": "./contracts/Pack.cdc"
+    "Pack": "./contracts/Pack.cdc",
+    "TeleportedSportiumToken": "./contracts/TeleportedSportiumToken.cdc"
   },
   "networks": {
     "emulator": "127.0.0.1:3569"
@@ -53,7 +54,8 @@
         "ElvnPackPurchaseTreasury",
         "SprtNFTStorefront",
         "ElvnFeeTreasury",
-        "Pack"
+        "Pack",
+        "TeleportedSportiumToken"
       ]
     }
   }
