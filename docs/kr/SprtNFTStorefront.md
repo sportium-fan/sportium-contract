@@ -6,8 +6,8 @@ Sportium MarketPlace
 
 | mainnet or testnet | address |
 | -- | -- |
-| mainnet | **0xdcef2dcb63f28dee** |
-| testnet | **0x0824f629af58747d** |
+| mainnet | **null** |
+| testnet | **0x357ae2acb94b606b** |
 
 ## Scripts
 
@@ -84,7 +84,6 @@ fcl.query({
 
 1. 사용자는 본인이 올린 Listing의 detail 정보를 알 수 있습니다.
 
-
 #### GetListingItem Example
 
 ```javascript
@@ -107,6 +106,52 @@ fcl.query({
  args: (arg, t) => [
   arg(address, t.Address),
   arg(listingResourceId, t.UInt64)
+ ],
+})
+```
+
+### [GetAddressList](../../scripts/sprtNftStorefront/get_address_list.cdc)
+
+#### GetAddressList Use Case
+
+1. 사용자는 현재까지 저장된 `SprtNFTStorefront`를 만든 유저의 주소들을 알 수 있습니다.
+
+#### GetAddressList Example
+
+```javascript
+import * as fcl from "@onflow/fcl"
+import { sprtNftStorefrontGetAddressList } from "sportium-contract"
+
+const address: string = "0x..."
+
+// return string[]
+fcl.query({
+ cadence: sprtNftStorefrontGetAddressList,
+ args: (arg, t) => [
+  arg(address, t.Address),
+ ],
+})
+```
+
+### [GetAddress](../../scripts/sprtNftStorefront/get_address.cdc)
+
+#### GetAddress Use Case
+
+1. 사용자는 StorefrontId를 Address로 변환할 수 있습니다.
+
+#### GetAddress Example
+
+```javascript
+import * as fcl from "@onflow/fcl"
+import { sprtNftStorefrontGetAddress } from "sportium-contract"
+
+const storefrontId: number = 0
+
+// return string
+fcl.query({
+ cadence: sprtNftStorefrontGetAddress,
+ args: (arg, t) => [
+  arg(storefrontId, t.UInt64),
  ],
 })
 ```
