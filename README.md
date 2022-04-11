@@ -35,6 +35,7 @@
 | FUSD|  0xe223d8a629e49c68     |
 | FlowSwapPair|  [0xd9854329b7edf136](https://testnet.flowscan.org/contract/A.d9854329b7edf136.FlowSwapPair)     |
 | FusdUsdtSwapPair|  [0x3502a5dacaf350bb](https://testnet.flowscan.org/contract/A.3502a5dacaf350bb.FusdUsdtSwapPair)     |
+| TeleportedSportiumToken| [0xb097866d87d01550](https://testnet.flowscan.org/contract/A.b097866d87d01550.TeleportedSportiumToken) |
 
 ## How to get fusd fungible token in testnet for testnet blocto wallet users
 
