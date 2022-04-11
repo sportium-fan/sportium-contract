@@ -53,6 +53,5 @@ export { getListing as sprtNftStorefrontGetListing } from "./scripts/sprtNftStor
 export { getListingItem as sprtNftStorefrontGetListingItem } from "./scripts/sprtNftStorefront/getListingItem";
 export { getListings as sprtNftStorefrontGetListings } from "./scripts/sprtNftStorefront/getListings";
 export { getListingsLength as sprtNftStorefrontGetListingsLength } from "./scripts/sprtNftStorefront/getListingsLength";
-export { getStorefrontAddressList as sprtNftStorefrontGetStorefrontAddressList } from "./scripts/sprtNftStorefront/getStorefrontAddressList";
 export { getFeeBalance as treasuryGetFeeBalance } from "./scripts/treasury/getFeeBalance";
 export { getVaultBalance as treasuryGetVaultBalance } from "./scripts/treasury/getVaultBalance";
