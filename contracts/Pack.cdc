@@ -109,6 +109,18 @@ pub contract Pack {
         return packsRef.length
     }
 
+    pub fun getOnSaleReleaseIds(): [UInt64] {
+        let releaseIds: [UInt64] = []
+        for releaseId in self.salePacks.keys {
+            let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
+            if packsRef.length > 0 {
+                releaseIds.append(releaseId)
+            }
+        }
+
+        return releaseIds 
+    }    
+
     pub fun getPackPrice(releaseId: UInt64): UFix64 {
         pre {
             self.getPackRemainingCount(releaseId: releaseId) > 0: "Sold out pack"
