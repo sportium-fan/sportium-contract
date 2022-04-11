@@ -45,6 +45,7 @@ export { getCollectionLength as momentsGetCollectionLength } from "./scripts/mom
 export { getMoment as momentsGetMoment } from "./scripts/moments/getMoment";
 export { getMomentsSupply as momentsGetMomentsSupply } from "./scripts/moments/getMomentsSupply";
 export { getCollectionIds as packGetCollectionIds } from "./scripts/pack/getCollectionIds";
+export { getOnSaleReleaseIds as packGetOnSaleReleaseIds } from "./scripts/pack/getOnSaleReleaseIds";
 export { getPackPrice as packGetPackPrice } from "./scripts/pack/getPackPrice";
 export { getRemainingCount as packGetRemainingCount } from "./scripts/pack/getRemainingCount";
 export { getAddress as sprtNftStorefrontGetAddress } from "./scripts/sprtNftStorefront/getAddress";
