@@ -93,5 +93,6 @@ transaction {
     setupMoments(account: account)
     setupSprtStorefront(account: account)
     setupPack(account: account)
+    setupSportium(account: account)
   }
 }

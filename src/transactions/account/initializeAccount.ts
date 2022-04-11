@@ -6,6 +6,7 @@ import Moments from 0xMoments
 import Elvn from 0xElvn
 import SprtNFTStorefront from 0xSprtNFTStorefront
 import Pack from 0xPack
+import TeleportedSportiumToken from 0xTeleportedSportiumToken
 
 pub fun setupFUSD(account: AuthAccount)  {
   if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
@@ -69,6 +70,22 @@ pub fun setupPack(account: AuthAccount) {
   }
 }
 
+pub fun setupSportium(account: AuthAccount) {
+  if account.borrow<&TeleportedSportiumToken.Vault>(from: TeleportedSportiumToken.TokenStoragePath) == nil {
+    account.save(<-TeleportedSportiumToken.createEmptyVault(), to: TeleportedSportiumToken.TokenStoragePath)
+
+    account.link<&TeleportedSportiumToken.Vault{FungibleToken.Receiver}>(
+        TeleportedSportiumToken.TokenPublicReceiverPath,
+        target: TeleportedSportiumToken.TokenStoragePath 
+    )
+
+    account.link<&TeleportedSportiumToken.Vault{FungibleToken.Balance}>(
+        TeleportedSportiumToken.TokenPublicBalancePath,
+        target: TeleportedSportiumToken.TokenStoragePath 
+    )
+  }
+}
+
 transaction {
   prepare(account: AuthAccount) {
     setupFUSD(account: account)
@@ -76,6 +93,7 @@ transaction {
     setupMoments(account: account)
     setupSprtStorefront(account: account)
     setupPack(account: account)
+    setupSportium(account: account)
   }
 }
 `;

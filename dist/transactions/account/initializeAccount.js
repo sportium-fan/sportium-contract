@@ -3,10 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeAccount = void 0;
 exports.initializeAccount = `import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
+
 import FUSD from 0xFUSD
 import Moments from 0xMoments
 import Elvn from 0xElvn
 import SprtNFTStorefront from 0xSprtNFTStorefront
+import Pack from 0xPack
+import TeleportedSportiumToken from 0xTeleportedSportiumToken
 
 pub fun setupFUSD(account: AuthAccount)  {
   if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
@@ -56,6 +59,34 @@ pub fun setupSprtStorefront(account: AuthAccount)  {
 
       account.link<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath, target: SprtNFTStorefront.StorefrontStoragePath)
   }
+
+  let storefront = account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath) ?? panic("unreachable")
+  storefront.saveAddress()
+}
+
+pub fun setupPack(account: AuthAccount) {
+  if account.borrow<&Pack.Collection>(from: Pack.CollectionStoragePath) == nil {
+    let collection <- Pack.createEmptyCollection()
+    account.save(<-collection, to: Pack.CollectionStoragePath)
+
+    account.link<&Pack.Collection{Pack.PackCollectionPublic}>(Pack.CollectionPublicPath, target: Pack.CollectionStoragePath)
+  }
+}
+
+pub fun setupSportium(account: AuthAccount) {
+  if account.borrow<&TeleportedSportiumToken.Vault>(from: TeleportedSportiumToken.TokenStoragePath) == nil {
+    account.save(<-TeleportedSportiumToken.createEmptyVault(), to: TeleportedSportiumToken.TokenStoragePath)
+
+    account.link<&TeleportedSportiumToken.Vault{FungibleToken.Receiver}>(
+        TeleportedSportiumToken.TokenPublicReceiverPath,
+        target: TeleportedSportiumToken.TokenStoragePath 
+    )
+
+    account.link<&TeleportedSportiumToken.Vault{FungibleToken.Balance}>(
+        TeleportedSportiumToken.TokenPublicBalancePath,
+        target: TeleportedSportiumToken.TokenStoragePath 
+    )
+  }
 }
 
 transaction {
@@ -64,6 +95,8 @@ transaction {
     setupElvn(account: account)
     setupMoments(account: account)
     setupSprtStorefront(account: account)
+    setupPack(account: account)
+    setupSportium(account: account)
   }
 }
 `;

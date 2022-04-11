@@ -1,0 +1,1 @@
+export declare const getCollectionIds = "import Pack from 0xPack\n\npub fun main(target: Address): [UInt64] {\n\tlet collectionRef = getAccount(target)\n\t\t.getCapability(Pack.CollectionPublicPath)\n\t\t.borrow<&Pack.Collection{Pack.PackCollectionPublic}>() \n\t\t?? panic(\"Not found collection\")\n\n\treturn collectionRef.getIds()\n}\n";
