@@ -3,12 +3,13 @@ import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
 
 import { getElvnAdminAddress } from "../src/common";
 import {
-	addPack,
+	addItem,
 	buyPack,
 	deployPack,
 	getCollectionIds,
+	getMomentsListRemainingCount,
 	getPackPrice,
-	getRemainingCount,
+	getPackRemainingCount,
 	mintToken,
 	openPack,
 	setupPackAccount,
@@ -55,22 +56,22 @@ describe("Pack", () => {
 		await setupPackAccount(Alice);
 		await setupMomentsOnAccount(Alice);
 
-		const expectedMomentTokenId = await mintMomentToken({ momentRecipient: ElvnAdmin, momentAddress: ElvnAdmin });
-		const momentTokenIds = await getMomentIds(ElvnAdmin);
-		expect(momentTokenIds).toEqual([expectedMomentTokenId]);
-
 		const releaseId = 1;
 		const packPrice = 100;
-		await mintToken(Alice, {
+		const momentsPerCount = 1;
+
+		const packId = await mintPackToken({
+			packRecipient: Alice,
+			packAddress: ElvnAdmin,
 			releaseId,
 			packPrice,
-			momentTokenIds,
+			momentsPerCount,
 		});
 		const packIds = await getCollectionIds(Alice);
-		expect(packIds).toEqual([0]);
+		expect(packIds).toEqual([packId]);
 	});
 
-	it("shall be able add pack token", async () => {
+	it("shall be able add pack, moments", async () => {
 		await deployPack();
 		const ElvnAdmin = await getElvnAdminAddress();
 		await setupMomentsOnAccount(ElvnAdmin);
@@ -78,22 +79,27 @@ describe("Pack", () => {
 
 		const releaseId = 1;
 		const packPrice = 100;
-		const packId = await mintPackToken({
-			momentAddress: ElvnAdmin,
-			momentRecipient: ElvnAdmin,
-			packAddress: ElvnAdmin,
-			packRecipient: ElvnAdmin,
+		const momentsPerCount = 1;
 
+		const packId = await mintPackToken({
+			packRecipient: ElvnAdmin,
+			packAddress: ElvnAdmin,
 			releaseId,
 			packPrice,
+			momentsPerCount,
 		});
-		const packIds = await getCollectionIds(ElvnAdmin);
-		expect(packIds).toEqual([packId]);
+		const momentsId = await mintMomentToken({
+			momentRecipient: ElvnAdmin,
+			momentAddress: ElvnAdmin,
+		});
 
-		await shallPass(addPack(packId));
+		await shallPass(addItem(packId, [momentsId]));
 
-		const remainingCount = await getRemainingCount(releaseId);
-		expect(remainingCount).toEqual(1);
+		const packRemainingCount = await getPackRemainingCount(releaseId);
+		expect(packRemainingCount).toEqual(1);
+
+		const momentsListRemainingCount = await getMomentsListRemainingCount(releaseId);
+		expect(momentsListRemainingCount).toEqual(1);
 
 		const price = await getPackPrice(releaseId);
 		expect(price).toEqual(packPrice.toFixed(8));
@@ -107,16 +113,21 @@ describe("Pack", () => {
 
 		const releaseId = 1;
 		const packPrice = 100;
-		const packId = await mintPackToken({
-			momentAddress: ElvnAdmin,
-			momentRecipient: ElvnAdmin,
-			packAddress: ElvnAdmin,
-			packRecipient: ElvnAdmin,
+		const momentsPerCount = 1;
 
+		const packId = await mintPackToken({
+			packRecipient: ElvnAdmin,
+			packAddress: ElvnAdmin,
 			releaseId,
 			packPrice,
+			momentsPerCount,
 		});
-		await addPack(packId);
+		const momentId = await mintMomentToken({
+			momentRecipient: ElvnAdmin,
+			momentAddress: ElvnAdmin,
+		});
+
+		await addItem(packId, [momentId]);
 
 		const Alice = await getAccountAddress("Alice");
 		await setupMomentsOnAccount(Alice);
@@ -125,7 +136,6 @@ describe("Pack", () => {
 		await mintElvn(Alice, 100);
 
 		await buyPack(Alice, releaseId);
-
 		const packIds = await getCollectionIds(Alice);
 		expect(packIds).toEqual([packId]);
 	});
@@ -138,23 +148,27 @@ describe("Pack", () => {
 
 		const releaseId = 1;
 		const packPrice = 100;
-		const packId = await mintPackToken({
-			momentAddress: ElvnAdmin,
-			momentRecipient: ElvnAdmin,
-			packAddress: ElvnAdmin,
-			packRecipient: ElvnAdmin,
+		const momentsPerCount = 1;
 
+		const packId = await mintPackToken({
+			packRecipient: ElvnAdmin,
+			packAddress: ElvnAdmin,
 			releaseId,
 			packPrice,
+			momentsPerCount,
 		});
-		await addPack(packId);
+		const momentId = await mintMomentToken({
+			momentRecipient: ElvnAdmin,
+			momentAddress: ElvnAdmin,
+		});
+
+		await addItem(packId, [momentId]);
 
 		const Alice = await getAccountAddress("Alice");
 		await setupMomentsOnAccount(Alice);
 		await setupPackAccount(Alice);
 		await setupElvnOnAccount(Alice);
 		await mintElvn(Alice, 100);
-
 		await buyPack(Alice, releaseId);
 
 		await openPack(Alice, packId);
@@ -169,13 +183,11 @@ const mintMomentToken = async ({ momentRecipient, momentAddress }) => {
 		.then((event) => event.data.id);
 };
 
-const mintPackToken = async ({ momentRecipient, packRecipient, momentAddress, packAddress, releaseId, packPrice }) => {
-	const momentTokenId = await mintMomentToken({ momentRecipient, momentAddress });
-
+const mintPackToken = async ({ packRecipient, packAddress, releaseId, packPrice, momentsPerCount }) => {
 	return mintToken(packRecipient, {
 		releaseId,
 		packPrice,
-		momentTokenIds: [momentTokenId],
+		momentsPerCount,
 	})
 		.then((res) => res.events.find(({ type }) => type === `A.${packAddress.replace("0x", "")}.Pack.CreatePackToken`))
 		.then((event) => event.data.packId);
