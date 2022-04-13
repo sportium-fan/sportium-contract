@@ -1,7 +1,7 @@
 export const mintToken = `import Pack from 0xPack
 import Moments from 0xMoments
 
-transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentTokenIds: [UInt64]) {
+transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentsPerCount: UInt64) {
     let admin: &Pack.Administrator
     let adminMomentsCollectionRef: &Moments.Collection
 
@@ -23,22 +23,11 @@ transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentToke
     }
 
     execute {
-        for id in momentTokenIds {
-            self.adminMomentsCollectionRef.borrowMoment(id: id) 
-                ?? panic("Not found tokenId: ".concat(id.toString()))
-        }
-
-        let momentsList: @[Moments.NFT] <- []
-        for id in momentTokenIds {
-            let moments <- self.adminMomentsCollectionRef.withdraw(withdrawID: id) as! @Moments.NFT
-            momentsList.append(<- moments)
-        }
-
         let packToken <- self.admin
             .createPackToken(
                 releaseId: releaseId, 
                 price: packPrice, 
-                momentsMap: <- momentsList
+                momentsPerCount: momentsPerCount
             )
 
         self.recipientCollectionRef.deposit(token: <- packToken)

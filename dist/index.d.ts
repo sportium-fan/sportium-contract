@@ -12,7 +12,7 @@ export { mintAndListMoment as momentsMintAndListMoment } from "./transactions/mo
 export { mintMoment as momentsMintMoment } from "./transactions/moments/mintMoment";
 export { setupAccount as momentsSetupAccount } from "./transactions/moments/setupAccount";
 export { transferMoment as momentsTransferMoment } from "./transactions/moments/transferMoment";
-export { addPack as packAddPack } from "./transactions/pack/addPack";
+export { addItem as packAddItem } from "./transactions/pack/addItem";
 export { buyPack as packBuyPack } from "./transactions/pack/buyPack";
 export { mintToken as packMintToken } from "./transactions/pack/mintToken";
 export { openPack as packOpenPack } from "./transactions/pack/openPack";
@@ -45,9 +45,10 @@ export { getCollectionLength as momentsGetCollectionLength } from "./scripts/mom
 export { getMoment as momentsGetMoment } from "./scripts/moments/getMoment";
 export { getMomentsSupply as momentsGetMomentsSupply } from "./scripts/moments/getMomentsSupply";
 export { getCollectionIds as packGetCollectionIds } from "./scripts/pack/getCollectionIds";
+export { getMomentsListRemainingCount as packGetMomentsListRemainingCount } from "./scripts/pack/getMomentsListRemainingCount";
 export { getOnSaleReleaseIds as packGetOnSaleReleaseIds } from "./scripts/pack/getOnSaleReleaseIds";
 export { getPackPrice as packGetPackPrice } from "./scripts/pack/getPackPrice";
-export { getRemainingCount as packGetRemainingCount } from "./scripts/pack/getRemainingCount";
+export { getPackRemainingCount as packGetPackRemainingCount } from "./scripts/pack/getPackRemainingCount";
 export { getAddress as sprtNftStorefrontGetAddress } from "./scripts/sprtNftStorefront/getAddress";
 export { getAddressList as sprtNftStorefrontGetAddressList } from "./scripts/sprtNftStorefront/getAddressList";
 export { getListing as sprtNftStorefrontGetListing } from "./scripts/sprtNftStorefront/getListing";
