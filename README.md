@@ -28,7 +28,7 @@
 | ElvnPackPurchaseTreasury | [0xbc6b405dab3b3b34](https://testnet.flowscan.org/contract/A.bc6b405dab3b3b34.ElvnPackPurchaseTreasury) |
 | Moments          | [0xe85ee62e8901ac6f](https://testnet.flowscan.org/contract/A.e85ee62e8901ac6f.Moments)          |
 | SprtNFTStorefront| [0x357ae2acb94b606b](https://testnet.flowscan.org/contract/A.357ae2acb94b606b.SprtNFTStorefront)          |
-| Pack | [0x8bca78ad76d90e5e](https://testnet.flowscan.org/contract/A.8bca78ad76d90e5e.Pack) |
+| Pack | [0xdb7117ddf2840861](https://testnet.flowscan.org/contract/A.db7117ddf2840861.Pack) |
 | FlowToken| 0x7e60df042a9c0868          |
 | FungibleToken| 0x9a0766d93b6608b7      |
 | NonFungibleToken| 0x631e88ae7f1d7c20      |

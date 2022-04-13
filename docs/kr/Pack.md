@@ -10,7 +10,7 @@
 | mainnet or testnet | address |
 | -- | -- |
 | mainnet | **null** |
-| testnet | **0x8bca78ad76d90e5e** |
+| testnet | **0xdb7117ddf2840861** |
 
 ## Scripts
 
@@ -37,23 +37,46 @@ fcl.query({
 })
 ```
 
-### [GetRemainingCount](../../scripts/pack/get_remaining_count.cdc)
+### [GetPackRemainingCount](../../scripts/pack/get_pack_remaining_count.cdc)
 
-#### GetRemainingCount Use Case
+#### GetPackRemainingCount Use Case
 
 1. 사용자는 releaseId를 입력하여, 남은 pack 개수를 알 수 있습니다.
 
-#### GetRemainingCount Example
+#### GetPackRemainingCount Example
 
 ```javascript
 import * as fcl from "@onflow/fcl"
-import { packGetRemainingCount } from "sportium-contract"
+import { packGetPackRemainingCount } from "sportium-contract"
 
 const releaseId: number = 0
 
 // return number
 fcl.query({
- cadence: packGetRemainingCount,
+ cadence: packGetPackRemainingCount,
+ args: (arg, t) => [
+  arg(releaseId, t.UInt64),
+ ],
+})
+```
+
+### [GetMomentsListRemainingCount](../../scripts/pack/get_moments_list_remaining_count.cdc)
+
+#### GetMomentsListRemainingCount Use Case
+
+1. 사용자는 releaseId를 입력하여, 남은 moments List 개수를 알 수 있습니다.
+
+#### GetMomentsListRemainingCount Example
+
+```javascript
+import * as fcl from "@onflow/fcl"
+import { packGetMomentsListRemainingCount } from "sportium-contract"
+
+const releaseId: number = 0
+
+// return number
+fcl.query({
+ cadence: packGetMomentsListRemainingCount,
  args: (arg, t) => [
   arg(releaseId, t.UInt64),
  ],
@@ -80,6 +103,24 @@ fcl.query({
  args: (arg, t) => [
   arg(address, t.Address),
  ],
+})
+```
+
+### [GetOnSaleReleaseIds](../../scripts/pack/get_on_sale_release_ids.cdc)
+
+#### GetOnSaleReleaseIds Use Case
+
+1. 사용자는 현재 판매중인 팩의 release id들을 알 수 있습니다.
+
+#### GetOnSaleReleaseIds Example
+
+```javascript
+import * as fcl from "@onflow/fcl"
+import { packGetOnSaleReleaseIds } from "sportium-contract"
+
+// return number[]
+fcl.query({
+ cadence: packGetOnSaleReleaseIds,
 })
 ```
 
