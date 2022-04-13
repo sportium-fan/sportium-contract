@@ -138,6 +138,12 @@ describe("Pack", () => {
 		await buyPack(Alice, releaseId);
 		const packIds = await getCollectionIds(Alice);
 		expect(packIds).toEqual([packId]);
+
+		const resultPackRemainingCount = await getPackRemainingCount(releaseId);
+		expect(resultPackRemainingCount).toEqual(0);
+
+		const resultMomentListRemainingCount = await getMomentsListRemainingCount(releaseId);
+		expect(resultMomentListRemainingCount).toEqual(1);
 	});
 
 	it("shall be able open pack", async () => {
@@ -174,6 +180,12 @@ describe("Pack", () => {
 		await openPack(Alice, packId);
 		const momentIds = await getMomentIds(Alice);
 		expect(momentIds).toEqual([0]);
+
+		const resultPackRemainingCount = await getPackRemainingCount(releaseId);
+		expect(resultPackRemainingCount).toEqual(0);
+
+		const resultMomentListRemainingCount = await getMomentsListRemainingCount(releaseId);
+		expect(resultMomentListRemainingCount).toEqual(0);
 	});
 });
 
