@@ -5,10 +5,9 @@ import Elvn from "./Elvn.cdc"
 import Moments from "./Moments.cdc"
 
 pub contract Pack {
-    // payment
     access(self) let vault: @Elvn.Vault
-    // releaseId: [Pack]
-    // Pack: [Moments]
+
+    access(self) let momentsListCandidate: @{UInt64: [[Moments.NFT]]}
     access(self) let salePacks: @{UInt64: [Pack.Token]}
 
     pub var totalSupply: UInt64
@@ -22,41 +21,43 @@ pub contract Pack {
 
     pub event Deposit(id: UInt64, to: Address?)
     pub event Withdraw(id: UInt64, from: Address?)
-
+ 
     pub resource Token {
         pub let id: UInt64
 
         pub let releaseId: UInt64
         pub let price: UFix64
-
-        access(self) let momentsMap: @[Moments.NFT]
+        pub let momentsPerCount: UInt64
 
         pub fun openPacks(): @[Moments.NFT] {
             pre {
-                self.momentsMap.length > 0: "There are no moments in the pack"
+                Pack.getMomentsListRemainingCount(releaseId: self.releaseId) > 0: "Not enough moments in Pack Contract"
+                UInt64(Pack.getMomentsLength(releaseId: self.releaseId)) == self.momentsPerCount: "Not equal momentsPerCount"
             }
 
-            let map: @[Moments.NFT] <- []
+            let momentsListLength = Pack.getMomentsListRemainingCount(releaseId: self.releaseId)
+            let randomIndex = unsafeRandom() % UInt64(momentsListLength)
+
+            let momentsListCandidate <- Pack.momentsListCandidate.remove(key: self.releaseId) ?? panic("unreachable")
+            let momentsList <- momentsListCandidate.remove(at: randomIndex)
+            
+            Pack.momentsListCandidate[self.releaseId] <-! momentsListCandidate
+
             let momentsIds: [UInt64] = []
-            while self.momentsMap.length > 0 {
-                let moment <- self.momentsMap.removeFirst()
-                momentsIds.append(moment.id)
-                map.append(<- moment)
+            while momentsIds.length < momentsList.length {
+                let momentsRef = &momentsList[momentsIds.length] as? &Moments.NFT
+                momentsIds.append(momentsRef.id)
             }
-
             emit OpenPack(packId: self.id, momentsIds: momentsIds, address: self.owner?.address)
-            return <- map
+
+            return <- momentsList
         }
 
-        destroy () {
-            destroy self.momentsMap
-        }
-
-        init(tokenId: UInt64, releaseId: UInt64, price: UFix64, momentsMap: @[Moments.NFT]) {
+        init(tokenId: UInt64, releaseId: UInt64, price: UFix64, momentsPerCount: UInt64) {
             self.id = tokenId
             self.releaseId = releaseId
             self.price = price
-            self.momentsMap <- momentsMap 
+            self.momentsPerCount = momentsPerCount
         }
     }
 
@@ -96,30 +97,50 @@ pub contract Pack {
         }
     }
 
-    pub fun isExists(releaseId: UInt64): Bool {
+    pub fun isPackExists(releaseId: UInt64): Bool {
         return self.salePacks[releaseId] != nil
     }
 
     pub fun getPackRemainingCount(releaseId: UInt64): Int {
         pre {
-            self.isExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
+            self.isPackExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
         }
 
         let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
         return packsRef.length
     }
 
+    pub fun getMomentsListRemainingCount(releaseId: UInt64): Int {
+        pre {
+            self.isPackExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
+        }
+
+        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as? &[[Moments.NFT]]
+        return momentsListCandidateRef.length
+    }
+
+    pub fun getMomentsLength(releaseId: UInt64): Int {
+        pre {
+            self.getMomentsListRemainingCount(releaseId: releaseId) > 0: "Not enough moments in Pack Contract"
+        }
+
+        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as? &[[Moments.NFT]]
+        let momentsListRef = &momentsListCandidateRef[0] as? &[Moments.NFT]
+
+        return momentsListRef.length
+    }
+
     pub fun getOnSaleReleaseIds(): [UInt64] {
         let releaseIds: [UInt64] = []
-        for releaseId in self.salePacks.keys {
-            let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
+        for releaseId in self.momentsListCandidate.keys {
+            let packsRef = &self.momentsListCandidate[releaseId] as? &[[Moments.NFT]]
             if packsRef.length > 0 {
                 releaseIds.append(releaseId)
             }
         }
 
         return releaseIds 
-    }    
+    }
 
     pub fun getPackPrice(releaseId: UInt64): UFix64 {
         pre {
@@ -131,7 +152,7 @@ pub contract Pack {
         return packRef.price
     }
 
-    pub fun buyPack(releaseId: UInt64, vault: @FungibleToken.Vault): @Pack.Token { 
+    pub fun buyPack(releaseId: UInt64, vault: @Elvn.Vault): @Pack.Token { 
         pre {
             self.getPackPrice(releaseId: releaseId) == vault.balance: "Not enough balance"
         }
@@ -140,8 +161,7 @@ pub contract Pack {
         self.vault.deposit(from: <- vault)
 
         let salePacks <- self.salePacks.remove(key: releaseId) ?? panic("unreachable")
-        let randomIndex = unsafeRandom() % UInt64(salePacks.length)
-        let pack <- salePacks.remove(at: randomIndex)
+        let pack <- salePacks.remove(at: 0)
         self.salePacks[releaseId] <-! salePacks
 
         emit BuyPack(packId: pack.id, price: pack.price)
@@ -149,31 +169,33 @@ pub contract Pack {
     }
 
     pub resource Administrator {
-        pub fun addPack(token: @Pack.Token) {
-            let releaseId = token.releaseId
+        pub fun addItem(pack: @Pack.Token, momentsList: @[Moments.NFT]) {
+            pre {
+                pack.momentsPerCount == UInt64(momentsList.length): "Not equal momentsPerCount"
+            }
+            let releaseId = pack.releaseId
 
             if Pack.salePacks[releaseId] == nil {
-                let packs: @[Pack.Token] <- [<- token]                
+                let packs: @[Pack.Token] <- [<- pack]
                 Pack.salePacks[releaseId] <-! packs
-                return
+            } else {
+                let packs <- Pack.salePacks.remove(key: releaseId) ?? panic("unreachable")
+                packs.append(<- pack)
+                Pack.salePacks[releaseId] <-! packs
             }
 
-            let remainingCount = Pack.getPackRemainingCount(releaseId: releaseId)
-            if remainingCount > 0 {
-                let packPrice = Pack.getPackPrice(releaseId: releaseId)
-                if packPrice != token.price {
-                    destroy token
-                    return panic("Pack price is not equal")
-                }
+            if Pack.momentsListCandidate[releaseId] == nil {
+                let moments: @[[Moments.NFT]] <- [<- momentsList]
+                Pack.momentsListCandidate[releaseId] <-! moments
+            } else {
+                let moments <- Pack.momentsListCandidate.remove(key: releaseId) ?? panic("unreachable")
+                moments.append(<- momentsList)
+                Pack.momentsListCandidate[releaseId] <-! moments
             }
-
-            let packs <- Pack.salePacks.remove(key: releaseId) ?? panic("unreachable")
-            packs.append(<- token)
-            Pack.salePacks[releaseId] <-! packs
         }
 
-        pub fun createPackToken(releaseId: UInt64, price: UFix64, momentsMap: @[Moments.NFT]): @Pack.Token {
-            let pack <- create Pack.Token(tokenId: Pack.totalSupply, releaseId: releaseId, price: price, momentsMap: <- momentsMap)
+        pub fun createPackToken(releaseId: UInt64, price: UFix64, momentsPerCount: UInt64): @Pack.Token {
+            let pack <- create Pack.Token(tokenId: Pack.totalSupply, releaseId, price, momentsPerCount)
             Pack.totalSupply = Pack.totalSupply + 1
 
             emit CreatePackToken(packId: pack.id, releaseId: releaseId)
@@ -198,6 +220,7 @@ pub contract Pack {
         self.CollectionStoragePath = /storage/sportiumPackCollection
         self.CollectionPublicPath = /public/sportiumPackCollection
 
+        self.momentsListCandidate <- {}
         self.salePacks <- {}
         self.vault <- Elvn.createEmptyVault() as! @Elvn.Vault
         self.totalSupply = 0

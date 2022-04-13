@@ -28,12 +28,12 @@ export const setupPackAccount = async (account) => {
 
 export const mintToken = async (
 	recipient,
-	{ releaseId, packPrice, momentTokenIds } = { releaseId: 1, packPrice: 1, momentTokenIds: [0] }
+	{ releaseId, packPrice, momentsPerCount } = { releaseId: 1, packPrice: 1, momentsPerCount: 1 }
 ) => {
 	const name = "pack/mint_token";
 	const ElvnAdmin = await getElvnAdminAddress();
 	const signers = [ElvnAdmin];
-	const args = [recipient, releaseId, packPrice, momentTokenIds];
+	const args = [recipient, releaseId, packPrice, momentsPerCount];
 
 	return sendTransactionWithErrorRaised({
 		name,
@@ -42,11 +42,11 @@ export const mintToken = async (
 	});
 };
 
-export const addPack = async (packId) => {
-	const name = "pack/add_pack";
+export const addItem = async (packId, momentsIds) => {
+	const name = "pack/add_item";
 	const ElvnAdmin = await getElvnAdminAddress();
 	const signers = [ElvnAdmin];
-	const args = [packId];
+	const args = [packId, momentsIds];
 
 	return sendTransactionWithErrorRaised({
 		name,
@@ -93,8 +93,15 @@ export const getPackPrice = async (releaseId) => {
 	return executeScriptWithErrorRaised({ name, args });
 };
 
-export const getRemainingCount = async (releaseId) => {
-	const name = "pack/get_remaining_count";
+export const getPackRemainingCount = async (releaseId) => {
+	const name = "pack/get_pack_remaining_count";
+	const args = [releaseId];
+
+	return executeScriptWithErrorRaised({ name, args });
+};
+
+export const getMomentsListRemainingCount = async (releaseId) => {
+	const name = "pack/get_moments_list_remaining_count";
 	const args = [releaseId];
 
 	return executeScriptWithErrorRaised({ name, args });
