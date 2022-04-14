@@ -58,6 +58,7 @@ pub contract SprtNFTStorefront {
     // NFTStorefront workflow, so be careful to check when using them.
     //
     pub event ListingAvailable(
+        storefrontResourceID: UInt64,
         storefrontAddress: Address,
         listingResourceID: UInt64,
         nftType: Type,
@@ -436,6 +437,7 @@ pub contract SprtNFTStorefront {
             destroy oldListing
 
             emit ListingAvailable(
+                storefrontResourceID: self.uuid,
                 storefrontAddress: self.owner?.address!,
                 listingResourceID: listingResourceID,
                 nftType: nftType,
