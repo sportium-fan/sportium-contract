@@ -75,7 +75,8 @@ pub contract SprtNFTStorefront {
         storefrontResourceID: UInt64,
         purchased: Bool,
         nftType: Type,
-        nftID: UInt64
+        nftID: UInt64,
+        price: UFix64?
     )
 
     // StorefrontStoragePath
@@ -293,7 +294,8 @@ pub contract SprtNFTStorefront {
                 storefrontResourceID: self.details.storefrontID,
                 purchased: self.details.purchased,
                 nftType: self.details.nftType,
-                nftID: self.details.nftID
+                nftID: self.details.nftID,
+                price: self.details.salePrice
             )
 
             return <-nft
@@ -313,7 +315,8 @@ pub contract SprtNFTStorefront {
                     storefrontResourceID: self.details.storefrontID,
                     purchased: self.details.purchased,
                     nftType: self.details.nftType,
-                    nftID: self.details.nftID
+                    nftID: self.details.nftID,
+                    price: nil
                 )
             }
         }
