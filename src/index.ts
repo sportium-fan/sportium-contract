@@ -20,6 +20,7 @@ export { setupAccount as packSetupAccount } from "./transactions/pack/setupAccou
 export { withdrawElvn as packWithdrawElvn } from "./transactions/pack/withdrawElvn";
 export { depositElvn as packPurchaseTreasuryDepositElvn } from "./transactions/packPurchaseTreasury/depositElvn";
 export { depositFusd as packPurchaseTreasuryDepositFusd } from "./transactions/packPurchaseTreasury/depositFusd";
+export { transferTokens as sportiumTokenTransferTokens } from "./transactions/sportiumToken/transferTokens";
 export { cleanupListing as sprtNftStorefrontCleanupListing } from "./transactions/sprtNftStorefront/cleanupListing";
 export { createListing as sprtNftStorefrontCreateListing } from "./transactions/sprtNftStorefront/createListing";
 export { purchaseListing as sprtNftStorefrontPurchaseListing } from "./transactions/sprtNftStorefront/purchaseListing";
