@@ -10,7 +10,7 @@
 | mainnet or testnet | address |
 | -- | -- |
 | mainnet | **null** |
-| testnet | **0xdb7117ddf2840861** |
+| testnet | **0xe8f6dc7f3c13c0a0** |
 
 ## Scripts
 
@@ -124,13 +124,29 @@ fcl.query({
 })
 ```
 
+#### GetReleaseIds Use Case
+
+1. 사용자는 현재 보유 중인 release id들을 알 수 있습니다.
+
+#### GetReleaseIds Example
+
+```javascript
+import * as fcl from "@onflow/fcl"
+import { packGetReleaseIds } from "sportium-contract"
+
+// return number[]
+fcl.query({
+ cadence: packGetReleaseIds,
+})
+```
+
 ## Transactions
 
 ### [BuyPack](../../transactions/pack/add_pack.cdc)
 
 #### BuyPack Use Case
 
-1. 사용자는 Pack Contract로 부터 `Pack.Token`을 구매할 수 있습니다.
+1. 사용자는 Pack Contract로 부터 Elvn으로 `Pack.Token`을 구매할 수 있습니다.
 
 #### BuyPack Example
 
@@ -150,23 +166,71 @@ fcl.mutate({
 })
 ```
 
-### [OpenPack](../../transactions/pack/open_pack.cdc)
+### [BuyPackPaymentByFUSD](../../transactions/pack/buy_pack_payment_by_fusd.cdc)
 
-#### OpenPack Use Case
+#### BuyPackPaymentByFUSD Use Case
 
-1. 사용자는 Pack Token을 Open 하여 Moments들로 변경할 수 있습니다.
+1. 사용자는 Pack Contract로 부터 FUSD로 `Pack.Token`을 구매할 수 있습니다.
 
-#### OpenPack Example
+#### BuyPackPaymentByFUSD Example
 
 ```javascript
-import { packOpenPack } from "sportium-contract"
+import { packBuyPackPaymentByFusd } from "sportium-contract"
+
+const releaseId: number = 0
+
+fcl.mutate({
+ cadence: packBuyPackPaymentByFusd,
+ args: (arg, t) => [
+  arg(releaseId, t.UInt64),
+ ],
+ // authorizations: [authorization],
+ // payer: authorization,
+ // proposer: authorization,
+})
+```
+
+### [OpenPackId](../../transactions/pack/open_pack_id.cdc)
+
+#### OpenPackId Use Case
+
+1. 사용자는 Pack Id를 넣어서, Pack으로부터 Moments를 얻을 수 있습니다.
+
+#### OpenPackId Example
+
+```javascript
+import { packOpenPackId } from "sportium-contract"
 
 const packId: number = 0
 
 fcl.mutate({
- cadence: packOpenPack,
+ cadence: packOpenPackId,
  args: (arg, t) => [
   arg(packId, t.UInt64),
+ ],
+ // authorizations: [authorization],
+ // payer: authorization,
+ // proposer: authorization,
+})
+```
+
+### [OpenPackReleaseId](../../transactions/pack/open_pack_release_id.cdc)
+
+#### OpenPackReleaseId Use Case
+
+1. 사용자는 ReleaseId를 넣어서, Pack으로부터 Moments를 얻을 수 있습니다.
+
+#### OpenPackReleaseId Example
+
+```javascript
+import { packOpenPackReleaseId } from "sportium-contract"
+
+const releaseId: number = 0
+
+fcl.mutate({
+ cadence: packOpenPackReleaseId,
+ args: (arg, t) => [
+  arg(releaseId, t.UInt64),
  ],
  // authorizations: [authorization],
  // payer: authorization,
