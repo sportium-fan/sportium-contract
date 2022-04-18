@@ -1,4 +1,5 @@
 import FungibleToken from "../../contracts/FungibleToken.cdc"
+
 import FUSD from "../../contracts/FUSD.cdc"
 
 transaction(recipient: Address, amount: UFix64) {
