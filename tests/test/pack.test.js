@@ -11,13 +11,15 @@ import {
 	getMomentsListRemainingCount,
 	getPackPrice,
 	getPackRemainingCount,
+	getReleaseIds,
 	mintToken,
-	openPack,
+	openPackId,
+	openPackReleaseId,
 	setupPackAccount,
 } from "../src/pack";
 import { getMomentIds, mintMoment, setupMomentsOnAccount } from "../src/moments";
 import { mintElvn, setupElvnOnAccount } from "../src/elvn";
-import { deployFUSD, mintFUSD, setupFUSDOnAccount } from "../src/fusd";
+import { mintFUSD, setupFUSDOnAccount } from "../src/fusd";
 import { deployTreasury, depositElvn } from "../src/treasury";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
@@ -96,7 +98,7 @@ describe("Pack", () => {
 			momentAddress: ElvnAdmin,
 		});
 
-		await shallPass(addItem(packId, [momentsId]));
+		await shallPass(addItem(releaseId, [momentsId]));
 
 		const packRemainingCount = await getPackRemainingCount(releaseId);
 		expect(packRemainingCount).toEqual(1);
@@ -130,7 +132,7 @@ describe("Pack", () => {
 			momentAddress: ElvnAdmin,
 		});
 
-		await addItem(packId, [momentId]);
+		await addItem(releaseId, [momentId]);
 
 		const Alice = await getAccountAddress("Alice");
 		await setupMomentsOnAccount(Alice);
@@ -139,6 +141,8 @@ describe("Pack", () => {
 		await mintElvn(Alice, toUFix64(100));
 
 		await buyPack(Alice, releaseId);
+		const releaseIds = await getReleaseIds(Alice);
+		expect(releaseIds).toEqual([releaseId]);
 		const packIds = await getCollectionIds(Alice);
 		expect(packIds).toEqual([packId]);
 
@@ -176,7 +180,7 @@ describe("Pack", () => {
 			momentAddress: ElvnAdmin,
 		});
 
-		await addItem(packId, [momentId]);
+		await addItem(releaseId, [momentId]);
 
 		const Alice = await getAccountAddress("Alice");
 		await setupMomentsOnAccount(Alice);
@@ -186,6 +190,8 @@ describe("Pack", () => {
 		await mintFUSD(Alice, toUFix64(100));
 
 		await buyPackPaymentByFUSD(Alice, releaseId);
+		const releaseIds = await getReleaseIds(Alice);
+		expect(releaseIds).toEqual([releaseId]);
 		const packIds = await getCollectionIds(Alice);
 		expect(packIds).toEqual([packId]);
 
@@ -196,7 +202,7 @@ describe("Pack", () => {
 		expect(resultMomentListRemainingCount).toEqual(1);
 	});
 
-	it("shall be able open pack", async () => {
+	it("shall be able open pack release id", async () => {
 		await deployPack();
 		const ElvnAdmin = await getElvnAdminAddress();
 		await setupMomentsOnAccount(ElvnAdmin);
@@ -218,7 +224,7 @@ describe("Pack", () => {
 			momentAddress: ElvnAdmin,
 		});
 
-		await addItem(packId, [momentId]);
+		await addItem(releaseId, [momentId]);
 
 		const Alice = await getAccountAddress("Alice");
 		await setupMomentsOnAccount(Alice);
@@ -227,7 +233,57 @@ describe("Pack", () => {
 		await mintElvn(Alice, 100);
 		await buyPack(Alice, releaseId);
 
-		await openPack(Alice, packId);
+		await openPackReleaseId(Alice, releaseId);
+		const releaseIds = await getReleaseIds(Alice);
+		expect(releaseIds).toEqual([]);
+		const packIds = await getCollectionIds(Alice);
+		expect(packIds).toEqual([]);
+		const momentIds = await getMomentIds(Alice);
+		expect(momentIds).toEqual([0]);
+
+		const resultPackRemainingCount = await getPackRemainingCount(releaseId);
+		expect(resultPackRemainingCount).toEqual(0);
+
+		const resultMomentListRemainingCount = await getMomentsListRemainingCount(releaseId);
+		expect(resultMomentListRemainingCount).toEqual(0);
+	});
+
+	it("shall be able open pack id", async () => {
+		await deployPack();
+		const ElvnAdmin = await getElvnAdminAddress();
+		await setupMomentsOnAccount(ElvnAdmin);
+		await setupPackAccount(ElvnAdmin);
+
+		const releaseId = 1;
+		const packPrice = 100;
+		const momentsPerCount = 1;
+
+		const packId = await mintPackToken({
+			packRecipient: ElvnAdmin,
+			packAddress: ElvnAdmin,
+			releaseId,
+			packPrice,
+			momentsPerCount,
+		});
+		const momentId = await mintMomentToken({
+			momentRecipient: ElvnAdmin,
+			momentAddress: ElvnAdmin,
+		});
+
+		await addItem(releaseId, [momentId]);
+
+		const Alice = await getAccountAddress("Alice");
+		await setupMomentsOnAccount(Alice);
+		await setupPackAccount(Alice);
+		await setupElvnOnAccount(Alice);
+		await mintElvn(Alice, 100);
+		await buyPack(Alice, releaseId);
+
+		await openPackId(Alice, packId);
+		const releaseIds = await getReleaseIds(Alice);
+		expect(releaseIds).toEqual([]);
+		const packIds = await getCollectionIds(Alice);
+		expect(packIds).toEqual([]);
 		const momentIds = await getMomentIds(Alice);
 		expect(momentIds).toEqual([0]);
 

@@ -42,11 +42,11 @@ export const mintToken = async (
 	});
 };
 
-export const addItem = async (packId, momentsIds) => {
+export const addItem = async (releaseId, momentsIds) => {
 	const name = "pack/add_item";
 	const ElvnAdmin = await getElvnAdminAddress();
 	const signers = [ElvnAdmin];
-	const args = [packId, momentsIds];
+	const args = [releaseId, momentsIds];
 
 	return sendTransactionWithErrorRaised({
 		name,
@@ -79,8 +79,20 @@ export const buyPackPaymentByFUSD = async (account, releaseId) => {
 	});
 };
 
-export const openPack = async (account, packId) => {
-	const name = "pack/open_pack";
+export const openPackReleaseId = async (account, releaseId) => {
+	const name = "pack/open_pack_release_id";
+	const signers = [account];
+	const args = [releaseId];
+
+	return sendTransactionWithErrorRaised({
+		name,
+		signers,
+		args,
+	});
+};
+
+export const openPackId = async (account, packId) => {
+	const name = "pack/open_pack_id";
 	const signers = [account];
 	const args = [packId];
 
@@ -93,6 +105,13 @@ export const openPack = async (account, packId) => {
 
 export const getCollectionIds = async (address) => {
 	const name = "pack/get_collection_ids";
+	const args = [address];
+
+	return executeScriptWithErrorRaised({ name, args });
+};
+
+export const getReleaseIds = async (address) => {
+	const name = "pack/get_release_ids";
 	const args = [address];
 
 	return executeScriptWithErrorRaised({ name, args });
