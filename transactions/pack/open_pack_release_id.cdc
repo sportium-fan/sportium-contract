@@ -1,7 +1,7 @@
 import Pack from "../../contracts/Pack.cdc"
 import Moments from "../../contracts/Moments.cdc"
 
-transaction(packId: UInt64) {
+transaction(releaseId: UInt64) {
 	let packCollection: &Pack.Collection
 	let momentsCollection: &Moments.Collection
 
@@ -13,7 +13,7 @@ transaction(packId: UInt64) {
     }
 
 	execute {
-		let pack <- self.packCollection.withdraw(withdrawID: packId) 
+		let pack <- self.packCollection.withdrawReleaseId(releaseId: releaseId)
 
 		let moments <- pack.openPacks()
 		destroy pack

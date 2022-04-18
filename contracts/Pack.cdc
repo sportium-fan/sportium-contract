@@ -19,8 +19,8 @@ pub contract Pack {
     pub event BuyPack(packId: UInt64, price: UFix64)
     pub event OpenPack(packId: UInt64, momentsIds: [UInt64], address: Address?)
 
-    pub event Deposit(id: UInt64, to: Address?)
-    pub event Withdraw(id: UInt64, from: Address?)
+    pub event Deposit(releaseId: UInt64, id: UInt64, to: Address?)
+    pub event Withdraw(releaseId: UInt64, id: UInt64, from: Address?)
  
     pub resource Token {
         pub let id: UInt64
@@ -63,29 +63,97 @@ pub contract Pack {
 
     pub resource interface PackCollectionPublic {
         pub fun getIds(): [UInt64]
+        pub fun getReleaseIds(): [UInt64]
         pub fun deposit(token: @Pack.Token)
     }
     
     pub resource Collection: PackCollectionPublic {
-        pub var ownedPacks: @{UInt64: Pack.Token}
+        // releaseId: [pack]
+        pub var ownedPacks: @{UInt64: [Pack.Token]}
 
         pub fun getIds(): [UInt64] {
-            return self.ownedPacks.keys
+            let ids: [UInt64] = []
+
+            for key in self.ownedPacks.keys {
+                let ownedPack = &self.ownedPacks[key] as? &[Pack.Token]
+
+                var i = 0;
+                while i < ownedPack.length {
+                    ids.append(ownedPack[i].id)
+                    i = i + 1
+                }
+            }
+
+            return ids
         }
 
-        pub fun withdraw(withdrawID: UInt64): @Pack.Token {
-            let token <- self.ownedPacks.remove(key: withdrawID) ?? panic("missing Pack")
+        pub fun getReleaseIds(): [UInt64] {
+            let releaseIds: [UInt64] = []
 
-            emit Withdraw(id: token.id, from: self.owner?.address)
+            for key in self.ownedPacks.keys {
+                let ownedPack = &self.ownedPacks[key] as? &[Pack.Token]
+
+                if ownedPack.length > 0 {
+                    releaseIds.append(key)
+                }
+            }
+
+            return releaseIds
+        }
+
+        pub fun withdrawReleaseId(releaseId: UInt64): @Pack.Token {
+            let tokenList <- self.ownedPacks.remove(key: releaseId) ?? panic("missing Pack")
+
+            if tokenList.length == 0 {
+                self.ownedPacks[releaseId] <-! tokenList
+                return panic("Not enough Pack releaseId: ".concat(releaseId.toString()))
+            }
+
+            let token <- tokenList.remove(at: 0)
+            self.ownedPacks[releaseId] <-! tokenList
+
+            emit Withdraw(releaseId: releaseId, id: token.id, from: self.owner?.address)
             return <- token
+        }
+
+        pub fun withdraw(id: UInt64): @Pack.Token {
+            for key in self.ownedPacks.keys {
+                let tokenList <- self.ownedPacks.remove(key: key) ?? panic("missing Pack")
+
+                if tokenList.length > 0 {
+                    var i = 0
+                    while i < tokenList.length {
+                        let token = &tokenList[i] as? &Pack.Token
+                        if token.id == id {
+                            let token <- tokenList.remove(at: i)
+                            self.ownedPacks[id] <-! tokenList
+                            emit Withdraw(releaseId: token.releaseId, id: token.id, from: self.owner?.address)
+                            return <- token
+                        }
+                        i = i + 1
+                    }
+                    self.ownedPacks[id] <-! tokenList 
+                } else {
+                    destroy tokenList
+                }
+            }
+
+            return panic("Not found id: ".concat(id.toString()))
         }
 
         pub fun deposit(token: @Pack.Token) {
             let id: UInt64 = token.id
+            let releaseId = token.releaseId
 
-            self.ownedPacks[id] <-! token
+            if self.ownedPacks[releaseId] == nil {
+                self.ownedPacks[releaseId] <-! [<- token]
+            } else {
+                let packList <- self.ownedPacks.remove(key: releaseId) ?? panic("unreachable")
+                packList.append(<- token)
+                self.ownedPacks[releaseId] <-! packList
+            }
 
-            emit Deposit(id: id, to: self.owner?.address)
+            emit Deposit(releaseId: releaseId, id: id, to: self.owner?.address)
         }
 
         destroy() {
