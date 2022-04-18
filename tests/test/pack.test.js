@@ -1,10 +1,11 @@
 import path from "path";
 import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
 
-import { getElvnAdminAddress } from "../src/common";
+import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import {
 	addItem,
 	buyPack,
+	buyPackPaymentByFUSD,
 	deployPack,
 	getCollectionIds,
 	getMomentsListRemainingCount,
@@ -16,6 +17,8 @@ import {
 } from "../src/pack";
 import { getMomentIds, mintMoment, setupMomentsOnAccount } from "../src/moments";
 import { mintElvn, setupElvnOnAccount } from "../src/elvn";
+import { deployFUSD, mintFUSD, setupFUSDOnAccount } from "../src/fusd";
+import { deployTreasury, depositElvn } from "../src/treasury";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(50000);
@@ -57,7 +60,7 @@ describe("Pack", () => {
 		await setupMomentsOnAccount(Alice);
 
 		const releaseId = 1;
-		const packPrice = 100;
+		const packPrice = toUFix64(100);
 		const momentsPerCount = 1;
 
 		const packId = await mintPackToken({
@@ -78,7 +81,7 @@ describe("Pack", () => {
 		await setupPackAccount(ElvnAdmin);
 
 		const releaseId = 1;
-		const packPrice = 100;
+		const packPrice = toUFix64(100);
 		const momentsPerCount = 1;
 
 		const packId = await mintPackToken({
@@ -102,7 +105,7 @@ describe("Pack", () => {
 		expect(momentsListRemainingCount).toEqual(1);
 
 		const price = await getPackPrice(releaseId);
-		expect(price).toEqual(packPrice.toFixed(8));
+		expect(price).toEqual(packPrice);
 	});
 
 	it("shall be able buy pack token", async () => {
@@ -112,7 +115,7 @@ describe("Pack", () => {
 		await setupPackAccount(ElvnAdmin);
 
 		const releaseId = 1;
-		const packPrice = 100;
+		const packPrice = toUFix64(100);
 		const momentsPerCount = 1;
 
 		const packId = await mintPackToken({
@@ -133,9 +136,56 @@ describe("Pack", () => {
 		await setupMomentsOnAccount(Alice);
 		await setupPackAccount(Alice);
 		await setupElvnOnAccount(Alice);
-		await mintElvn(Alice, 100);
+		await mintElvn(Alice, toUFix64(100));
 
 		await buyPack(Alice, releaseId);
+		const packIds = await getCollectionIds(Alice);
+		expect(packIds).toEqual([packId]);
+
+		const resultPackRemainingCount = await getPackRemainingCount(releaseId);
+		expect(resultPackRemainingCount).toEqual(0);
+
+		const resultMomentListRemainingCount = await getMomentsListRemainingCount(releaseId);
+		expect(resultMomentListRemainingCount).toEqual(1);
+	});
+
+	it("shall be able buy pack token, payment by FUSD", async () => {
+		await deployPack();
+		await deployTreasury();
+
+		const ElvnAdmin = await getElvnAdminAddress();
+		await setupMomentsOnAccount(ElvnAdmin);
+		await setupPackAccount(ElvnAdmin);
+
+		await mintElvn(ElvnAdmin, toUFix64(100));
+		await depositElvn(ElvnAdmin, toUFix64(100));
+
+		const releaseId = 1;
+		const packPrice = toUFix64(100);
+		const momentsPerCount = 1;
+
+		const packId = await mintPackToken({
+			packRecipient: ElvnAdmin,
+			packAddress: ElvnAdmin,
+			releaseId,
+			packPrice,
+			momentsPerCount,
+		});
+		const momentId = await mintMomentToken({
+			momentRecipient: ElvnAdmin,
+			momentAddress: ElvnAdmin,
+		});
+
+		await addItem(packId, [momentId]);
+
+		const Alice = await getAccountAddress("Alice");
+		await setupMomentsOnAccount(Alice);
+		await setupPackAccount(Alice);
+		await setupElvnOnAccount(Alice);
+		await setupFUSDOnAccount(Alice);
+		await mintFUSD(Alice, toUFix64(100));
+
+		await buyPackPaymentByFUSD(Alice, releaseId);
 		const packIds = await getCollectionIds(Alice);
 		expect(packIds).toEqual([packId]);
 

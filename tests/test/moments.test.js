@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
+import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
 
 import { getElvnAdminAddress } from "../src/common";
 import {

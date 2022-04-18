@@ -23,9 +23,9 @@ export const deployTreasury = async () => {
 	const ElvnAdmin = await getElvnAdminAddress();
 	await mintFlow(ElvnAdmin, "10.0");
 
-	await deployFUSD();
-	await deployElvn();
-	await deployElvnFeeTreasury();
+	await deployFUSD().catch((_) => {});
+	await deployElvn().catch((_) => {});
+	await deployElvnFeeTreasury().catch((_) => {});
 
 	const addressMap = {
 		FUSD: ElvnAdmin,

@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass, shallRevert } from "flow-js-testing";
+import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import { deployElvn, getElvnSupply, setupElvnOnAccount, getElvnBalance, mintElvn, transferElvn } from "../src/elvn";
