@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.openPack = void 0;
-exports.openPack = `import Pack from 0xPack
+export const openPackReleaseId = `import Pack from 0xPack
 import Moments from 0xMoments
 
-transaction(packId: UInt64) {
+transaction(releaseId: UInt64) {
 	let packCollection: &Pack.Collection
 	let momentsCollection: &Moments.Collection
 
@@ -16,7 +13,7 @@ transaction(packId: UInt64) {
     }
 
 	execute {
-		let pack <- self.packCollection.withdraw(withdrawID: packId) 
+		let pack <- self.packCollection.withdrawReleaseId(releaseId: releaseId)
 
 		let moments <- pack.openPacks()
 		destroy pack

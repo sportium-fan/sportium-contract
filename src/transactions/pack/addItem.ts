@@ -1,7 +1,7 @@
 export const addItem = `import Pack from 0xPack
 import Moments from 0xMoments
 
-transaction(packId: UInt64, momentsIds: [UInt64]) {
+transaction(releaseId: UInt64, momentsIds: [UInt64]) {
     let admin: &Pack.Administrator
 
     let packCollectionRef: &Pack.Collection
@@ -27,7 +27,7 @@ transaction(packId: UInt64, momentsIds: [UInt64]) {
             let moments <- self.momentsCollectionRef.withdraw(withdrawID: id) as! @Moments.NFT
             momentsList.append(<- moments)
         }
-		let pack <- self.packCollectionRef.withdraw(withdrawID: packId)
+		let pack <- self.packCollectionRef.withdrawReleaseId(releaseId: releaseId)
 
 		self.admin.addItem(pack: <-pack, momentsList: <-momentsList)
     }

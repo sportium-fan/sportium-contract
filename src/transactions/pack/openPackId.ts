@@ -1,4 +1,4 @@
-export const openPack = `import Pack from 0xPack
+export const openPackId = `import Pack from 0xPack
 import Moments from 0xMoments
 
 transaction(packId: UInt64) {
@@ -13,7 +13,7 @@ transaction(packId: UInt64) {
     }
 
 	execute {
-		let pack <- self.packCollection.withdraw(withdrawID: packId) 
+		let pack <- self.packCollection.withdraw(id: packId)
 
 		let moments <- pack.openPacks()
 		destroy pack
