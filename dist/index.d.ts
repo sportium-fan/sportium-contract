@@ -14,6 +14,7 @@ export { setupAccount as momentsSetupAccount } from "./transactions/moments/setu
 export { transferMoment as momentsTransferMoment } from "./transactions/moments/transferMoment";
 export { addItem as packAddItem } from "./transactions/pack/addItem";
 export { buyPack as packBuyPack } from "./transactions/pack/buyPack";
+export { buyPackPaymentByFusd as packBuyPackPaymentByFusd } from "./transactions/pack/buyPackPaymentByFusd";
 export { mintToken as packMintToken } from "./transactions/pack/mintToken";
 export { openPack as packOpenPack } from "./transactions/pack/openPack";
 export { setupAccount as packSetupAccount } from "./transactions/pack/setupAccount";

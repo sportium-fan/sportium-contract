@@ -1,31 +1,22 @@
 export const setupAccount = `import FungibleToken from 0xFungibleToken
+
 import FUSD from 0xFUSD
 
 transaction {
+  prepare(account: AuthAccount) {
+      if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
+        account.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
 
-  prepare(signer: AuthAccount) {
+        account.link<&FUSD.Vault{FungibleToken.Receiver}>(
+          /public/fusdReceiver,
+          target: /storage/fusdVault
+        )
 
-    // It's OK if the account already has a Vault, but we don't want to replace it
-    if(signer.borrow<&FUSD.Vault>(from: /storage/fusdVault) != nil) {
-      return
+        account.link<&FUSD.Vault{FungibleToken.Balance}>(
+          /public/fusdBalance,
+          target: /storage/fusdVault
+        )
     }
-  
-    // Create a new FUSD Vault and put it in storage
-    signer.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
-
-    // Create a public capability to the Vault that only exposes
-    // the deposit function through the Receiver interface
-    signer.link<&FUSD.Vault{FungibleToken.Receiver}>(
-      /public/fusdReceiver,
-      target: /storage/fusdVault
-    )
-
-    // Create a public capability to the Vault that only exposes
-    // the balance field through the Balance interface
-    signer.link<&FUSD.Vault{FungibleToken.Balance}>(
-      /public/fusdBalance,
-      target: /storage/fusdVault
-    )
   }
 }
 `;

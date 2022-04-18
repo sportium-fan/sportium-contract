@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mintTokens = void 0;
 exports.mintTokens = `import FungibleToken from 0xFungibleToken
+
 import FUSD from 0xFUSD
 
 transaction(recipient: Address, amount: UFix64) {

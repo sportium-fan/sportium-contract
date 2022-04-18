@@ -1,4 +1,5 @@
 export const mintTokens = `import FungibleToken from 0xFungibleToken
+
 import FUSD from 0xFUSD
 
 transaction(recipient: Address, amount: UFix64) {
