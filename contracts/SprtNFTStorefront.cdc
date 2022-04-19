@@ -72,6 +72,7 @@ pub contract SprtNFTStorefront {
     //
     pub event ListingCompleted(
         listingResourceID: UInt64,
+        storefrontAddress: Address?,
         storefrontResourceID: UInt64,
         purchased: Bool,
         nftType: Type,
@@ -291,6 +292,7 @@ pub contract SprtNFTStorefront {
             // Otherwise we regard it as completed in the destructor.
             emit ListingCompleted(
                 listingResourceID: self.uuid,
+                storefrontAddress: SprtNFTStorefront.addressMap[self.details.storefrontID],
                 storefrontResourceID: self.details.storefrontID,
                 purchased: self.details.purchased,
                 nftType: self.details.nftType,
@@ -312,6 +314,7 @@ pub contract SprtNFTStorefront {
             if !self.details.purchased {
                 emit ListingCompleted(
                     listingResourceID: self.uuid,
+                    storefrontAddress: SprtNFTStorefront.addressMap[self.details.storefrontID],
                     storefrontResourceID: self.details.storefrontID,
                     purchased: self.details.purchased,
                     nftType: self.details.nftType,
