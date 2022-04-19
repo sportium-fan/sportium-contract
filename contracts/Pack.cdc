@@ -38,7 +38,7 @@ pub contract Pack {
             let momentsListLength = Pack.getMomentsListRemainingCount(releaseId: self.releaseId)
             let randomIndex = unsafeRandom() % UInt64(momentsListLength)
 
-            let momentsListCandidate <- Pack.momentsListCandidate.remove(key: self.releaseId) ?? panic("unreachable")
+            let momentsListCandidate <- Pack.momentsListCandidate.remove(key: self.releaseId)!
             let momentsList <- momentsListCandidate.remove(at: randomIndex)
             
             Pack.momentsListCandidate[self.releaseId] <-! momentsListCandidate
@@ -148,7 +148,7 @@ pub contract Pack {
             if self.ownedPacks[releaseId] == nil {
                 self.ownedPacks[releaseId] <-! [<- token]
             } else {
-                let packList <- self.ownedPacks.remove(key: releaseId) ?? panic("unreachable")
+                let packList <- self.ownedPacks.remove(key: releaseId)!
                 packList.append(<- token)
                 self.ownedPacks[releaseId] <-! packList
             }
@@ -228,7 +228,7 @@ pub contract Pack {
         let balance = vault.balance
         self.vault.deposit(from: <- vault)
 
-        let salePacks <- self.salePacks.remove(key: releaseId) ?? panic("unreachable")
+        let salePacks <- self.salePacks.remove(key: releaseId)!
         let pack <- salePacks.remove(at: 0)
         self.salePacks[releaseId] <-! salePacks
 
@@ -247,7 +247,7 @@ pub contract Pack {
                 let packs: @[Pack.Token] <- [<- pack]
                 Pack.salePacks[releaseId] <-! packs
             } else {
-                let packs <- Pack.salePacks.remove(key: releaseId) ?? panic("unreachable")
+                let packs <- Pack.salePacks.remove(key: releaseId)!
                 packs.append(<- pack)
                 Pack.salePacks[releaseId] <-! packs
             }
@@ -256,7 +256,7 @@ pub contract Pack {
                 let moments: @[[Moments.NFT]] <- [<- momentsList]
                 Pack.momentsListCandidate[releaseId] <-! moments
             } else {
-                let moments <- Pack.momentsListCandidate.remove(key: releaseId) ?? panic("unreachable")
+                let moments <- Pack.momentsListCandidate.remove(key: releaseId)!
                 moments.append(<- momentsList)
                 Pack.momentsListCandidate[releaseId] <-! moments
             }
