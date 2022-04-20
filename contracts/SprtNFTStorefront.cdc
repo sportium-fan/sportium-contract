@@ -496,7 +496,32 @@ pub contract SprtNFTStorefront {
 
             let listing <- self.listings.remove(key: listingResourceID)!
             assert(listing.getDetails().purchased == true, message: "listing is not purchased, only admin can remove")
+
+            for key in self.listings.keys {
+                let otherListing = &self.listings[key] as! &Listing{ListingPublic}
+
+                if self.cmpNFT(listing: &listing as &Listing{ListingPublic}, listing2: otherListing) {
+                    let listing <- self.listings.remove(key: key)
+                    destroy listing
+                }
+            }
+
             destroy listing
+        }
+
+        pub fun cmpNFT(listing: &Listing{ListingPublic}, listing2: &Listing{ListingPublic}): Bool {
+            let listingDetails = listing.getDetails()
+            let listingDetails2 = listing2.getDetails()
+
+            if listingDetails.nftType != listingDetails2.nftType {
+                return false
+            }
+
+            if listingDetails.nftID != listingDetails2.nftID {
+                return false
+            }
+
+            return true
         }
 
         pub fun saveAddress() {
