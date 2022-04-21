@@ -13,6 +13,8 @@ export { mintMoment as momentsMintMoment } from "./transactions/moments/mintMome
 export { setupAccount as momentsSetupAccount } from "./transactions/moments/setupAccount";
 export { transferMoment as momentsTransferMoment } from "./transactions/moments/transferMoment";
 export { addItem as packAddItem } from "./transactions/pack/addItem";
+export { batchAddItem as packBatchAddItem } from "./transactions/pack/batchAddItem";
+export { batchMintToken as packBatchMintToken } from "./transactions/pack/batchMintToken";
 export { buyPack as packBuyPack } from "./transactions/pack/buyPack";
 export { buyPackPaymentByFusd as packBuyPackPaymentByFusd } from "./transactions/pack/buyPackPaymentByFusd";
 export { mintToken as packMintToken } from "./transactions/pack/mintToken";
@@ -24,6 +26,7 @@ export { depositFusd as packPurchaseTreasuryDepositFusd } from "./transactions/p
 export { transferTokens as sportiumTokenTransferTokens } from "./transactions/sportiumToken/transferTokens";
 export { cleanupListing as sprtNftStorefrontCleanupListing } from "./transactions/sprtNftStorefront/cleanupListing";
 export { createListing as sprtNftStorefrontCreateListing } from "./transactions/sprtNftStorefront/createListing";
+export { destroyStorage as sprtNftStorefrontDestroyStorage } from "./transactions/sprtNftStorefront/destroyStorage";
 export { purchaseListing as sprtNftStorefrontPurchaseListing } from "./transactions/sprtNftStorefront/purchaseListing";
 export { purchaseListingPaymentByFusd as sprtNftStorefrontPurchaseListingPaymentByFusd } from "./transactions/sprtNftStorefront/purchaseListingPaymentByFusd";
 export { removeListing as sprtNftStorefrontRemoveListing } from "./transactions/sprtNftStorefront/removeListing";
