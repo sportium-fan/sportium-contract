@@ -17,6 +17,7 @@ export { batchAddItem as packBatchAddItem } from "./transactions/pack/batchAddIt
 export { batchMintToken as packBatchMintToken } from "./transactions/pack/batchMintToken";
 export { buyPack as packBuyPack } from "./transactions/pack/buyPack";
 export { buyPackPaymentByFusd as packBuyPackPaymentByFusd } from "./transactions/pack/buyPackPaymentByFusd";
+export { destroyStorage as packDestroyStorage } from "./transactions/pack/destroyStorage";
 export { mintToken as packMintToken } from "./transactions/pack/mintToken";
 export { openPackId as packOpenPackId } from "./transactions/pack/openPackId";
 export { openPackReleaseId as packOpenPackReleaseId } from "./transactions/pack/openPackReleaseId";

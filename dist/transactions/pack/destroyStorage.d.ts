@@ -1,0 +1,1 @@
+export declare const destroyStorage = "\nimport Pack from 0xPack\n\ntransaction {\n    prepare(account: AuthAccount) {\n\t\t  let storefront <- account\n        .load<@Pack.Token>(from: Pack.CollectionStoragePath)\n        ?? panic(\"Not Found Pack.Storefront Resource\")\n\n      destroy storefront\n    }\n}\n";
