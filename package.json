@@ -1,6 +1,6 @@
 {
   "name": "sportium-contract",
-  "version": "0.22.0",
+  "version": "0.22.0-alpha",
   "repository": "git@github.com:sportium-fan/sportium-contract.git",
   "author": "Jiseok CHOI <jiseok.dev@gmail.com>",
   "license": "MIT",
