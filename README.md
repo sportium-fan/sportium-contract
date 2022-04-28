@@ -17,6 +17,8 @@
 | FUSD| 0x3c5959b568896393  |
 | FlowSwapPair|  [0xc6c77b9f5c7a378f](https://flowscan.org/contract/A.c6c77b9f5c7a378f.FlowSwapPair)   |
 | FusdUsdtSwapPair|  [0x87f3f233f34b0733](https://flowscan.org/contract/A.87f3f233f34b0733.FusdUsdtSwapPair)   |
+| TeleportedSportiumToken | TODO |
+| SprtUsdtSwapPair| 0x60e1db11f37ac469 |
 
 ## TestNet Contract Address
 
@@ -36,6 +38,7 @@
 | FlowSwapPair|  [0xd9854329b7edf136](https://testnet.flowscan.org/contract/A.d9854329b7edf136.FlowSwapPair)     |
 | FusdUsdtSwapPair|  [0x3502a5dacaf350bb](https://testnet.flowscan.org/contract/A.3502a5dacaf350bb.FusdUsdtSwapPair)     |
 | TeleportedSportiumToken| [0xb097866d87d01550](https://testnet.flowscan.org/contract/A.b097866d87d01550.TeleportedSportiumToken) |
+| SprtUsdtSwapPair| 0x0f5be7fc963db41b |
 
 ## How to get fusd fungible token in testnet for testnet blocto wallet users
 
