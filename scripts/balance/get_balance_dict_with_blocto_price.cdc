@@ -6,6 +6,7 @@ import FUSD from "../../contracts/FUSD.cdc"
 import FlowToken from "../../contracts/FlowToken.cdc"
 import FlowSwapPair from "../../contracts/FlowSwapPair.cdc"
 import TeleportedSportiumToken from "../../contracts/TeleportedSportiumToken.cdc"
+import SprtUsdtSwapPair from "../../contracts/SprtUsdtSwapPair.cdc"
 
 pub fun main(address: Address): {String: UFix64} {
     let account = getAccount(address)
@@ -30,11 +31,16 @@ pub fun main(address: Address): {String: UFix64} {
         amount: 1.0 * (1.0 - FlowSwapPair.feePercentage)
     )
 
+    let sprtUsdtPairQuote = SprtUsdtSwapPair.quoteSwapExactToken1ForToken2(
+        amount: 1.0 * (1.0 - SprtUsdtSwapPair.feePercentage)
+    )
+
     return {
         "elvn": elvnRef.balance,
         "fusd": fusdRef.balance,
         "flow": flowRef.balance,
         "sportium": sportiumRef.balance,
-        "bloctoSwapFlowFUSDPairPrice": flowFUSDPairQuote
+        "bloctoSwapFlowFUSDPairPrice": flowFUSDPairQuote,
+        "bloctoSwapSprtUsdtPairPrice": sprtUsdtPairQuote
     }
 }
