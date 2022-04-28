@@ -102,7 +102,7 @@ pub contract Pack {
         }
 
         pub fun withdrawReleaseId(releaseId: UInt64): @Pack.Token {
-            let tokenList <- self.ownedPacks.remove(key: releaseId) ?? panic("missing Pack")
+            let tokenList <- self.ownedPacks.remove(key: releaseId) ?? panic("missing Pack releaseId: ".concat(releaseId.toString()))
 
             if tokenList.length == 0 {
                 self.ownedPacks[releaseId] <-! tokenList
@@ -118,7 +118,7 @@ pub contract Pack {
 
         pub fun withdraw(id: UInt64): @Pack.Token {
             for key in self.ownedPacks.keys {
-                let tokenList <- self.ownedPacks.remove(key: key) ?? panic("missing Pack")
+                let tokenList <- self.ownedPacks.remove(key: key)!
 
                 if tokenList.length > 0 {
                     var i = 0
