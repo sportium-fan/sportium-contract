@@ -32,7 +32,8 @@
     "SprtNFTStorefront": "./contracts/SprtNFTStorefront.cdc",
     "ElvnFeeTreasury": "./contracts/ElvnFeeTreasury.cdc",
     "Pack": "./contracts/Pack.cdc",
-    "TeleportedSportiumToken": "./contracts/TeleportedSportiumToken.cdc"
+    "TeleportedSportiumToken": "./contracts/TeleportedSportiumToken.cdc",
+    "AirdropElvn": "./contracts/AirdropElvn.cdc"
   },
   "networks": {
     "emulator": "127.0.0.1:3569"
@@ -55,7 +56,8 @@
         "SprtNFTStorefront",
         "ElvnFeeTreasury",
         "Pack",
-        "TeleportedSportiumToken"
+        "TeleportedSportiumToken",
+        "AirdropElvn"
       ]
     }
   }
