@@ -1,4 +1,7 @@
 export { initializeAccount as accountInitializeAccount } from "./transactions/account/initializeAccount";
+export { initializeAccountWithAirdrop as accountInitializeAccountWithAirdrop } from "./transactions/account/initializeAccountWithAirdrop";
+export { destroy as airdropDestroy } from "./transactions/airdrop/destroy";
+export { mintWithDeopsit as airdropMintWithDeopsit } from "./transactions/airdrop/mintWithDeopsit";
 export { mintTokens as elvnMintTokens } from "./transactions/elvn/mintTokens";
 export { setupAccount as elvnSetupAccount } from "./transactions/elvn/setupAccount";
 export { transferTokens as elvnTransferTokens } from "./transactions/elvn/transferTokens";
