@@ -18,8 +18,8 @@ import {
 	setupPackAccount,
 } from "../src/pack";
 import { getMomentIds, mintMoment, setupMomentsOnAccount } from "../src/moments";
-import { mintElvn, setupElvnOnAccount } from "../src/elvn";
-import { mintFUSD, setupFUSDOnAccount } from "../src/fusd";
+import { getElvnBalance, mintElvn, setupElvnOnAccount } from "../src/elvn";
+import { getFUSDBalance, mintFUSD, setupFUSDOnAccount } from "../src/fusd";
 import { deployTreasury, depositElvn } from "../src/treasury";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
@@ -139,8 +139,13 @@ describe("Pack", () => {
 		await setupPackAccount(Alice);
 		await setupElvnOnAccount(Alice);
 		await mintElvn(Alice, toUFix64(100));
+		let balance = await getElvnBalance(Alice);
+		expect(balance).toEqual(toUFix64(100));
 
 		await buyPack(Alice, releaseId);
+		balance = await getElvnBalance(Alice);
+		expect(balance).toEqual(toUFix64(0));
+
 		const releaseIds = await getReleaseIds(Alice);
 		expect(releaseIds).toEqual([releaseId]);
 		const packIds = await getCollectionIds(Alice);
@@ -188,8 +193,12 @@ describe("Pack", () => {
 		await setupElvnOnAccount(Alice);
 		await setupFUSDOnAccount(Alice);
 		await mintFUSD(Alice, toUFix64(100));
+		let balance = await getFUSDBalance(Alice);
+		expect(balance).toEqual(toUFix64(100));
 
 		await buyPackPaymentByFUSD(Alice, releaseId);
+		balance = await getFUSDBalance(Alice);
+		expect(balance).toEqual(toUFix64(0));
 		const releaseIds = await getReleaseIds(Alice);
 		expect(releaseIds).toEqual([releaseId]);
 		const packIds = await getCollectionIds(Alice);
