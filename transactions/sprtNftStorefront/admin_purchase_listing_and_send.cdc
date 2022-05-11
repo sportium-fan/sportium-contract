@@ -6,12 +6,17 @@ import Moments from "../../contracts/Moments.cdc"
 import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address, target: Address) {
-    let paymentVault: @FungibleToken.Vault
+    let tokenAdmin: &Elvn.Administrator
+
     let momentsCollection: &Moments.Collection{Moments.MomentsCollectionPublic}
     let storefront: &SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}
     let listing: &SprtNFTStorefront.Listing{SprtNFTStorefront.ListingPublic}
 
     prepare(account: AuthAccount) {
+		self.tokenAdmin = account
+ 	       .borrow<&Elvn.Administrator>(from: /storage/elvnAdmin)
+ 	       ?? panic("Signer is not the token admin")
+
         self.storefront = getAccount(storefrontAddress)
             .getCapability<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(
                 SprtNFTStorefront.StorefrontPublicPath
@@ -22,26 +27,25 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address, target: Addre
         self.listing = self.storefront.borrowListing(listingResourceID: listingResourceID)
             ?? panic("No Listing with that ID in Storefront")
         
-        let price = self.listing.getDetails().salePrice
-
-        let mainElvnVault = account.borrow<&Elvn.Vault>(from: /storage/elvnVault)
-            ?? panic("Cannot borrow Elvn vault from account storage")
-        
-        self.paymentVault <- mainElvnVault.withdraw(amount: price)
-
-        let account = getAccount(target)
-        self.momentsCollection = account.getCapability(Moments.CollectionPublicPath)
+        let target = getAccount(target)
+        self.momentsCollection = target.getCapability(Moments.CollectionPublicPath)
             .borrow<&Moments.Collection{Moments.MomentsCollectionPublic}>()
             ?? panic("Cannot borrow Moments collection from target account storage")
     }
 
     execute {
+        let price = self.listing.getDetails().salePrice
+        let minter <- self.tokenAdmin.createNewMinter(allowedAmount: price)
+		let vault <- minter.mintTokens(amount: price)
+
         let item <- self.listing.purchase(
-            payment: <-self.paymentVault
+            payment: <-vault
         )
 
         self.momentsCollection.deposit(token: <-item)
 
         self.storefront.cleanup(listingResourceID: listingResourceID)
+
+        destroy minter
     }
 }
