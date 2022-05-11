@@ -5,7 +5,7 @@ import Elvn from "./Elvn.cdc"
 pub contract AirdropElvn {
 	access(self) let vault: @Elvn.Vault
 	access(self) let whitelist: {Address: Bool}
-	pub let amount: UFix64
+	access(self) var amount: UFix64
 
     pub let AirdropStoragePath: StoragePath
 
@@ -24,6 +24,10 @@ pub contract AirdropElvn {
 		}
 	}
 
+	pub fun getAmmount(): UFix64 {
+		return self.amount
+	}
+
 	pub fun checkAidropReceived(address: Address): Bool {
 		return self.whitelist[address] != nil && self.whitelist[address] == true
 	}
@@ -39,6 +43,10 @@ pub contract AirdropElvn {
 
 		pub fun depositElvn(vault: @Elvn.Vault) {
 			AirdropElvn.vault.deposit(from: <- vault)
+		}
+
+		pub fun changeAirdropAmount(amount: UFix64) {
+			AirdropElvn.amount = amount
 		}
 	}
 
