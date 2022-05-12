@@ -60,7 +60,7 @@
 | FusdUsdtSwapPair|  [0x3502a5dacaf350bb](https://testnet.flowscan.org/contract/A.3502a5dacaf350bb.FusdUsdtSwapPair)     |
 | TeleportedSportiumToken| [0xb097866d87d01550](https://testnet.flowscan.org/contract/A.b097866d87d01550.TeleportedSportiumToken) |
 | SprtUsdtSwapPair| 0x0f5be7fc963db41b |
-| AirdropElvn| 0x3dc57172daf014b2|
+| AirdropElvn| 0x6b25360f8b812a88|
 
 ## How to get fusd fungible token in testnet for testnet blocto wallet users
 
