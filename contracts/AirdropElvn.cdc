@@ -59,6 +59,6 @@ pub contract AirdropElvn {
         let admin <- create Administrator()
         self.account.save(<-admin, to: /storage/sportiumAirdropElvnAdmin)
 
-		self.AirdropStoragePath = /storage/sportiumAirdropElvnForTestnet
+		self.AirdropStoragePath = /storage/sportiumAirdropElvnForTestnetAndCBT
 	}
 }
