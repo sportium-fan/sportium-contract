@@ -38,14 +38,12 @@ pub contract Pack {
             let momentsListLength = Pack.getMomentsListRemainingCount(releaseId: self.releaseId)
             let randomIndex = unsafeRandom() % UInt64(momentsListLength)
 
-            let momentsListCandidate <- Pack.momentsListCandidate.remove(key: self.releaseId)!
-            let momentsList <- momentsListCandidate.remove(at: randomIndex)
-            
-            Pack.momentsListCandidate[self.releaseId] <-! momentsListCandidate
+            let momentsListCandidateRef = &Pack.momentsListCandidate[self.releaseId] as &[[Moments.NFT]]
+            let momentsList <- momentsListCandidateRef.remove(at: randomIndex)
 
             let momentsIds: [UInt64] = []
             while momentsIds.length < momentsList.length {
-                let momentsRef = &momentsList[momentsIds.length] as? &Moments.NFT
+                let momentsRef = &momentsList[momentsIds.length] as &Moments.NFT
                 momentsIds.append(momentsRef.id)
             }
             emit OpenPack(packId: self.id, momentsIds: momentsIds, address: self.owner?.address)
@@ -75,7 +73,7 @@ pub contract Pack {
             let ids: [UInt64] = []
 
             for key in self.ownedPacks.keys {
-                let ownedPack = &self.ownedPacks[key] as? &[Pack.Token]
+                let ownedPack = &self.ownedPacks[key] as &[Pack.Token]
 
                 var i = 0;
                 while i < ownedPack.length {
@@ -91,7 +89,7 @@ pub contract Pack {
             let releaseIds: [UInt64] = []
 
             for key in self.ownedPacks.keys {
-                let ownedPack = &self.ownedPacks[key] as? &[Pack.Token]
+                let ownedPack = &self.ownedPacks[key] as &[Pack.Token]
 
                 if ownedPack.length > 0 {
                     releaseIds.append(key)
@@ -102,15 +100,17 @@ pub contract Pack {
         }
 
         pub fun withdrawReleaseId(releaseId: UInt64): @Pack.Token {
-            let tokenList <- self.ownedPacks.remove(key: releaseId) ?? panic("missing Pack releaseId: ".concat(releaseId.toString()))
+            pre {
+                self.ownedPacks[releaseId] != nil: "missing Pack releaseId: ".concat(releaseId.toString())
+            }
+ 
+            let tokenListRef = &self.ownedPacks[releaseId] as &[Pack.Token]
 
-            if tokenList.length == 0 {
-                self.ownedPacks[releaseId] <-! tokenList
+            if tokenListRef.length == 0 {
                 return panic("Not enough Pack releaseId: ".concat(releaseId.toString()))
             }
 
-            let token <- tokenList.remove(at: 0)
-            self.ownedPacks[releaseId] <-! tokenList
+            let token <- tokenListRef.remove(at: 0)
 
             emit Withdraw(releaseId: releaseId, id: token.id, from: self.owner?.address)
             return <- token
@@ -118,23 +118,19 @@ pub contract Pack {
 
         pub fun withdraw(id: UInt64): @Pack.Token {
             for key in self.ownedPacks.keys {
-                let tokenList <- self.ownedPacks.remove(key: key)!
+                let tokenList = &self.ownedPacks[key] as &[Pack.Token]
 
                 if tokenList.length > 0 {
                     var i = 0
                     while i < tokenList.length {
-                        let token = &tokenList[i] as? &Pack.Token
+                        let token = &tokenList[i] as &Pack.Token
                         if token.id == id {
                             let token <- tokenList.remove(at: i)
-                            self.ownedPacks[id] <-! tokenList
                             emit Withdraw(releaseId: token.releaseId, id: token.id, from: self.owner?.address)
                             return <- token
                         }
                         i = i + 1
                     }
-                    self.ownedPacks[id] <-! tokenList 
-                } else {
-                    destroy tokenList
                 }
             }
 
@@ -142,15 +138,14 @@ pub contract Pack {
         }
 
         pub fun deposit(token: @Pack.Token) {
-            let id: UInt64 = token.id
+            let id = token.id
             let releaseId = token.releaseId
 
             if self.ownedPacks[releaseId] == nil {
                 self.ownedPacks[releaseId] <-! [<- token]
             } else {
-                let packList <- self.ownedPacks.remove(key: releaseId)!
-                packList.append(<- token)
-                self.ownedPacks[releaseId] <-! packList
+                let packListRef = &self.ownedPacks[releaseId] as &[Pack.Token]
+                packListRef.append(<- token)
             }
 
             emit Deposit(releaseId: releaseId, id: id, to: self.owner?.address)
@@ -174,7 +169,7 @@ pub contract Pack {
             self.isPackExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
         }
 
-        let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
+        let packsRef = &self.salePacks[releaseId] as &[Pack.Token]
         return packsRef.length
     }
 
@@ -183,7 +178,7 @@ pub contract Pack {
             self.isPackExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
         }
 
-        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as? &[[Moments.NFT]]
+        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as &[[Moments.NFT]]
         return momentsListCandidateRef.length
     }
 
@@ -192,8 +187,8 @@ pub contract Pack {
             self.getMomentsListRemainingCount(releaseId: releaseId) > 0: "Not enough moments in Pack Contract"
         }
 
-        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as? &[[Moments.NFT]]
-        let momentsListRef = &momentsListCandidateRef[0] as? &[Moments.NFT]
+        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as &[[Moments.NFT]]
+        let momentsListRef = &momentsListCandidateRef[0] as &[Moments.NFT]
 
         return momentsListRef.length
     }
@@ -201,7 +196,7 @@ pub contract Pack {
     pub fun getOnSaleReleaseIds(): [UInt64] {
         let releaseIds: [UInt64] = []
         for releaseId in self.momentsListCandidate.keys {
-            let packsRef = &self.momentsListCandidate[releaseId] as? &[[Moments.NFT]]
+            let packsRef = &self.momentsListCandidate[releaseId] as &[[Moments.NFT]]
             if packsRef.length > 0 {
                 releaseIds.append(releaseId)
             }
@@ -215,8 +210,8 @@ pub contract Pack {
             self.getPackRemainingCount(releaseId: releaseId) > 0: "Sold out pack"
         }
 
-        let packsRef = &self.salePacks[releaseId] as? &[Pack.Token]
-        let packRef = &packsRef[0] as? &Pack.Token
+        let packsRef = &self.salePacks[releaseId] as &[Pack.Token]
+        let packRef = &packsRef[0] as &Pack.Token
         return packRef.price
     }
 
@@ -228,9 +223,8 @@ pub contract Pack {
         let balance = vault.balance
         self.vault.deposit(from: <- vault)
 
-        let salePacks <- self.salePacks.remove(key: releaseId)!
-        let pack <- salePacks.remove(at: 0)
-        self.salePacks[releaseId] <-! salePacks
+        let salePacksRef = &self.salePacks[releaseId] as &[Pack.Token]
+        let pack <- salePacksRef.remove(at: 0)
 
         emit BuyPack(packId: pack.id, price: pack.price)
         return <- pack
@@ -247,18 +241,16 @@ pub contract Pack {
                 let packs: @[Pack.Token] <- [<- pack]
                 Pack.salePacks[releaseId] <-! packs
             } else {
-                let packs <- Pack.salePacks.remove(key: releaseId)!
-                packs.append(<- pack)
-                Pack.salePacks[releaseId] <-! packs
+                let packsRef = &Pack.salePacks[releaseId] as &[Pack.Token]
+                packsRef.append(<- pack)
             }
 
             if Pack.momentsListCandidate[releaseId] == nil {
                 let moments: @[[Moments.NFT]] <- [<- momentsList]
                 Pack.momentsListCandidate[releaseId] <-! moments
             } else {
-                let moments <- Pack.momentsListCandidate.remove(key: releaseId)!
-                moments.append(<- momentsList)
-                Pack.momentsListCandidate[releaseId] <-! moments
+                let momentsRef = &Pack.momentsListCandidate[releaseId] as &[[Moments.NFT]]
+                momentsRef.append(<- momentsList)
             }
         }
 
