@@ -54,7 +54,7 @@ pub contract AirdropElvn {
 		self.vault <- Elvn.createEmptyVault() as! @Elvn.Vault
 		self.whitelist = {}
 
-		self.amount = 500.0
+		self.amount = 50.0
 
         let admin <- create Administrator()
         self.account.save(<-admin, to: /storage/sportiumAirdropElvnAdmin)
