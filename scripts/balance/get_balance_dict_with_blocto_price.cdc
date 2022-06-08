@@ -1,12 +1,13 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import FusdUsdtSwapPair from "../../contracts/FusdUsdtSwapPair.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+import FlowToken from "../../contracts/std/FlowToken.cdc"
+import FUSD from "../../contracts/std/FUSD.cdc"
 
-import Elvn from "../../contracts/Elvn.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
-import FlowToken from "../../contracts/FlowToken.cdc"
-import FlowSwapPair from "../../contracts/FlowSwapPair.cdc"
-import TeleportedSportiumToken from "../../contracts/TeleportedSportiumToken.cdc"
-import SprtUsdtSwapPair from "../../contracts/SprtUsdtSwapPair.cdc"
+import Elvn from "../../contracts/sprt/Elvn.cdc"
+
+import FusdUsdtSwapPair from "../../contracts/blocto/FusdUsdtSwapPair.cdc"
+import FlowSwapPair from "../../contracts/blocto/FlowSwapPair.cdc"
+import TeleportedSportiumToken from "../../contracts/blocto/TeleportedSportiumToken.cdc"
+import SprtUsdtSwapPair from "../../contracts/blocto/SprtUsdtSwapPair.cdc"
 
 pub fun main(address: Address): {String: UFix64} {
     let account = getAccount(address)

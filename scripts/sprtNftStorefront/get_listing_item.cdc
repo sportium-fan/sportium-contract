@@ -1,6 +1,7 @@
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
-import Moments from "../../contracts/Moments.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
+
+import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
+import Moments from "../../contracts/sprt/Moments.cdc"
 
 pub struct SaleItem {
     pub let itemID: UInt64

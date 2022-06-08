@@ -1,4 +1,4 @@
-import Pack from "../../contracts/Pack.cdc"
+import Pack from "../../contracts/sprt/Pack.cdc"
 
 pub fun main(target: Address): [UInt64] {
 	let collectionRef = getAccount(target)

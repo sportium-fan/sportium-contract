@@ -1,4 +1,4 @@
-import Moments from "../../contracts/Moments.cdc"
+import Moments from "../../contracts/sprt/Moments.cdc"
 
 // This scripts returns the number of Moments currently in existence.
 

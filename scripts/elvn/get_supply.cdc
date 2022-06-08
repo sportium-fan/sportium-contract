@@ -1,4 +1,4 @@
-import Elvn from "../../contracts/Elvn.cdc"
+import Elvn from "../../contracts/sprt/Elvn.cdc"
 
 // This script returns the total amount of Elvn currently in existence.
 

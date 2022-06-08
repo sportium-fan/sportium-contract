@@ -1,5 +1,6 @@
-import Elvn from "../../contracts/Elvn.cdc"
-import FungibleToken from "../../contracts/FungibleToken.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+
+import Elvn from "../../contracts/sprt/Elvn.cdc"
 
 // This script returns an account's Elvn balance.
 

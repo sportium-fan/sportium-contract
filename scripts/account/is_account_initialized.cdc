@@ -1,8 +1,9 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import Moments from "../../contracts/Moments.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+import FUSD from "../../contracts/std/FUSD.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
+
+import Moments from "../../contracts/sprt/Moments.cdc"
+import Elvn from "../../contracts/sprt/Elvn.cdc"
 
 pub fun hasFUSD(_ address: Address): Bool {
   let receiver: Bool = getAccount(address)

@@ -1,5 +1,6 @@
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import Moments from "../../contracts/Moments.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
+
+import Moments from "../../contracts/sprt/Moments.cdc"
 
 pub struct AccountItem {
   pub let itemID: UInt64

@@ -1,4 +1,4 @@
-import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
+import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
 
 // This script returns the number of NFTs for sale in a given account's storefront.
 
