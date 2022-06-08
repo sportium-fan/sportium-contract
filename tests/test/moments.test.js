@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
+import { emulator, init, getAccountAddress } from "flow-js-testing";
 
 import { getElvnAdminAddress } from "../src/common";
 import {
@@ -32,14 +32,14 @@ describe("Moments", () => {
 	});
 
 	it("shall deploy Moments contract", async () => {
-		await shallPass(deployMoments());
+		await deployMoments();
 	});
 
 	it("supply shall be 0 after contract is deployed", async () => {
 		// Setup
 		await deployMoments();
 		const ElvnAdmin = await getElvnAdminAddress();
-		await shallPass(setupMomentsOnAccount(ElvnAdmin));
+		await setupMomentsOnAccount(ElvnAdmin);
 
 		const supply = await getMomentSupply();
 		expect(supply).toBe(0);
@@ -88,9 +88,9 @@ describe("Moments", () => {
 		await setupMomentsOnAccount(Bob);
 
 		// Mint instruction for Alice account shall be resolved
-		await shallPass(mintMoment(Alice));
+		await mintMoment(Alice);
 
 		// Transfer transaction shall pass
-		await shallPass(transferMoment(Alice, Bob, 0));
+		await transferMoment(Alice, Bob, 0);
 	});
 });

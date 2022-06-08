@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
+import { emulator, init, getAccountAddress } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import { deployFUSD, mintFUSD, transferFUSD, setupFUSDOnAccount, getFUSDBalance } from "../src/fusd";
@@ -25,7 +25,7 @@ describe("FUSD", () => {
 	});
 
 	it("shall deploy FUSD contract", async () => {
-		await shallPass(deployFUSD());
+		await deployFUSD();
 	});
 
 	it("shall be able setup account", async () => {
@@ -65,7 +65,7 @@ describe("FUSD", () => {
 		const amount = toUFix64(50);
 
 		// Mint Elvn tokens for Alice
-		await shallPass(mintFUSD(Alice, amount));
+		await mintFUSD(Alice, amount);
 
 		// Check Elvn total supply and Alice's balance
 		// Check Alice balance to equal amount
@@ -109,7 +109,7 @@ describe("FUSD", () => {
 		await setupFUSDOnAccount(Alice);
 		await mintFUSD(ElvnAdmin, toUFix64(1000));
 
-		await shallPass(transferFUSD(ElvnAdmin, Alice, toUFix64(300)));
+		await transferFUSD(ElvnAdmin, Alice, toUFix64(300));
 
 		// Balances shall be updated
 		const ElvnAdminBalance = await getFUSDBalance(ElvnAdmin);

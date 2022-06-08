@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
+import { emulator, init, getAccountAddress } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import { getMomentCount, mintMoment, getMoment } from "../src/moments";
@@ -36,7 +36,7 @@ describe("NFT Storefront", () => {
 	});
 
 	it("shall deploy NFTStorefront contract", async () => {
-		await shallPass(deployNFTStorefront());
+		await deployNFTStorefront();
 	});
 
 	it("shall be able to create an empty Storefront", async () => {
@@ -44,7 +44,7 @@ describe("NFT Storefront", () => {
 		await deployNFTStorefront();
 		const Alice = await getAccountAddress("Alice");
 
-		await shallPass(setupStorefrontOnAccount(Alice));
+		await setupStorefrontOnAccount(Alice);
 	});
 
 	it("shall be able to create a listing", async () => {
@@ -54,11 +54,11 @@ describe("NFT Storefront", () => {
 		await setupStorefrontOnAccount(Alice);
 
 		// Mint Moment for Alice's account
-		await shallPass(mintMoment(Alice));
+		await mintMoment(Alice);
 
 		const itemID = 0;
 
-		await shallPass(createItemListing(Alice, itemID, toUFix64(1.11)));
+		await createItemListing(Alice, itemID, toUFix64(1.11));
 	});
 
 	it("shall be able to accept a listing", async () => {
@@ -76,15 +76,15 @@ describe("NFT Storefront", () => {
 		const Bob = await getAccountAddress("Bob");
 		await setupStorefrontOnAccount(Bob);
 
-		await shallPass(mintElvn(Bob, toUFix64(100)));
+		await mintElvn(Bob, toUFix64(100));
 
 		// Bob shall be able to buy from Alice
-		const createItemListingTransactionResult = await shallPass(createItemListing(Alice, itemId, toUFix64(1.11)));
+		const createItemListingTransactionResult = await createItemListing(Alice, itemId, toUFix64(1.11));
 
 		const listingAvailableEvent = createItemListingTransactionResult.events[0];
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
-		await shallPass(purchaseItemListing(Bob, listingResourceID, Alice));
+		await purchaseItemListing(Bob, listingResourceID, Alice);
 		const feeAmount = 0.10545;
 		await checkBalance(getFeeVaultBalance(), feeAmount);
 
@@ -115,14 +115,14 @@ describe("NFT Storefront", () => {
 		const Bob = await getAccountAddress("Bob");
 		await setupStorefrontOnAccount(Bob);
 
-		await shallPass(mintFUSD(Bob, toUFix64(100)));
+		await mintFUSD(Bob, toUFix64(100));
 
 		const createItemListingTransactionResult = await shallPass(createItemListing(Alice, itemId, toUFix64(1.11)));
 
 		const listingAvailableEvent = createItemListingTransactionResult.events[0];
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
-		await shallPass(purchaseItemListingPaymentByFUSD(Bob, listingResourceID, Alice));
+		await purchaseItemListingPaymentByFUSD(Bob, listingResourceID, Alice);
 		const feeAmount = 0.10545;
 		await checkBalance(getFeeVaultBalance(), feeAmount);
 
@@ -137,27 +137,27 @@ describe("NFT Storefront", () => {
 
 	it("shall be able to remove a listing", async () => {
 		// Deploy contracts
-		await shallPass(deployNFTStorefront());
+		await deployNFTStorefront();
 
 		// Setup Alice account
 		const Alice = await getAccountAddress("Alice");
-		await shallPass(setupStorefrontOnAccount(Alice));
+		await setupStorefrontOnAccount(Alice);
 
 		// Mint instruction shall pass
-		await shallPass(mintMoment(Alice));
+		await mintMoment(Alice);
 
 		const itemId = 0;
 
 		await getMoment(Alice, itemId);
 
 		// Listing item for sale shall pass
-		const createItemListingTransactionResult = await shallPass(createItemListing(Alice, itemId, toUFix64(1.11)));
+		const createItemListingTransactionResult = await createItemListing(Alice, itemId, toUFix64(1.11));
 
 		const listingAvailableEvent = createItemListingTransactionResult.events[0];
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
 		// Alice shall be able to remove item from sale
-		await shallPass(removeItemListing(Alice, listingResourceID));
+		await removeItemListing(Alice, listingResourceID);
 
 		const listingCount = await getListingCount(Alice);
 		expect(listingCount).toBe(0);

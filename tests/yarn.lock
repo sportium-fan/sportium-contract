@@ -1294,7 +1294,7 @@
   resolved "https://registry.npmjs.org/@onflow/fcl-config/-/fcl-config-0.0.1.tgz"
   integrity sha512-umvYsAwejX2yGJ5OFxM1dEaKmFEXf+34f4rJfVkfEYztgJqLkUbBkEB8HQsI8M78QUpWkWuNArqwbFvFerBbHA==
 
-"@onflow/fcl@0.0.77", "@onflow/fcl@^0.0.77":
+"@onflow/fcl@0.0.77":
   version "0.0.77"
   resolved "https://registry.npmjs.org/@onflow/fcl/-/fcl-0.0.77.tgz"
   integrity sha512-hgFW51Va29KwlzhDy6Fm15UesfXluRTR5RJn+zrm5d5HFfkquaxKOnMGT5waKVFn5u4THQIE6v+OnaDDchGNpg==
@@ -2903,26 +2903,29 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-flow-cadut@^0.1.15-alpha.12:
-  version "0.1.15-alpha.12"
-  resolved "https://registry.yarnpkg.com/flow-cadut/-/flow-cadut-0.1.15-alpha.12.tgz#490c0b2f3e14546147a3efdcf69705bb91aa7404"
-  integrity sha512-EBEC3N+G7bhW6c0b5WGfJE3ewQf5qCqLqyim7X36UuK2S9ybkMHFyfrQqDKTtPyhQpq4/lmi5ax/GG5ou843kA==
+flow-cadut@^0.1.15:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/flow-cadut/-/flow-cadut-0.1.15.tgz#cc34c130cb484c9d2bbb4b562fd0d88a81c6875f"
+  integrity sha512-77lFJvhTGckWtnX/BV25qfe0/wsFbmeBRrRGycWa0uzZeVJV1RSk4VmtGkwHfO32Ndi7Du+87SCV92JUegV/ig==
   dependencies:
     "@onflow/config" "0.0.2"
-    "@onflow/fcl" "^0.0.77"
+    "@onflow/fcl" "^0.0.78"
     "@onflow/types" "^0.0.6"
+    elliptic "^6.5.4"
     esm "^3.2.25"
     handlebars "^4.7.7"
     handlebars-loader "^1.7.1"
     prettier "^2.3.0"
     rimraf "^3.0.2"
+    rlp "^3.0.0"
+    sha3 "^2.1.4"
     simple-git "^2.40.0"
     yargs "^15.4.1"
 
-flow-js-testing@0.2.3-alpha.2:
-  version "0.2.3-alpha.2"
-  resolved "https://registry.yarnpkg.com/flow-js-testing/-/flow-js-testing-0.2.3-alpha.2.tgz#2281acbb0cd4ed560e227c6624d19e0cf8e9ea18"
-  integrity sha512-nfyylzAAXP2IOFgigaUXNa1MS+CvBMTjZzArSIUjDwqWGy//TXRHPu+okmBoMcWLGGgXUH28mc47NTyEYERZFA==
+flow-js-testing@0.2.3-alpha.6:
+  version "0.2.3-alpha.6"
+  resolved "https://registry.yarnpkg.com/flow-js-testing/-/flow-js-testing-0.2.3-alpha.6.tgz#2597a535066f30e68304160100b3dd1ecbe30e4b"
+  integrity sha512-RWgTVyYCKJdjA0HW57UeVp/c4fbwqyy1ms193Ts2BN14jMXjnFI1443n4inIRAvNzDPdtkA2eiZN6mjb/xvJgw==
   dependencies:
     "@onflow/config" "^0.0.2"
     "@onflow/fcl" "^0.0.78"
@@ -2930,7 +2933,7 @@ flow-js-testing@0.2.3-alpha.2:
     "@onflow/types" "^0.0.6"
     elliptic "^6.5.4"
     esm "^3.2.25"
-    flow-cadut "^0.1.15-alpha.12"
+    flow-cadut "^0.1.15"
     jest-environment-uint8array "^1.0.0"
     rimraf "^3.0.2"
     rlp "^2.2.6"
@@ -5385,6 +5388,11 @@ rlp@^2.2.6:
   integrity sha512-d5gdPmgQ0Z+AklL2NVXr/IoSjNZFfTVvQWzL/AM2AOcSzYP2xjlb0AC8YyCLc41MSNf6P6QVtjgPdmVtzb+4lQ==
   dependencies:
     bn.js "^5.2.0"
+
+rlp@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/rlp/-/rlp-3.0.0.tgz#5a60725ca4314a3a165feecca1836e4f2c1e2343"
+  integrity sha512-PD6U2PGk6Vq2spfgiWZdomLvRGDreBLxi5jv5M8EpRo3pU6VEm31KO+HFxE18Q3vgqfDrQ9pZA3FP95rkijNKw==
 
 rsvp@^4.8.4:
   version "4.8.5"

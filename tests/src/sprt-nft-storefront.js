@@ -1,8 +1,4 @@
-import {
-	sendTransactionWithErrorRaised,
-	executeScriptWithErrorRaised,
-	deployContractByNameWithErrorRaised,
-} from "./common";
+import { sendTransactionWithErrorRaised, executeScriptWithErrorRaised, deployContractWithErrorRaised } from "./common";
 import { getElvnAdminAddress } from "./common";
 import { setupElvnOnAccount } from "./elvn";
 import { setupFUSDOnAccount } from "./fusd";
@@ -29,7 +25,7 @@ export const deployNFTStorefront = async () => {
 		ElvnFeeTreasury: ElvnAdmin,
 	};
 
-	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "SprtNFTStorefront", addressMap });
+	return deployContractWithErrorRaised({ to: ElvnAdmin, name: "SprtNFTStorefront", addressMap });
 };
 
 /**

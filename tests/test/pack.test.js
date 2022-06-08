@@ -1,5 +1,5 @@
 import path from "path";
-import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
+import { emulator, init, getAccountAddress } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import {
@@ -42,7 +42,7 @@ describe("Pack", () => {
 	});
 
 	it("shall deploy Pack contract", async () => {
-		await shallPass(deployPack());
+		await deployPack();
 	});
 
 	it("shall be able setup account", async () => {
@@ -98,7 +98,7 @@ describe("Pack", () => {
 			momentAddress: ElvnAdmin,
 		});
 
-		await shallPass(addItem(releaseId, [momentsId]));
+		await addItem(releaseId, [momentsId]);
 
 		const packRemainingCount = await getPackRemainingCount(releaseId);
 		expect(packRemainingCount).toEqual(1);

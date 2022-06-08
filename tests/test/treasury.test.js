@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
+import { emulator, init, getAccountAddress } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import {
@@ -38,11 +38,11 @@ describe("FUSD-Elvn Treasury", () => {
 	});
 
 	it("shall deploy FUSD-Treasury contract", async () => {
-		await shallPass(deployTreasury());
+		await deployTreasury();
 	});
 
 	it("get vault balance", async () => {
-		await shallPass(deployTreasury());
+		await deployTreasury();
 
 		await checkVaultBalance({
 			elvnAmount: 0,
@@ -51,12 +51,12 @@ describe("FUSD-Elvn Treasury", () => {
 	});
 
 	it("deposit elvn", async () => {
-		await shallPass(deployTreasury());
+		await deployTreasury();
 
 		const Alice = await getAccountAddress("Alice");
-		await shallPass(setupElvnOnAccount(Alice));
+		await setupElvnOnAccount(Alice);
 
-		await shallPass(mintElvn(Alice, toUFix64(10)));
+		await mintElvn(Alice, toUFix64(10));
 		await checkBalance(getElvnBalance(Alice), 10);
 
 		await depositElvn(Alice, toUFix64(10));
@@ -69,12 +69,12 @@ describe("FUSD-Elvn Treasury", () => {
 	});
 
 	it("deposit fusd", async () => {
-		await shallPass(deployTreasury());
+		await deployTreasury();
 
 		const Alice = await getAccountAddress("Alice");
-		await shallPass(setupFUSDOnAccount(Alice));
+		await setupFUSDOnAccount(Alice);
 
-		await shallPass(mintFUSD(Alice, toUFix64(10)));
+		await mintFUSD(Alice, toUFix64(10));
 		await checkBalance(getFUSDBalance(Alice), 10);
 
 		await depositFUSD(Alice, toUFix64(10));
@@ -87,12 +87,12 @@ describe("FUSD-Elvn Treasury", () => {
 	});
 
 	it("withdraw elvn", async () => {
-		await shallPass(deployTreasury());
+		await deployTreasury();
 
 		const Alice = await getAccountAddress("Alice");
-		await shallPass(setupElvnOnAccount(Alice));
+		await setupElvnOnAccount(Alice);
 
-		await shallPass(mintElvn(Alice, toUFix64(10)));
+		await mintElvn(Alice, toUFix64(10));
 		await depositElvn(Alice, toUFix64(10));
 
 		await checkBalance(getElvnBalance(Alice), 0);
@@ -117,12 +117,12 @@ describe("FUSD-Elvn Treasury", () => {
 	});
 
 	it("withdraw fusd", async () => {
-		await shallPass(deployTreasury());
+		await deployTreasury();
 
 		const Alice = await getAccountAddress("Alice");
-		await shallPass(setupFUSDOnAccount(Alice));
+		await setupFUSDOnAccount(Alice);
 
-		await shallPass(mintFUSD(Alice, toUFix64(10)));
+		await mintFUSD(Alice, toUFix64(10));
 		await depositFUSD(Alice, toUFix64(10));
 
 		await checkBalance(getFUSDBalance(Alice), 0);
@@ -145,18 +145,18 @@ describe("FUSD-Elvn Treasury", () => {
 
 	it("swap fusd to elvn", async () => {
 		const setupAccount = async (account) => {
-			await shallPass(setupFUSDOnAccount(account));
-			await shallPass(setupElvnOnAccount(account));
+			await setupFUSDOnAccount(account);
+			await setupElvnOnAccount(account);
 		};
 
-		await shallPass(deployTreasury());
+		await deployTreasury();
 
 		const ElvnAdmin = await getElvnAdminAddress();
 		await setupAccount(ElvnAdmin);
 		const Alice = await getAccountAddress("Alice");
 		await setupAccount(Alice);
 
-		await shallPass(mintElvn(ElvnAdmin, toUFix64(10)));
+		await mintElvn(ElvnAdmin, toUFix64(10));
 		await checkBalance(getElvnBalance(ElvnAdmin), 10);
 
 		await depositElvn(ElvnAdmin, toUFix64(10));
@@ -165,7 +165,7 @@ describe("FUSD-Elvn Treasury", () => {
 			fusdAmount: 0,
 		});
 
-		await shallPass(mintFUSD(Alice, toUFix64(10)));
+		await mintFUSD(Alice, toUFix64(10));
 		await checkBalance(getFUSDBalance(Alice), 10);
 
 		await swapFUSDToElvn(Alice, toUFix64(10));
@@ -180,18 +180,18 @@ describe("FUSD-Elvn Treasury", () => {
 
 	it("swap elvn to fusd", async () => {
 		const setupAccount = async (account) => {
-			await shallPass(setupFUSDOnAccount(account));
-			await shallPass(setupElvnOnAccount(account));
+			await setupFUSDOnAccount(account);
+			await setupElvnOnAccount(account);
 		};
 
-		await shallPass(deployTreasury());
+		await deployTreasury();
 
 		const ElvnAdmin = await getElvnAdminAddress();
 		await setupAccount(ElvnAdmin);
 		const Alice = await getAccountAddress("Alice");
 		await setupAccount(Alice);
 
-		await shallPass(mintFUSD(ElvnAdmin, toUFix64(10)));
+		await mintFUSD(ElvnAdmin, toUFix64(10));
 		await checkBalance(getFUSDBalance(ElvnAdmin), 10);
 
 		await depositFUSD(ElvnAdmin, toUFix64(10));
@@ -200,7 +200,7 @@ describe("FUSD-Elvn Treasury", () => {
 			fusdAmount: 10,
 		});
 
-		await shallPass(mintElvn(Alice, toUFix64(10)));
+		await mintElvn(Alice, toUFix64(10));
 		await checkBalance(getElvnBalance(Alice), 10);
 
 		await swapElvnToFUSD(Alice, toUFix64(10));

@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
+import { emulator, init, getAccountAddress } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import { deployElvn, getElvnSupply, setupElvnOnAccount, getElvnBalance, mintElvn, transferElvn } from "../src/elvn";
@@ -25,7 +25,7 @@ describe("Elvn", () => {
 	});
 
 	it("shall deploy Elvn contract", async () => {
-		await shallPass(deployElvn());
+		await deployElvn();
 	});
 
 	it("shall be able setup account", async () => {
@@ -36,8 +36,7 @@ describe("Elvn", () => {
 	});
 
 	it("shall have initialized supply field correctly", async () => {
-		// Deploy contract
-		await shallPass(deployElvn());
+		await deployElvn();
 
 		const supply = await getElvnSupply();
 		expect(supply).toBe(toUFix64(0));
@@ -47,7 +46,7 @@ describe("Elvn", () => {
 		// Setup
 		await deployElvn();
 		const Alice = await getAccountAddress("Alice");
-		await shallPass(setupElvnOnAccount(Alice));
+		await setupElvnOnAccount(Alice);
 
 		const supply = await getElvnSupply();
 		const aliceBalance = await getElvnBalance(Alice);

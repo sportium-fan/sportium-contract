@@ -2,7 +2,7 @@ import { mintFlow } from "flow-js-testing";
 import {
 	sendTransactionWithErrorRaised,
 	executeScriptWithErrorRaised,
-	deployContractByNameWithErrorRaised,
+	deployContractWithErrorRaised,
 	getElvnAdminAddress,
 } from "./common";
 
@@ -15,10 +15,10 @@ export const deployMoments = async () => {
 	const ElvnAdmin = await getElvnAdminAddress();
 	await mintFlow(ElvnAdmin, "10.0");
 
-	await deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "NonFungibleToken" });
+	await deployContractWithErrorRaised({ to: ElvnAdmin, name: "NonFungibleToken" });
 
 	const addressMap = { NonFungibleToken: ElvnAdmin };
-	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "Moments", addressMap });
+	return deployContractWithErrorRaised({ to: ElvnAdmin, name: "Moments", addressMap });
 };
 
 /**

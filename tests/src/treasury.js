@@ -2,7 +2,7 @@ import { mintFlow } from "flow-js-testing";
 import {
 	sendTransactionWithErrorRaised,
 	executeScriptWithErrorRaised,
-	deployContractByNameWithErrorRaised,
+	deployContractWithErrorRaised,
 	getElvnAdminAddress,
 } from "./common";
 import { deployFUSD } from "./fusd";
@@ -16,7 +16,7 @@ export const deployElvnFeeTreasury = async () => {
 		NonFungibleToken: ElvnAdmin,
 	};
 
-	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "ElvnFeeTreasury", addressMap });
+	return deployContractWithErrorRaised({ to: ElvnAdmin, name: "ElvnFeeTreasury", addressMap });
 };
 
 export const deployTreasury = async () => {
@@ -33,7 +33,7 @@ export const deployTreasury = async () => {
 		ElvnFeeTreasury: ElvnAdmin,
 	};
 
-	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "ElvnFUSDTreasury", addressMap });
+	return deployContractWithErrorRaised({ to: ElvnAdmin, name: "ElvnFUSDTreasury", addressMap });
 };
 
 export const getVaultBalance = async () => {

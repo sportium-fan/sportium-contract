@@ -2,7 +2,7 @@ import { mintFlow } from "flow-js-testing";
 import {
 	sendTransactionWithErrorRaised,
 	executeScriptWithErrorRaised,
-	deployContractByNameWithErrorRaised,
+	deployContractWithErrorRaised,
 	getElvnAdminAddress,
 } from "./common";
 import { deployElvn } from "./elvn";
@@ -16,7 +16,7 @@ export const deployPack = async () => {
 	await deployElvn();
 
 	const addressMap = { Moments: ElvnAdmin, Elvn: ElvnAdmin };
-	return deployContractByNameWithErrorRaised({ to: ElvnAdmin, name: "Pack", addressMap });
+	return deployContractWithErrorRaised({ to: ElvnAdmin, name: "Pack", addressMap });
 };
 
 export const setupPackAccount = async (account) => {
