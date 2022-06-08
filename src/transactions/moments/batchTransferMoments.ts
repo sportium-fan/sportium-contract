@@ -1,5 +1,6 @@
-export const batchTransferMoments = `import NonFungibleToken from 0xNonFungibleToken
-import Moments from 0xMoments
+export const batchTransferMoments = `import NonFungibleToken from 0xstd/NonFungibleToken
+
+import Moments from 0xsprt/Moments
 
 transaction(recipient: Address, withdrawIds: [UInt64]) {
     prepare(account: AuthAccount) {

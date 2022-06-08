@@ -1,6 +1,5 @@
-export const setupAccount = `import FungibleToken from 0xFungibleToken
-
-import FUSD from 0xFUSD
+export const setupAccount = `import FungibleToken from 0xstd/FungibleToken
+import FUSD from 0xstd/FUSD
 
 transaction {
   prepare(account: AuthAccount) {

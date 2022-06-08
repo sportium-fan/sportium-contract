@@ -1,5 +1,6 @@
-export const withdrawElvn = `import FungibleToken from 0xFungibleToken
-import ElvnFUSDTreasury from 0xElvnFUSDTreasury
+export const withdrawElvn = `import FungibleToken from 0xstd/FungibleToken
+
+import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
 
 transaction(recipient: Address, amount: UFix64) {
     let treasuryAdmin: &ElvnFUSDTreasury.ElvnAdministrator

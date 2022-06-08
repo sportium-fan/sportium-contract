@@ -1,7 +1,7 @@
-export const mintWithDeopsit = `import FungibleToken from 0xFungibleToken
+export const mintWithDeopsit = `import FungibleToken from 0xstd/FungibleToken
 
-import Elvn from 0xElvn
-import AirdropElvn from 0xAirdropElvn
+import Elvn from 0xsprt/Elvn
+import AirdropElvn from 0xsprt/AirdropElvn
 
 transaction(amount: UFix64) {
     let tokenAdmin: &Elvn.Administrator

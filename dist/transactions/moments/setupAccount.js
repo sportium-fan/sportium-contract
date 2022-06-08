@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupAccount = void 0;
-exports.setupAccount = `import NonFungibleToken from 0xNonFungibleToken
-import Moments from 0xMoments
+exports.setupAccount = `import NonFungibleToken from 0xstd/NonFungibleToken
 
-// This transaction configures an account to hold Moments.
+import Moments from 0xsprt/Moments
 
 transaction {
     prepare(signer: AuthAccount) {

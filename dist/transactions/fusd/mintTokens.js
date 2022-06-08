@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mintTokens = void 0;
-exports.mintTokens = `import FungibleToken from 0xFungibleToken
-
-import FUSD from 0xFUSD
+exports.mintTokens = `import FungibleToken from 0xstd/FungibleToken
+import FUSD from 0xstd/FUSD
 
 transaction(recipient: Address, amount: UFix64) {
     let tokenAdmin: &FUSD.Administrator

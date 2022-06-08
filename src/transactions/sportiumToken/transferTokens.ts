@@ -1,5 +1,6 @@
-export const transferTokens = `import FungibleToken from 0xFungibleToken
-import TeleportedSportiumToken from 0xTeleportedSportiumToken
+export const transferTokens = `import FungibleToken from 0xstd/FungibleToken
+
+import TeleportedSportiumToken from 0xblocto/TeleportedSportiumToken
 
 transaction(amount: UFix64, recipient: Address) {
 

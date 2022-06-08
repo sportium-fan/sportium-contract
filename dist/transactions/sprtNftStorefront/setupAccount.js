@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupAccount = void 0;
-exports.setupAccount = `import SprtNFTStorefront from 0xSprtNFTStorefront
-
-// This transaction installs the Storefront ressource in an account.
+exports.setupAccount = `import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
 
 transaction {
     prepare(account: AuthAccount) {

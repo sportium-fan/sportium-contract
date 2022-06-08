@@ -1,5 +1,5 @@
-export const mintToken = `import Pack from 0xPack
-import Moments from 0xMoments
+export const mintToken = `import Pack from 0xsprt/Pack
+import Moments from 0xsprt/Moments
 
 transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentsPerCount: UInt64) {
     let admin: &Pack.Administrator

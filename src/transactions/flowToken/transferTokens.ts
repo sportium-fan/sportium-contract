@@ -1,12 +1,5 @@
-export const transferTokens = `// This transaction is a template for a transaction that
-// could be used by anyone to send tokens to another account
-// that has been set up to receive tokens.
-//
-// The withdraw amount and the account from getAccount
-// would be the parameters to the transaction
-
-import FungibleToken from 0xFungibleToken;
-import FlowToken from 0xFlowToken;
+export const transferTokens = `import FungibleToken from 0xstd/FungibleToken;
+import FlowToken from 0xstd/FlowToken;
 
 transaction(amount: UFix64, to: Address) {
 

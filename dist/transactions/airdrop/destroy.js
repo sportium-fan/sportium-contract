@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroy = void 0;
 exports.destroy = `
-import AirdropElvn from 0xAirdropElvn
+import AirdropElvn from 0xsprt/AirdropElvn
 
 transaction {
     prepare(account: AuthAccount) {

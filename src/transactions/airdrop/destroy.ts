@@ -1,5 +1,5 @@
 export const destroy = `
-import AirdropElvn from 0xAirdropElvn
+import AirdropElvn from 0xsprt/AirdropElvn
 
 transaction {
     prepare(account: AuthAccount) {

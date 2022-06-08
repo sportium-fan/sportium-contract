@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroyStorage = void 0;
 exports.destroyStorage = `
-import SprtNFTStorefront from 0xSprtNFTStorefront
+import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
 
 transaction {
     prepare(account: AuthAccount) {

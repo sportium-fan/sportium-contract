@@ -1,16 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeAccountWithAirdrop = void 0;
-exports.initializeAccountWithAirdrop = `import FungibleToken from 0xFungibleToken
-import NonFungibleToken from 0xNonFungibleToken
+exports.initializeAccountWithAirdrop = `import FungibleToken from 0xstd/FungibleToken
+import NonFungibleToken from 0xstd/NonFungibleToken
+import FUSD from 0xstd/FUSD
 
-import FUSD from 0xFUSD
-import Moments from 0xMoments
-import Elvn from 0xElvn
-import SprtNFTStorefront from 0xSprtNFTStorefront
-import Pack from 0xPack
-import TeleportedSportiumToken from 0xTeleportedSportiumToken
-import AirdropElvn from 0xAirdropElvn
+import Moments from 0xsprt/Moments
+import Elvn from 0xsprt/Elvn
+import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+import Pack from 0xsprt/Pack
+import AirdropElvn from 0xsprt/AirdropElvn
+
+import TeleportedSportiumToken from 0xblocto/TeleportedSportiumToken
 
 pub fun setupFUSD(account: AuthAccount)  {
   if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {

@@ -1,7 +1,6 @@
-export const transferTokens = `
-   
-import FungibleToken from 0xFungibleToken
-import Elvn from 0xElvn
+export const transferTokens = `import FungibleToken from 0xstd/FungibleToken
+
+import Elvn from 0xsprt/Elvn
 
 transaction(amount: UFix64, recipient: Address) {
 

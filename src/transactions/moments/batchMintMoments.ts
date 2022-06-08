@@ -1,5 +1,6 @@
-export const batchMintMoments = `import NonFungibleToken from 0xNonFungibleToken
-import Moments from 0xMoments
+export const batchMintMoments = `import NonFungibleToken from 0xstd/NonFungibleToken
+
+import Moments from 0xsprt/Moments
 
 // This transction uses the NFTMinter resource to mint a new NFT.
 //

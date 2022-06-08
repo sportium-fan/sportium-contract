@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mintTokens = void 0;
-exports.mintTokens = `import FungibleToken from 0xFungibleToken
-import Elvn from 0xElvn
+exports.mintTokens = `import FungibleToken from 0xstd/FungibleToken
+
+import Elvn from 0xsprt/Elvn
 
 transaction(recipient: Address, amount: UFix64) {
     let tokenAdmin: &Elvn.Administrator

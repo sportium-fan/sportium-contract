@@ -1,5 +1,6 @@
-export const setupAccount = `import FungibleToken from 0xFungibleToken
-import Elvn from 0xElvn
+export const setupAccount = `import FungibleToken from 0xstd/FungibleToken
+
+import Elvn from 0xsprt/Elvn
 
 // This transaction is a template for a transaction
 // to add a Vault resource to their account

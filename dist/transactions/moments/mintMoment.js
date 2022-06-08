@@ -1,13 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mintMoment = void 0;
-exports.mintMoment = `import NonFungibleToken from 0xNonFungibleToken
-import Moments from 0xMoments
+exports.mintMoment = `import NonFungibleToken from 0xstd/NonFungibleToken
 
-// This transction uses the NFTMinter resource to mint a new NFT.
-//
-// It must be run with the account that has the minter resource
-// stored at path /storage/NFTMinter.
+import Moments from 0xsprt/Moments
 
 transaction(recipient: Address, metadata: {String: String}) {
 

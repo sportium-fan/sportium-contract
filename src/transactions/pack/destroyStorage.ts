@@ -1,5 +1,5 @@
 export const destroyStorage = `
-import Pack from 0xPack
+import Pack from 0xsprt/Pack
 
 transaction {
     prepare(account: AuthAccount) {

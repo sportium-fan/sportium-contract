@@ -1,10 +1,6 @@
-export const mintMoment = `import NonFungibleToken from 0xNonFungibleToken
-import Moments from 0xMoments
+export const mintMoment = `import NonFungibleToken from 0xstd/NonFungibleToken
 
-// This transction uses the NFTMinter resource to mint a new NFT.
-//
-// It must be run with the account that has the minter resource
-// stored at path /storage/NFTMinter.
+import Moments from 0xsprt/Moments
 
 transaction(recipient: Address, metadata: {String: String}) {
 

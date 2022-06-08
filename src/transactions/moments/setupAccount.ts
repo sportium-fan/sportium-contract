@@ -1,7 +1,6 @@
-export const setupAccount = `import NonFungibleToken from 0xNonFungibleToken
-import Moments from 0xMoments
+export const setupAccount = `import NonFungibleToken from 0xstd/NonFungibleToken
 
-// This transaction configures an account to hold Moments.
+import Moments from 0xsprt/Moments
 
 transaction {
     prepare(signer: AuthAccount) {
