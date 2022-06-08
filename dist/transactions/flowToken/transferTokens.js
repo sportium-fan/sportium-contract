@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.transferTokens = void 0;
-exports.transferTokens = `import FungibleToken from 0xstd/FungibleToken;
-import FlowToken from 0xstd/FlowToken;
+exports.transferTokens = `import FungibleToken from 0xFungibleToken;
+import FlowToken from 0xFlowToken;
 
 transaction(amount: UFix64, to: Address) {
 

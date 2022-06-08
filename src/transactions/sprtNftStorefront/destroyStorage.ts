@@ -1,5 +1,5 @@
 export const destroyStorage = `
-import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction {
     prepare(account: AuthAccount) {

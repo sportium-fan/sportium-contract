@@ -1,9 +1,9 @@
-export const buyPackPaymentByFusd = `import FungibleToken from 0xstd/FungibleToken
-import FUSD from 0xstd/FUSD
+export const buyPackPaymentByFusd = `import FungibleToken from 0xFungibleToken
+import FUSD from 0xFUSD
 
-import Elvn from 0xsprt/Elvn
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
-import Pack from 0xsprt/Pack
+import Elvn from 0xElvn
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
+import Pack from 0xPack
 
 pub fun swapFUSDToElvn(account: AuthAccount, amount: UFix64): @FungibleToken.Vault {
     let vaultRef = account.borrow<&FUSD.Vault>(from: /storage/fusdVault) 

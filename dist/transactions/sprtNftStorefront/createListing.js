@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createListing = void 0;
-exports.createListing = `import FungibleToken from 0xstd/FungibleToken
-import NonFungibleToken from 0xstd/NonFungibleToken
+exports.createListing = `import FungibleToken from 0xFungibleToken
+import NonFungibleToken from 0xNonFungibleToken
 
-import Elvn from 0xsprt/Elvn
-import Moments from 0xsprt/Moments
-import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+import Elvn from 0xElvn
+import Moments from 0xMoments
+import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 

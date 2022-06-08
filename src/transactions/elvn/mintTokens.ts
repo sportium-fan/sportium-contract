@@ -1,6 +1,6 @@
-export const mintTokens = `import FungibleToken from 0xstd/FungibleToken
+export const mintTokens = `import FungibleToken from 0xFungibleToken
 
-import Elvn from 0xsprt/Elvn
+import Elvn from 0xElvn
 
 transaction(recipient: Address, amount: UFix64) {
     let tokenAdmin: &Elvn.Administrator

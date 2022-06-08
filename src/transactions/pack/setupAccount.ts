@@ -1,4 +1,4 @@
-export const setupAccount = `import Pack from 0xsprt/Pack
+export const setupAccount = `import Pack from 0xPack
 
 transaction {
     prepare(signer: AuthAccount) {

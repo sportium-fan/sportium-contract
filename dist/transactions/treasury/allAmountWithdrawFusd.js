@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.allAmountWithdrawFusd = void 0;
-exports.allAmountWithdrawFusd = `import FungibleToken from 0xstd/FungibleToken
+exports.allAmountWithdrawFusd = `import FungibleToken from 0xFungibleToken
 
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
 
 transaction(recipient: Address) {
     let treasuryAdmin: &ElvnFUSDTreasury.FUSDAdministrator

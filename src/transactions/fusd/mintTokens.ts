@@ -1,5 +1,5 @@
-export const mintTokens = `import FungibleToken from 0xstd/FungibleToken
-import FUSD from 0xstd/FUSD
+export const mintTokens = `import FungibleToken from 0xFungibleToken
+import FUSD from 0xFUSD
 
 transaction(recipient: Address, amount: UFix64) {
     let tokenAdmin: &FUSD.Administrator

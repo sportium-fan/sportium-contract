@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openPackId = void 0;
-exports.openPackId = `import Pack from 0xsprt/Pack
-import Moments from 0xsprt/Moments
+exports.openPackId = `import Pack from 0xPack
+import Moments from 0xMoments
 
 transaction(packId: UInt64) {
 	let packCollection: &Pack.Collection

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupAccount = void 0;
-exports.setupAccount = `import FungibleToken from 0xstd/FungibleToken
+exports.setupAccount = `import FungibleToken from 0xFungibleToken
 
-import Elvn from 0xsprt/Elvn
+import Elvn from 0xElvn
 
 // This transaction is a template for a transaction
 // to add a Vault resource to their account

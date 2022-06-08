@@ -1,7 +1,7 @@
-export const depositFusd = `import FungibleToken from 0xstd/FungibleToken
-import FUSD from 0xstd/FUSD
+export const depositFusd = `import FungibleToken from 0xFungibleToken
+import FUSD from 0xFUSD
 
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
 
 transaction(amount: UFix64) {
   // The Vault resource that holds the tokens that are being transfered

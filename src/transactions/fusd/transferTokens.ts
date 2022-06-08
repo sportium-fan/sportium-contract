@@ -1,5 +1,5 @@
-export const transferTokens = `import FungibleToken from 0xstd/FungibleToken
-import FUSD from 0xstd/FUSD
+export const transferTokens = `import FungibleToken from 0xFungibleToken
+import FUSD from 0xFUSD
 
 transaction(amount: UFix64, recipient: Address) {
 

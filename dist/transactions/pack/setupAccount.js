@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupAccount = void 0;
-exports.setupAccount = `import Pack from 0xsprt/Pack
+exports.setupAccount = `import Pack from 0xPack
 
 transaction {
     prepare(signer: AuthAccount) {

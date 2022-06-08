@@ -1,11 +1,11 @@
-export const purchaseListingPaymentByFusd = `import FungibleToken from 0xstd/FungibleToken
-import NonFungibleToken from 0xstd/NonFungibleToken
-import FUSD from 0xstd/FUSD
+export const purchaseListingPaymentByFusd = `import FungibleToken from 0xFungibleToken
+import NonFungibleToken from 0xNonFungibleToken
+import FUSD from 0xFUSD
 
-import Elvn from 0xsprt/Elvn
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
-import Moments from 0xsprt/Moments
-import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+import Elvn from 0xElvn
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
+import Moments from 0xMoments
+import SprtNFTStorefront from 0xSprtNFTStorefront
 
 pub fun swapFUSDToElvn(account: AuthAccount, amount: UFix64): @FungibleToken.Vault {
     let vaultRef = account.borrow<&FUSD.Vault>(from: /storage/fusdVault) 

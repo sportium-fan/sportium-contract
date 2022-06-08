@@ -1,7 +1,7 @@
-export const adminBuyPackAndSend = `import FungibleToken from 0xstd/FungibleToken
+export const adminBuyPackAndSend = `import FungibleToken from 0xFungibleToken
 
-import Pack from 0xsprt/Pack
-import Elvn from 0xsprt/Elvn
+import Pack from 0xPack
+import Elvn from 0xElvn
 
 transaction(releaseId: UInt64, target: Address) {
     let tokenAdmin: &Elvn.Administrator

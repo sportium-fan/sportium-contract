@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.transferTokens = void 0;
-exports.transferTokens = `import FungibleToken from 0xstd/FungibleToken
+exports.transferTokens = `import FungibleToken from 0xFungibleToken
 
-import Elvn from 0xsprt/Elvn
+import Elvn from 0xElvn
 
 transaction(amount: UFix64, recipient: Address) {
 

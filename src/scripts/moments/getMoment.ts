@@ -1,4 +1,5 @@
 export const getMoment = `import NonFungibleToken from 0xNonFungibleToken
+
 import Moments from 0xMoments
 
 pub struct AccountItem {

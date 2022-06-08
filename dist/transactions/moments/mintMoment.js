@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mintMoment = void 0;
-exports.mintMoment = `import NonFungibleToken from 0xstd/NonFungibleToken
+exports.mintMoment = `import NonFungibleToken from 0xNonFungibleToken
 
-import Moments from 0xsprt/Moments
+import Moments from 0xMoments
 
 transaction(recipient: Address, metadata: {String: String}) {
 

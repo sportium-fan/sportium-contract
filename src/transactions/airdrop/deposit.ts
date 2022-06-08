@@ -1,7 +1,7 @@
-export const deposit = `import FungibleToken from 0xstd/FungibleToken
+export const deposit = `import FungibleToken from 0xFungibleToken
 
-import Elvn from 0xsprt/Elvn
-import AirdropElvn from 0xsprt/AirdropElvn
+import Elvn from 0xElvn
+import AirdropElvn from 0xAirdropElvn
 
 transaction(amount: UFix64) {
 	let airdropAdmin: &AirdropElvn.Administrator

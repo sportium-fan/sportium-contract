@@ -1,4 +1,4 @@
-export const cleanupListing = `import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+export const cleanupListing = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
     let storefront: &SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}

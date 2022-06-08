@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCollectionLength = void 0;
 exports.getCollectionLength = `import NonFungibleToken from 0xNonFungibleToken
+
 import Moments from 0xMoments
 
 // This script returns the size of an account's Moments collection.

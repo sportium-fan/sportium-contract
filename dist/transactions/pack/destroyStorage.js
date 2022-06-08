@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroyStorage = void 0;
 exports.destroyStorage = `
-import Pack from 0xsprt/Pack
+import Pack from 0xPack
 
 transaction {
     prepare(account: AuthAccount) {

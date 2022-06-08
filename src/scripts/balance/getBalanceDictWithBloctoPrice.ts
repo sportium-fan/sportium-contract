@@ -1,9 +1,10 @@
 export const getBalanceDictWithBloctoPrice = `import FungibleToken from 0xFungibleToken
-import FusdUsdtSwapPair from 0xFusdUsdtSwapPair
+import FlowToken from 0xFlowToken
+import FUSD from 0xFUSD
 
 import Elvn from 0xElvn
-import FUSD from 0xFUSD
-import FlowToken from 0xFlowToken
+
+import FusdUsdtSwapPair from 0xFusdUsdtSwapPair
 import FlowSwapPair from 0xFlowSwapPair
 import TeleportedSportiumToken from 0xTeleportedSportiumToken
 import SprtUsdtSwapPair from 0xSprtUsdtSwapPair

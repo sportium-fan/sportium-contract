@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCollectionIds = void 0;
 exports.getCollectionIds = `import NonFungibleToken from 0xNonFungibleToken
+
 import Moments from 0xMoments
 
 // This script returns an array of all the NFT IDs in an account's collection.

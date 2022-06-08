@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.depositElvn = void 0;
-exports.depositElvn = `import FungibleToken from 0xstd/FungibleToken
+exports.depositElvn = `import FungibleToken from 0xFungibleToken
 
-import Elvn from 0xsprt/Elvn
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
+import Elvn from 0xElvn
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
 
 transaction(amount: UFix64) {
   // The Vault resource that holds the tokens that are being transfered

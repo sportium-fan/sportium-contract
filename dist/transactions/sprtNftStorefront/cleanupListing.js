@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanupListing = void 0;
-exports.cleanupListing = `import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+exports.cleanupListing = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
     let storefront: &SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}

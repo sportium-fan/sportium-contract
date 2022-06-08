@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.batchMintMoments = void 0;
-exports.batchMintMoments = `import NonFungibleToken from 0xstd/NonFungibleToken
+exports.batchMintMoments = `import NonFungibleToken from 0xNonFungibleToken
 
-import Moments from 0xsprt/Moments
+import Moments from 0xMoments
 
 // This transction uses the NFTMinter resource to mint a new NFT.
 //

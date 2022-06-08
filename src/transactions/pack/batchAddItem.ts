@@ -1,5 +1,5 @@
-export const batchAddItem = `import Pack from 0xsprt/Pack
-import Moments from 0xsprt/Moments
+export const batchAddItem = `import Pack from 0xPack
+import Moments from 0xMoments
 
 transaction(releaseId: UInt64, momentsIdsGroup: [[UInt64]]) {
     let admin: &Pack.Administrator

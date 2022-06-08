@@ -1,5 +1,5 @@
-export const transferTokens = `import FungibleToken from 0xstd/FungibleToken;
-import FlowToken from 0xstd/FlowToken;
+export const transferTokens = `import FungibleToken from 0xFungibleToken;
+import FlowToken from 0xFlowToken;
 
 transaction(amount: UFix64, to: Address) {
 

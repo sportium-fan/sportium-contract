@@ -1,14 +1,14 @@
-export const initializeAccountWithAirdrop = `import FungibleToken from 0xstd/FungibleToken
-import NonFungibleToken from 0xstd/NonFungibleToken
-import FUSD from 0xstd/FUSD
+export const initializeAccountWithAirdrop = `import FungibleToken from 0xFungibleToken
+import NonFungibleToken from 0xNonFungibleToken
+import FUSD from 0xFUSD
 
-import Moments from 0xsprt/Moments
-import Elvn from 0xsprt/Elvn
-import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
-import Pack from 0xsprt/Pack
-import AirdropElvn from 0xsprt/AirdropElvn
+import Moments from 0xMoments
+import Elvn from 0xElvn
+import SprtNFTStorefront from 0xSprtNFTStorefront
+import Pack from 0xPack
+import AirdropElvn from 0xAirdropElvn
 
-import TeleportedSportiumToken from 0xblocto/TeleportedSportiumToken
+import TeleportedSportiumToken from 0xTeleportedSportiumToken
 
 pub fun setupFUSD(account: AuthAccount)  {
   if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {

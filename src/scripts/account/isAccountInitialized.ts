@@ -1,6 +1,7 @@
 export const isAccountInitialized = `import FungibleToken from 0xFungibleToken
 import FUSD from 0xFUSD
 import NonFungibleToken from 0xNonFungibleToken
+
 import Moments from 0xMoments
 import Elvn from 0xElvn
 

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withdrawElvn = void 0;
-exports.withdrawElvn = `import FungibleToken from 0xstd/FungibleToken
+exports.withdrawElvn = `import FungibleToken from 0xFungibleToken
 
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
 
 transaction(recipient: Address, amount: UFix64) {
     let treasuryAdmin: &ElvnFUSDTreasury.ElvnAdministrator

@@ -1,5 +1,5 @@
-export const openPackReleaseId = `import Pack from 0xsprt/Pack
-import Moments from 0xsprt/Moments
+export const openPackReleaseId = `import Pack from 0xPack
+import Moments from 0xMoments
 
 transaction(releaseId: UInt64) {
 	let packCollection: &Pack.Collection

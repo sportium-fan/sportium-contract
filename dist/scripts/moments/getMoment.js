@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMoment = void 0;
 exports.getMoment = `import NonFungibleToken from 0xNonFungibleToken
+
 import Moments from 0xMoments
 
 pub struct AccountItem {

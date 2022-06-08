@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBalance = void 0;
-exports.getBalance = `import Elvn from 0xElvn
-import FungibleToken from 0xFungibleToken
+exports.getBalance = `import FungibleToken from 0xFungibleToken
+
+import Elvn from 0xElvn
 
 // This script returns an account's Elvn balance.
 

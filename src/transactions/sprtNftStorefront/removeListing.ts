@@ -1,4 +1,4 @@
-export const removeListing = `import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+export const removeListing = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction(listingResourceID: UInt64) {
     let storefront: &SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontManager}

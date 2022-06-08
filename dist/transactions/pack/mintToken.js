@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mintToken = void 0;
-exports.mintToken = `import Pack from 0xsprt/Pack
-import Moments from 0xsprt/Moments
+exports.mintToken = `import Pack from 0xPack
+import Moments from 0xMoments
 
 transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentsPerCount: UInt64) {
     let admin: &Pack.Administrator

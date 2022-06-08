@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeListing = void 0;
-exports.removeListing = `import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+exports.removeListing = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction(listingResourceID: UInt64) {
     let storefront: &SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontManager}

@@ -1,4 +1,4 @@
-export const setupAccount = `import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+export const setupAccount = `import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction {
     prepare(account: AuthAccount) {

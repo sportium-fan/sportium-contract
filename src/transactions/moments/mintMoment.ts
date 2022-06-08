@@ -1,6 +1,6 @@
-export const mintMoment = `import NonFungibleToken from 0xstd/NonFungibleToken
+export const mintMoment = `import NonFungibleToken from 0xNonFungibleToken
 
-import Moments from 0xsprt/Moments
+import Moments from 0xMoments
 
 transaction(recipient: Address, metadata: {String: String}) {
 

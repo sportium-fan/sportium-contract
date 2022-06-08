@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.batchAddItem = void 0;
-exports.batchAddItem = `import Pack from 0xsprt/Pack
-import Moments from 0xsprt/Moments
+exports.batchAddItem = `import Pack from 0xPack
+import Moments from 0xMoments
 
 transaction(releaseId: UInt64, momentsIdsGroup: [[UInt64]]) {
     let admin: &Pack.Administrator

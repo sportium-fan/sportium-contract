@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.swapElvnToFusd = void 0;
-exports.swapElvnToFusd = `import FungibleToken from 0xstd/FungibleToken
-import FUSD from 0xstd/FUSD
+exports.swapElvnToFusd = `import FungibleToken from 0xFungibleToken
+import FUSD from 0xFUSD
 
-import Elvn from 0xsprt/Elvn
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
+import Elvn from 0xElvn
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
 
 transaction(amount: UFix64) {
     let fusdReceiver: &{FungibleToken.Receiver}

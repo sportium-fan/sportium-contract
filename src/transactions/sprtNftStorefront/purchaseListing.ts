@@ -1,9 +1,9 @@
-export const purchaseListing = `import FungibleToken from 0xstd/FungibleToken
-import NonFungibleToken from 0xstd/NonFungibleToken
+export const purchaseListing = `import FungibleToken from 0xFungibleToken
+import NonFungibleToken from 0xNonFungibleToken
 
-import Elvn from 0xsprt/Elvn
-import Moments from 0xsprt/Moments
-import SprtNFTStorefront from 0xsprt/SprtNFTStorefront
+import Elvn from 0xElvn
+import Moments from 0xMoments
+import SprtNFTStorefront from 0xSprtNFTStorefront
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.transferMoment = void 0;
-exports.transferMoment = `import NonFungibleToken from 0xstd/NonFungibleToken
+exports.transferMoment = `import NonFungibleToken from 0xNonFungibleToken
 
-import Moments from 0xsprt/Moments
+import Moments from 0xMoments
 
 transaction(recipient: Address, withdrawID: UInt64) {
     prepare(account: AuthAccount) {

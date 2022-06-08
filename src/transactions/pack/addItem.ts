@@ -1,5 +1,5 @@
-export const addItem = `import Pack from 0xsprt/Pack
-import Moments from 0xsprt/Moments
+export const addItem = `import Pack from 0xPack
+import Moments from 0xMoments
 
 transaction(releaseId: UInt64, momentsIds: [UInt64]) {
     let admin: &Pack.Administrator

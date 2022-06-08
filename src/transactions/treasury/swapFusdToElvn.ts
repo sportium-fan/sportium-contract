@@ -1,8 +1,8 @@
-export const swapFusdToElvn = `import FungibleToken from 0xstd/FungibleToken
-import FUSD from 0xstd/FUSD
+export const swapFusdToElvn = `import FungibleToken from 0xFungibleToken
+import FUSD from 0xFUSD
 
-import Elvn from 0xsprt/Elvn
-import ElvnFUSDTreasury from 0xsprt/ElvnFUSDTreasury
+import Elvn from 0xElvn
+import ElvnFUSDTreasury from 0xElvnFUSDTreasury
 
 transaction(amount: UFix64) {
     let elvnReceiver: &{FungibleToken.Receiver}

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buyPack = void 0;
-exports.buyPack = `import FungibleToken from 0xstd/FungibleToken
+exports.buyPack = `import FungibleToken from 0xFungibleToken
 
-import Pack from 0xsprt/Pack
-import Elvn from 0xsprt/Elvn
+import Pack from 0xPack
+import Elvn from 0xElvn
 
 transaction(releaseId: UInt64) {
 	let collection: &Pack.Collection
