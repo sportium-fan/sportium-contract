@@ -13,27 +13,26 @@
   },
   "contracts": {
     "NonFungibleToken": {
-      "source": "./contracts/NonFungibleToken.cdc",
+      "source": "./contracts/std/NonFungibleToken.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "FungibleToken": {
-      "source": "./contracts/FungibleToken.cdc",
+      "source": "./contracts/std/FungibleToken.cdc",
       "aliases": {
         "emulator": "0xee82856bf20e2aa6"
       }
     },
-    "FUSD": "./contracts/FUSD.cdc",
-    "Elvn": "./contracts/Elvn.cdc",
-    "Moments": "./contracts/Moments.cdc",
-    "ElvnFUSDTreasury": "./contracts/ElvnFUSDTreasury.cdc",
-    "ElvnPackPurchaseTreasury": "./contracts/ElvnPackPurchaseTreasury.cdc",
-    "SprtNFTStorefront": "./contracts/SprtNFTStorefront.cdc",
-    "ElvnFeeTreasury": "./contracts/ElvnFeeTreasury.cdc",
-    "Pack": "./contracts/Pack.cdc",
-    "TeleportedSportiumToken": "./contracts/TeleportedSportiumToken.cdc",
-    "AirdropElvn": "./contracts/AirdropElvn.cdc"
+    "FUSD": "./contracts/std/FUSD.cdc",
+    "Elvn": "./contracts/sprt/Elvn.cdc",
+    "Moments": "./contracts/sprt/Moments.cdc",
+    "ElvnFUSDTreasury": "./contracts/sprt/ElvnFUSDTreasury.cdc",
+    "SprtNFTStorefront": "./contracts/sprt/SprtNFTStorefront.cdc",
+    "ElvnFeeTreasury": "./contracts/sprt/ElvnFeeTreasury.cdc",
+    "Pack": "./contracts/sprt/Pack.cdc",
+    "AirdropElvn": "./contracts/sprt/AirdropElvn.cdc",
+    "TeleportedSportiumToken": "./contracts/blocto/TeleportedSportiumToken.cdc"
   },
   "networks": {
     "emulator": "127.0.0.1:3569"
@@ -52,7 +51,6 @@
         "Elvn",
         "Moments",
         "ElvnFUSDTreasury",
-        "ElvnPackPurchaseTreasury",
         "SprtNFTStorefront",
         "ElvnFeeTreasury",
         "Pack",
