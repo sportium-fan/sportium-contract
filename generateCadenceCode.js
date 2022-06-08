@@ -16,6 +16,9 @@ const convertCadenceToJs = (content, fName) => {
   const fileName = camelCase(fName);
 
   const currentFile = content
+    .replace(/std\//g, "")
+    .replace(/sprt\//g, "")
+    .replace(/blocto\//g, "")
     .replace(/\"\.\.\/\.\.\/contracts\//g, "0x")
     .replace(/\.cdc\"/g, "")
     .replace(/\`/g, "");
