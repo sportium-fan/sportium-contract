@@ -126,7 +126,7 @@ pub contract Moments: NonFungibleToken {
         pub fun borrowMoment(id: UInt64): &Moments.NFT? {
             if self.ownedNFTs[id] != nil {
                 let ref = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT?
-                return ref as! &Moments.NFT
+                return ref as! &Moments.NFT?
             } else {
                 return nil
             }
