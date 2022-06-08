@@ -80,7 +80,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
         setupAccount(account: account)
 
         // We need a provider capability, but one is not provided by default so we create one if needed.
-        let momentsCollectionProviderPrivatePath = /private/momentsCollectionProviderForCBT
+        let momentsCollectionProviderPrivatePath = /private/momentsCollectionProviderForCBTV1
 
         self.elvnReceiver = account.getCapability<&Elvn.Vault{FungibleToken.Receiver}>(/public/elvnReceiver)!
 
