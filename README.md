@@ -20,7 +20,7 @@
 | TeleportedSportiumToken | TODO |
 | SprtUsdtSwapPair| 0x60e1db11f37ac469 |
 
-## TestNet Contract Address
+## Testnet Contract Address
 
 | name             | address                                                                                         |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
