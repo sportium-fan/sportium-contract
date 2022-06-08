@@ -117,7 +117,7 @@ describe("NFT Storefront", () => {
 
 		await mintFUSD(Bob, toUFix64(100));
 
-		const createItemListingTransactionResult = await shallPass(createItemListing(Alice, itemId, toUFix64(1.11)));
+		const createItemListingTransactionResult = await createItemListing(Alice, itemId, toUFix64(1.11));
 
 		const listingAvailableEvent = createItemListingTransactionResult.events[0];
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
