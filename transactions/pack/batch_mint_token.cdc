@@ -1,5 +1,5 @@
-import Pack from "../../contracts/Pack.cdc"
-import Moments from "../../contracts/Moments.cdc"
+import Pack from "../../contracts/sprt/Pack.cdc"
+import Moments from "../../contracts/sprt/Moments.cdc"
 
 transaction(recipient: Address, releaseId: UInt64, packPrice: UFix64, momentsPerCount: UInt64, packLength: UInt64) {
     let admin: &Pack.Administrator

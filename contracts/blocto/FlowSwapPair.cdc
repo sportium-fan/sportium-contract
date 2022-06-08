@@ -1,5 +1,6 @@
-import FungibleToken from "./FungibleToken.cdc"
-import FlowToken from "./FlowToken.cdc"
+import FungibleToken from "../std/FungibleToken.cdc"
+import FlowToken from "../std/FlowToken.cdc"
+
 import TeleportedTetherToken from "./TeleportedTetherToken.cdc"
 
 // Exchange pair between FlowToken and TeleportedTetherToken

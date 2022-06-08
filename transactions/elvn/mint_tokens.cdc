@@ -1,5 +1,6 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+
+import Elvn from "../../contracts/sprt/Elvn.cdc"
 
 transaction(recipient: Address, amount: UFix64) {
     let tokenAdmin: &Elvn.Administrator

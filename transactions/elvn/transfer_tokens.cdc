@@ -1,7 +1,6 @@
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
 
-   
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
+import Elvn from "../../contracts/sprt/Elvn.cdc"
 
 transaction(amount: UFix64, recipient: Address) {
 

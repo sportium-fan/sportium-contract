@@ -1,12 +1,13 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
+import FUSD from "../../contracts/std/FUSD.cdc"
 
-import FUSD from "../../contracts/FUSD.cdc"
-import Moments from "../../contracts/Moments.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
-import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
-import Pack from "../../contracts/Pack.cdc"
-import TeleportedSportiumToken from "../../contracts/TeleportedSportiumToken.cdc"
+import Moments from "../../contracts/sprt/Moments.cdc"
+import Elvn from "../../contracts/sprt/Elvn.cdc"
+import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
+import Pack from "../../contracts/sprt/Pack.cdc"
+
+import TeleportedSportiumToken from "../../contracts/blocto/TeleportedSportiumToken.cdc"
 
 pub fun setupFUSD(account: AuthAccount)  {
   if account.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {

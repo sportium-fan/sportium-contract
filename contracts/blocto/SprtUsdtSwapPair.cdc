@@ -1,4 +1,4 @@
-import FungibleToken from "./FungibleToken.cdc"
+import FungibleToken from "../std/FungibleToken.cdc"
 
 import TeleportedSportiumToken from "./TeleportedSportiumToken.cdc"
 import TeleportedTetherToken from "./TeleportedTetherToken.cdc"

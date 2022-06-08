@@ -1,8 +1,9 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
-import ElvnFUSDTreasury from "../../contracts/ElvnFUSDTreasury.cdc"
-import Pack from "../../contracts/Pack.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+import FUSD from "../../contracts/std/FUSD.cdc"
+
+import Elvn from "../../contracts/sprt/Elvn.cdc"
+import ElvnFUSDTreasury from "../../contracts/sprt/ElvnFUSDTreasury.cdc"
+import Pack from "../../contracts/sprt/Pack.cdc"
 
 pub fun swapFUSDToElvn(account: AuthAccount, amount: UFix64): @FungibleToken.Vault {
     let vaultRef = account.borrow<&FUSD.Vault>(from: /storage/fusdVault) 

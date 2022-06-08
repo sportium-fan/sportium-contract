@@ -1,71 +1,9 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
-import Moments from "../../contracts/Moments.cdc"
-import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
 
-pub fun getOrCreateStorefront(account: AuthAccount): &SprtNFTStorefront.Storefront {
-    if let storefrontRef = account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath) {
-        return storefrontRef
-    }
-
-    let storefront <- SprtNFTStorefront.createStorefront()
-
-    let storefrontRef = &storefront as &SprtNFTStorefront.Storefront
-
-    account.save(<-storefront, to: SprtNFTStorefront.StorefrontStoragePath)
-
-    account.link<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath, target: SprtNFTStorefront.StorefrontStoragePath)
-
-    return storefrontRef
-}
-
-pub fun setupAccount(account: AuthAccount) {
-    // If the account doesn't already have a Storefront
-    if account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath) == nil {
-
-        // Create a new empty .Storefront
-        let storefront <- SprtNFTStorefront.createStorefront()
-        
-        // save it to the account
-        account.save(<-storefront, to: SprtNFTStorefront.StorefrontStoragePath)
-
-        // create a public capability for the .Storefront
-        account.link<&SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}>(SprtNFTStorefront.StorefrontPublicPath, target: SprtNFTStorefront.StorefrontStoragePath)
-    }
-
-    if account.borrow<&Elvn.Vault>(from: /storage/elvnVault) == nil {
-        // Create a new Elvn Vault and put it in storage
-        account.save(<-Elvn.createEmptyVault(), to: /storage/elvnVault)
-
-        // Create a public capability to the stored Vault that only exposes
-        // the `deposit` method through the `Receiver` interface
-        //
-        account.link<&Elvn.Vault{FungibleToken.Receiver}>(
-            /public/elvnReceiver,
-            target: /storage/elvnVault
-        )
-
-        // Create a public capability to the stored Vault that only exposes
-        // the `balance` field through the `Balance` interface
-        //
-        account.link<&Elvn.Vault{FungibleToken.Balance}>(
-            /public/elvnBalance,
-            target: /storage/elvnVault
-        )
-    }
-
-    if account.borrow<&Moments.Collection>(from: Moments.CollectionStoragePath) == nil {
-        // create a new empty collection
-        let collection <- Moments.createEmptyCollection()
-        
-        // save it to the account
-        account.save(<-collection, to: Moments.CollectionStoragePath)
-
-        // create a public capability for the collection
-        account.link<&Moments.Collection{NonFungibleToken.CollectionPublic, Moments.MomentsCollectionPublic}>(Moments.CollectionPublicPath, target: Moments.CollectionStoragePath)
-    }
-}
+import Elvn from "../../contracts/sprt/Elvn.cdc"
+import Moments from "../../contracts/sprt/Moments.cdc"
+import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
 
 transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
@@ -74,10 +12,8 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     let storefront: &SprtNFTStorefront.Storefront
 
     prepare(account: AuthAccount) {
-        setupAccount(account: account)
-
         // We need a provider capability, but one is not provided by default so we create one if needed.
-        let momentsCollectionProviderPrivatePath = /private/momentsCollectionProvider
+        let momentsCollectionProviderPrivatePath = /private/sprtMomentsCollectionProvider
 
         self.elvnReceiver = account.getCapability<&Elvn.Vault{FungibleToken.Receiver}>(/public/elvnReceiver)!
 
@@ -91,7 +27,8 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
         assert(self.momentsProvider.borrow() != nil, message: "Missing or mis-typed Moments.Collection provider")
 
-        self.storefront = getOrCreateStorefront(account: account)
+        self.storefront = account.borrow<&SprtNFTStorefront.Storefront>(from: SprtNFTStorefront.StorefrontStoragePath)
+            ?? panic("Not found SprtNFTStorefront.Storefront PATH: ".concat(SprtNFTStorefront.StorefrontStoragePath.toString()))
     }
 
     execute {

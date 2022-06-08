@@ -1,5 +1,5 @@
 
-import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
+import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
 
 transaction {
     prepare(account: AuthAccount) {

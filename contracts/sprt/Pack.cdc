@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache License 2.0
-import FungibleToken from "./FungibleToken.cdc"
+import FungibleToken from "../std/FungibleToken.cdc"
 
 import Elvn from "./Elvn.cdc"
 import Moments from "./Moments.cdc"
@@ -38,7 +38,7 @@ pub contract Pack {
             let momentsListLength = Pack.getMomentsListRemainingCount(releaseId: self.releaseId)
             let randomIndex = unsafeRandom() % UInt64(momentsListLength)
 
-            let momentsListCandidateRef = &Pack.momentsListCandidate[self.releaseId] as &[[Moments.NFT]]
+            let momentsListCandidateRef = (&Pack.momentsListCandidate[self.releaseId] as &[[Moments.NFT]]?)!
             let momentsList <- momentsListCandidateRef.remove(at: randomIndex)
 
             let momentsIds: [UInt64] = []
@@ -73,10 +73,10 @@ pub contract Pack {
             let ids: [UInt64] = []
 
             for key in self.ownedPacks.keys {
-                let ownedPack = &self.ownedPacks[key] as &[Pack.Token]
+                let ownedPack = (&self.ownedPacks[key] as &[Pack.Token]?)!
 
                 var i = 0;
-                while i < ownedPack.length {
+                while i < ownedPack!.length {
                     ids.append(ownedPack[i].id)
                     i = i + 1
                 }
@@ -89,7 +89,7 @@ pub contract Pack {
             let releaseIds: [UInt64] = []
 
             for key in self.ownedPacks.keys {
-                let ownedPack = &self.ownedPacks[key] as &[Pack.Token]
+                let ownedPack = (&self.ownedPacks[key] as &[Pack.Token]?)!
 
                 if ownedPack.length > 0 {
                     releaseIds.append(key)
@@ -104,7 +104,7 @@ pub contract Pack {
                 self.ownedPacks[releaseId] != nil: "missing Pack releaseId: ".concat(releaseId.toString())
             }
  
-            let tokenListRef = &self.ownedPacks[releaseId] as &[Pack.Token]
+            let tokenListRef = (&self.ownedPacks[releaseId] as &[Pack.Token]?)!
 
             if tokenListRef.length == 0 {
                 return panic("Not enough Pack releaseId: ".concat(releaseId.toString()))
@@ -118,7 +118,7 @@ pub contract Pack {
 
         pub fun withdraw(id: UInt64): @Pack.Token {
             for key in self.ownedPacks.keys {
-                let tokenList = &self.ownedPacks[key] as &[Pack.Token]
+                let tokenList = (&self.ownedPacks[key] as &[Pack.Token]?)!
 
                 if tokenList.length > 0 {
                     var i = 0
@@ -144,7 +144,7 @@ pub contract Pack {
             if self.ownedPacks[releaseId] == nil {
                 self.ownedPacks[releaseId] <-! [<- token]
             } else {
-                let packListRef = &self.ownedPacks[releaseId] as &[Pack.Token]
+                let packListRef = (&self.ownedPacks[releaseId] as &[Pack.Token]?)!
                 packListRef.append(<- token)
             }
 
@@ -169,7 +169,7 @@ pub contract Pack {
             self.isPackExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
         }
 
-        let packsRef = &self.salePacks[releaseId] as &[Pack.Token]
+        let packsRef = (&self.salePacks[releaseId] as &[Pack.Token]?)!
         return packsRef.length
     }
 
@@ -178,7 +178,7 @@ pub contract Pack {
             self.isPackExists(releaseId: releaseId): "Not found releaseId: ".concat(releaseId.toString())
         }
 
-        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as &[[Moments.NFT]]
+        let momentsListCandidateRef = (&self.momentsListCandidate[releaseId] as &[[Moments.NFT]]?)!
         return momentsListCandidateRef.length
     }
 
@@ -187,7 +187,7 @@ pub contract Pack {
             self.getMomentsListRemainingCount(releaseId: releaseId) > 0: "Not enough moments in Pack Contract"
         }
 
-        let momentsListCandidateRef = &self.momentsListCandidate[releaseId] as &[[Moments.NFT]]
+        let momentsListCandidateRef = (&self.momentsListCandidate[releaseId] as &[[Moments.NFT]]?)!
         let momentsListRef = &momentsListCandidateRef[0] as &[Moments.NFT]
 
         return momentsListRef.length
@@ -196,7 +196,7 @@ pub contract Pack {
     pub fun getOnSaleReleaseIds(): [UInt64] {
         let releaseIds: [UInt64] = []
         for releaseId in self.momentsListCandidate.keys {
-            let packsRef = &self.momentsListCandidate[releaseId] as &[[Moments.NFT]]
+            let packsRef = (&self.momentsListCandidate[releaseId] as &[[Moments.NFT]]?)!
             if packsRef.length > 0 {
                 releaseIds.append(releaseId)
             }
@@ -210,7 +210,7 @@ pub contract Pack {
             self.getPackRemainingCount(releaseId: releaseId) > 0: "Sold out pack"
         }
 
-        let packsRef = &self.salePacks[releaseId] as &[Pack.Token]
+        let packsRef = (&self.salePacks[releaseId] as &[Pack.Token]?)!
         let packRef = &packsRef[0] as &Pack.Token
         return packRef.price
     }
@@ -223,7 +223,7 @@ pub contract Pack {
         let balance = vault.balance
         self.vault.deposit(from: <- vault)
 
-        let salePacksRef = &self.salePacks[releaseId] as &[Pack.Token]
+        let salePacksRef = (&self.salePacks[releaseId] as &[Pack.Token]?)!
         let pack <- salePacksRef.remove(at: 0)
 
         emit BuyPack(packId: pack.id, price: pack.price)
@@ -241,7 +241,7 @@ pub contract Pack {
                 let packs: @[Pack.Token] <- [<- pack]
                 Pack.salePacks[releaseId] <-! packs
             } else {
-                let packsRef = &Pack.salePacks[releaseId] as &[Pack.Token]
+                let packsRef = (&Pack.salePacks[releaseId] as &[Pack.Token]?)!
                 packsRef.append(<- pack)
             }
 
@@ -249,7 +249,7 @@ pub contract Pack {
                 let moments: @[[Moments.NFT]] <- [<- momentsList]
                 Pack.momentsListCandidate[releaseId] <-! moments
             } else {
-                let momentsRef = &Pack.momentsListCandidate[releaseId] as &[[Moments.NFT]]
+                let momentsRef = (&Pack.momentsListCandidate[releaseId] as &[[Moments.NFT]]?)!
                 momentsRef.append(<- momentsList)
             }
         }

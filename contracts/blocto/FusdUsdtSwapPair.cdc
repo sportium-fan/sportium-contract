@@ -1,5 +1,6 @@
-import FungibleToken from "./FungibleToken.cdc"
-import FUSD from "./FUSD.cdc"
+import FungibleToken from "../std/FungibleToken.cdc"
+import FUSD from "../std/FUSD.cdc"
+
 import TeleportedTetherToken from "./TeleportedTetherToken.cdc"
 
 // Exchange pair between FUSD and TeleportedTetherToken

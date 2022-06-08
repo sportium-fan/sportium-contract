@@ -1,6 +1,4 @@
-import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
-
-// This transaction installs the Storefront ressource in an account.
+import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
 
 transaction {
     prepare(account: AuthAccount) {

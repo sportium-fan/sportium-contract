@@ -1,7 +1,5 @@
-// SPDX-License-Identifier: Apache License 2.0
 import FungibleToken from "./FungibleToken.cdc"
 import NonFungibleToken from "./NonFungibleToken.cdc";
-import ElvnFeeTreasury from "./ElvnFeeTreasury.cdc"
 
 // NFTStorefront
 //
@@ -23,7 +21,7 @@ import ElvnFeeTreasury from "./ElvnFeeTreasury.cdc"
 // Marketplaces and other aggregators can watch for Listing events
 // and list items of interest.
 //
-pub contract SprtNFTStorefront {
+pub contract NFTStorefront {
     // NFTStorefrontInitialized
     // This contract has been deployed.
     // Event consumers can now expect events from this contract.
@@ -58,7 +56,6 @@ pub contract SprtNFTStorefront {
     // NFTStorefront workflow, so be careful to check when using them.
     //
     pub event ListingAvailable(
-        storefrontResourceID: UInt64,
         storefrontAddress: Address,
         listingResourceID: UInt64,
         nftType: Type,
@@ -70,15 +67,7 @@ pub contract SprtNFTStorefront {
     // ListingCompleted
     // The listing has been resolved. It has either been purchased, or removed and destroyed.
     //
-    pub event ListingCompleted(
-        listingResourceID: UInt64,
-        storefrontAddress: Address?,
-        storefrontResourceID: UInt64,
-        purchased: Bool,
-        nftType: Type,
-        nftID: UInt64,
-        price: UFix64?
-    )
+    pub event ListingCompleted(listingResourceID: UInt64, storefrontResourceID: UInt64, purchased: Bool)
 
     // StorefrontStoragePath
     // The location in storage that a Storefront resource should be located.
@@ -88,9 +77,6 @@ pub contract SprtNFTStorefront {
     // The public location for a Storefront link.
     pub let StorefrontPublicPath: PublicPath
 
-    pub let feeInfo: FeeInfo
-
-    access(self) let addressMap: {UInt64: Address}
 
     // SaleCut
     // A struct representing a recipient that must be sent a certain amount
@@ -115,6 +101,7 @@ pub contract SprtNFTStorefront {
             self.amount = amount
         }
     }
+
 
     // ListingDetails
     // A struct containing a Listing's data.
@@ -292,12 +279,8 @@ pub contract SprtNFTStorefront {
             // Otherwise we regard it as completed in the destructor.
             emit ListingCompleted(
                 listingResourceID: self.uuid,
-                storefrontAddress: SprtNFTStorefront.addressMap[self.details.storefrontID],
                 storefrontResourceID: self.details.storefrontID,
-                purchased: self.details.purchased,
-                nftType: self.details.nftType,
-                nftID: self.details.nftID,
-                price: self.details.salePrice
+                purchased: self.details.purchased
             )
 
             return <-nft
@@ -314,12 +297,8 @@ pub contract SprtNFTStorefront {
             if !self.details.purchased {
                 emit ListingCompleted(
                     listingResourceID: self.uuid,
-                    storefrontAddress: SprtNFTStorefront.addressMap[self.details.storefrontID],
                     storefrontResourceID: self.details.storefrontID,
-                    purchased: self.details.purchased,
-                    nftType: self.details.nftType,
-                    nftID: self.details.nftID,
-                    price: nil
+                    purchased: self.details.purchased
                 )
             }
         }
@@ -394,7 +373,7 @@ pub contract SprtNFTStorefront {
     // A resource that allows its owner to manage a list of Listings, and anyone to interact with them
     // in order to query their details and purchase the NFTs that they represent.
     //
-    pub resource Storefront: StorefrontManager, StorefrontPublic {
+    pub resource Storefront : StorefrontManager, StorefrontPublic {
         // The dictionary of Listing uuids to Listing resources.
         access(self) var listings: @{UInt64: Listing}
 
@@ -408,29 +387,12 @@ pub contract SprtNFTStorefront {
             salePaymentVaultType: Type,
             saleCuts: [SaleCut]
          ): UInt64 {
-            let newSaleCuts: [SaleCut] = []
-            var accAmount = 0.0
-
-            for saleCut in saleCuts {
-                accAmount = accAmount + saleCut.amount
-            }
-            let feeRate = SprtNFTStorefront.getFeeRate(amount: accAmount)
-
-            for saleCut in saleCuts {
-                let feeAmount = feeRate * saleCut.amount
-
-                newSaleCuts.appendAll([
-                    SaleCut(receiver: saleCut.receiver, amount: saleCut.amount - feeAmount),
-                    SaleCut(receiver: ElvnFeeTreasury.getReceiver(), amount: feeAmount)
-                ])
-            }
-
             let listing <- create Listing(
                 nftProviderCapability: nftProviderCapability,
                 nftType: nftType,
                 nftID: nftID,
                 salePaymentVaultType: salePaymentVaultType,
-                saleCuts: newSaleCuts,
+                saleCuts: saleCuts,
                 storefrontID: self.uuid
             )
 
@@ -443,7 +405,6 @@ pub contract SprtNFTStorefront {
             destroy oldListing
 
             emit ListingAvailable(
-                storefrontResourceID: self.uuid,
                 storefrontAddress: self.owner?.address!,
                 listingResourceID: listingResourceID,
                 nftType: nftType,
@@ -478,7 +439,7 @@ pub contract SprtNFTStorefront {
         //
         pub fun borrowListing(listingResourceID: UInt64): &Listing{ListingPublic}? {
             if self.listings[listingResourceID] != nil {
-                return &self.listings[listingResourceID] as! &Listing{ListingPublic}
+                return &self.listings[listingResourceID] as &Listing{ListingPublic}?
             } else {
                 return nil
             }
@@ -496,37 +457,7 @@ pub contract SprtNFTStorefront {
 
             let listing <- self.listings.remove(key: listingResourceID)!
             assert(listing.getDetails().purchased == true, message: "listing is not purchased, only admin can remove")
-
-            for key in self.listings.keys {
-                let otherListing = &self.listings[key] as! &Listing{ListingPublic}
-
-                if self.cmpNFT(listing: &listing as &Listing{ListingPublic}, listing2: otherListing) {
-                    let listing <- self.listings.remove(key: key)
-                    destroy listing
-                }
-            }
-
             destroy listing
-        }
-
-        pub fun cmpNFT(listing: &Listing{ListingPublic}, listing2: &Listing{ListingPublic}): Bool {
-            let listingDetails = listing.getDetails()
-            let listingDetails2 = listing2.getDetails()
-
-            if listingDetails.nftType != listingDetails2.nftType {
-                return false
-            }
-
-            if listingDetails.nftID != listingDetails2.nftID {
-                return false
-            }
-
-            return true
-        }
-
-        pub fun saveAddress() {
-            let address = self.owner?.address ?? panic("Not owned Storefront")
-            SprtNFTStorefront.addressMap[self.uuid] = address
         }
 
         // destructor
@@ -548,66 +479,16 @@ pub contract SprtNFTStorefront {
         }
     }
 
-    pub struct FeeInfo {
-        pub let minimumPrice: UFix64
-        pub let maximumPrice: UFix64
-        pub let priceTickSize: UFix64
-        pub let baseFeeRate: UFix64
-        pub let feeRateTickSize: UFix64
-       
-       init (
-            minimumPrice: UFix64, maximumPrice: UFix64, priceTickSize: UFix64,
-            baseFeeRate: UFix64, feeTickSize: UFix64
-        ) {
-            self.minimumPrice = minimumPrice
-            self.maximumPrice = maximumPrice 
-            self.priceTickSize = priceTickSize
-            self.baseFeeRate = baseFeeRate 
-            self.feeRateTickSize = feeTickSize 
-        }
-    }
-
-    pub fun getFeeRate(amount: UFix64): UFix64 {
-        pre {
-            amount > 0.0: "price cannot be negative"
-        }
-        var price = amount 
-
-        if price <= self.feeInfo.minimumPrice {
-            return self.feeInfo.baseFeeRate
-        }
-
-        if price > self.feeInfo.maximumPrice {
-            price = self.feeInfo.maximumPrice
-        }
-
-        let index = Int((price - 1.0) / self.feeInfo.priceTickSize)
-
-        return self.feeInfo.baseFeeRate - self.feeInfo.feeRateTickSize * UFix64(index)
-    }
-
-    pub fun getAddress(storefrontId: UInt64): Address {
-        return self.addressMap[storefrontId] ?? panic("Not found storefrontId")
-    }
-
-    pub fun getAddressList(): [Address] {
-        return self.addressMap.values
-    }
-
     // createStorefront
     // Make creating a Storefront publicly accessible.
     //
     pub fun createStorefront(): @Storefront {
-        return <- create Storefront()
+        return <-create Storefront()
     }
 
     init () {
-        self.StorefrontStoragePath = /storage/SprtNFTStorefrontV1
-        self.StorefrontPublicPath = /public/SprtNFTStorefrontV1
-
-        self.feeInfo = FeeInfo(minimumPrice: 1.0, maximumPrice: 23.5, 
-            priceTickSize: 0.5, baseFeeRate: 0.095, feeTickSize: 0.001) 
-        self.addressMap = {}
+        self.StorefrontStoragePath = /storage/NFTStorefront
+        self.StorefrontPublicPath = /public/NFTStorefront
 
         emit NFTStorefrontInitialized()
     }

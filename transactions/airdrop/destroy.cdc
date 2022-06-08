@@ -1,5 +1,5 @@
 
-import AirdropElvn from "../../contracts/AirdropElvn.cdc"
+import AirdropElvn from "../../contracts/sprt/AirdropElvn.cdc"
 
 transaction {
     prepare(account: AuthAccount) {

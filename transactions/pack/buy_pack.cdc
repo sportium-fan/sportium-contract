@@ -1,7 +1,7 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
 
-import Pack from "../../contracts/Pack.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
+import Pack from "../../contracts/sprt/Pack.cdc"
+import Elvn from "../../contracts/sprt/Elvn.cdc"
 
 transaction(releaseId: UInt64) {
 	let collection: &Pack.Collection

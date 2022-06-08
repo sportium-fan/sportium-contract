@@ -1,5 +1,6 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import ElvnFUSDTreasury from "../../contracts/ElvnFUSDTreasury.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+
+import ElvnFUSDTreasury from "../../contracts/sprt/ElvnFUSDTreasury.cdc"
 
 transaction(recipient: Address) {
     let treasuryAdmin: &ElvnFUSDTreasury.FUSDAdministrator

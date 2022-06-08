@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache License 2.0
-import NonFungibleToken from "./NonFungibleToken.cdc"
+import NonFungibleToken from "../std/NonFungibleToken.cdc"
 
 // Moments 
 // NFT items for Moments!
@@ -111,7 +111,12 @@ pub contract Moments: NonFungibleToken {
         // so that the caller can read its metadata and call its methods
         //
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            return &self.ownedNFTs[id] as &NonFungibleToken.NFT
+            pre {
+                UInt64(self.ownedNFTs.length) > id:
+                    "Cannot borrow NFT: The ID is not in the collection"
+            }
+
+            return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
 
         // borrowMoment
@@ -120,7 +125,7 @@ pub contract Moments: NonFungibleToken {
         //
         pub fun borrowMoment(id: UInt64): &Moments.NFT? {
             if self.ownedNFTs[id] != nil {
-                let ref = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
+                let ref = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT?
                 return ref as! &Moments.NFT
             } else {
                 return nil
@@ -162,7 +167,7 @@ pub contract Moments: NonFungibleToken {
 			// deposit it in the recipient's account using their reference
 			recipient.deposit(token: <-create Moments.NFT(tokenId: Moments.totalSupply, metadata: metadata))
 
-            Moments.totalSupply = Moments.totalSupply + (1 as UInt64)
+            Moments.totalSupply = Moments.totalSupply + 1
 
 		}
 	}
@@ -175,7 +180,7 @@ pub contract Moments: NonFungibleToken {
     //
     pub fun fetch(_ from: Address, itemId: UInt64): &Moments.NFT? {
         let collection = getAccount(from)
-            .getCapability(Moments.CollectionPublicPath)!
+            .getCapability(Moments.CollectionPublicPath)
             .borrow<&Moments.Collection{Moments.MomentsCollectionPublic}>()
             ?? panic("Couldn't get collection")
         // We trust Moments.Collection.borowMoment to get the correct itemID

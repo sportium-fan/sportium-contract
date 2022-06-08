@@ -1,9 +1,9 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
 
-import Elvn from "../../contracts/Elvn.cdc"
-import Moments from "../../contracts/Moments.cdc"
-import SprtNFTStorefront from "../../contracts/SprtNFTStorefront.cdc"
+import Elvn from "../../contracts/sprt/Elvn.cdc"
+import Moments from "../../contracts/sprt/Moments.cdc"
+import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address, target: Address) {
     let tokenAdmin: &Elvn.Administrator

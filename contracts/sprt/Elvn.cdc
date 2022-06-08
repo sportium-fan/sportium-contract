@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache License 2.0
-import FungibleToken from "./FungibleToken.cdc"
+import FungibleToken from "../std/FungibleToken.cdc"
 
 pub contract Elvn: FungibleToken {
 

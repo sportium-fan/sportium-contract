@@ -1,7 +1,6 @@
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import Moments from "../../contracts/Moments.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
 
-// This transaction configures an account to hold Moments.
+import Moments from "../../contracts/sprt/Moments.cdc"
 
 transaction {
     prepare(signer: AuthAccount) {

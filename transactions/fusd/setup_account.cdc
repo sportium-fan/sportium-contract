@@ -1,6 +1,5 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-
-import FUSD from "../../contracts/FUSD.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+import FUSD from "../../contracts/std/FUSD.cdc"
 
 transaction {
   prepare(account: AuthAccount) {

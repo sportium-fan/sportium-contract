@@ -1,4 +1,4 @@
-import FungibleToken from "./FungibleToken.cdc"
+import FungibleToken from "../std/FungibleToken.cdc"
 
 pub contract TeleportedTetherToken: FungibleToken {
   // Frozen flag controlled by Admin

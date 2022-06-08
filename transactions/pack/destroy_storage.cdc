@@ -1,5 +1,5 @@
 
-import Pack from "../../contracts/Pack.cdc"
+import Pack from "../../contracts/sprt/Pack.cdc"
 
 transaction {
     prepare(account: AuthAccount) {

@@ -1,5 +1,6 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import TeleportedSportiumToken from "../../contracts/TeleportedSportiumToken.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+
+import TeleportedSportiumToken from "../../contracts/blocto/TeleportedSportiumToken.cdc"
 
 transaction(amount: UFix64, recipient: Address) {
 

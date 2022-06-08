@@ -1,10 +1,6 @@
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import Moments from "../../contracts/Moments.cdc"
+import NonFungibleToken from "../../contracts/std/NonFungibleToken.cdc"
 
-// This transction uses the NFTMinter resource to mint a new NFT.
-//
-// It must be run with the account that has the minter resource
-// stored at path /storage/NFTMinter.
+import Moments from "../../contracts/sprt/Moments.cdc"
 
 transaction(recipient: Address, metadata: {String: String}) {
 

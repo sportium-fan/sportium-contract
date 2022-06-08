@@ -1,5 +1,5 @@
-import Pack from "../../contracts/Pack.cdc"
-import Moments from "../../contracts/Moments.cdc"
+import Pack from "../../contracts/sprt/Pack.cdc"
+import Moments from "../../contracts/sprt/Moments.cdc"
 
 transaction(packId: UInt64) {
 	let packCollection: &Pack.Collection

@@ -1,5 +1,6 @@
-import FungibleToken from "../../contracts/FungibleToken.cdc"
-import Elvn from "../../contracts/Elvn.cdc"
+import FungibleToken from "../../contracts/std/FungibleToken.cdc"
+
+import Elvn from "../../contracts/sprt/Elvn.cdc"
 
 // This transaction is a template for a transaction
 // to add a Vault resource to their account
