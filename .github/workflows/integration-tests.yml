@@ -1,4 +1,4 @@
-name: Moments Integration Tests
+name: Integration Tests
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   vm-job:
-    name: Moments Integration Tests
+    name: Integration Tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
@@ -28,8 +28,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: NPM Install
+      - name: Install Dependencies
         run: cd tests && yarn
 
-      - name: Integration Tests
+      - name: Run Integration Tests
         run: cd tests && yarn test --coverage
