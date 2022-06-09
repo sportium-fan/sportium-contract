@@ -195,9 +195,11 @@ pub contract Pack {
 
     pub fun getOnSaleReleaseIds(): [UInt64] {
         let releaseIds: [UInt64] = []
-        for releaseId in self.momentsListCandidate.keys {
-            let packsRef = (&self.momentsListCandidate[releaseId] as &[[Moments.NFT]]?)!
-            if packsRef.length > 0 {
+
+        for releaseId in self.salePacks.keys {
+            let remainingCount = self.getPackRemainingCount(releaseId: releaseId)
+
+            if remainingCount > 0 {
                 releaseIds.append(releaseId)
             }
         }
