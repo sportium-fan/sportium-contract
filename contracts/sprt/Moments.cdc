@@ -111,11 +111,6 @@ pub contract Moments: NonFungibleToken {
         // so that the caller can read its metadata and call its methods
         //
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            pre {
-                UInt64(self.ownedNFTs.length) > id:
-                    "Cannot borrow NFT: The ID is not in the collection"
-            }
-
             return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
 
