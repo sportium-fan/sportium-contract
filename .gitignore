@@ -27,5 +27,4 @@ flowdb
 
 
 # flow json
-flow.testnet.json
-flow.mainnet.json
+flow.*.json
