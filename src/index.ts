@@ -25,6 +25,7 @@ export { destroyStorage as packDestroyStorage } from "./transactions/pack/destro
 export { mintToken as packMintToken } from "./transactions/pack/mintToken";
 export { openPackId as packOpenPackId } from "./transactions/pack/openPackId";
 export { openPackReleaseId as packOpenPackReleaseId } from "./transactions/pack/openPackReleaseId";
+export { purchaseWithMoments as packPurchaseWithMoments } from "./transactions/pack/purchaseWithMoments";
 export { setupAccount as packSetupAccount } from "./transactions/pack/setupAccount";
 export { transferTokens as sportiumTokenTransferTokens } from "./transactions/sportiumToken/transferTokens";
 export { adminPurchaseListingAndSend as sprtNftStorefrontAdminPurchaseListingAndSend } from "./transactions/sprtNftStorefront/adminPurchaseListingAndSend";
