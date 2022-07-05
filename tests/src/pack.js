@@ -55,6 +55,19 @@ export const addItem = async (releaseId, momentsIds) => {
 	});
 };
 
+export const purchaseWithMoments = async (releaseId, packPrice, momentsIdsGroup) => {
+	const name = "pack/purchase_with_moments";
+	const ElvnAdmin = await getElvnAdminAddress();
+	const signers = [ElvnAdmin];
+	const args = [releaseId, packPrice, momentsIdsGroup];
+
+	return sendTransactionWithErrorRaised({
+		name,
+		signers,
+		args,
+	});
+};
+
 export const buyPack = async (account, releaseId) => {
 	const name = "pack/buy_pack";
 	const signers = [account];

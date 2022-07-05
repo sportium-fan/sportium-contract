@@ -16,6 +16,7 @@ import {
 	openPackId,
 	openPackReleaseId,
 	setupPackAccount,
+	purchaseWithMoments,
 } from "../src/pack";
 import { getMomentIds, mintMoment, setupMomentsOnAccount } from "../src/moments";
 import { getElvnBalance, mintElvn, setupElvnOnAccount } from "../src/elvn";
@@ -108,6 +109,32 @@ describe("Pack", () => {
 
 		const price = await getPackPrice(releaseId);
 		expect(price).toEqual(packPrice);
+	});
+
+	it("purchase with moments", async () => {
+		await deployPack();
+		const ElvnAdmin = await getElvnAdminAddress();
+		await setupMomentsOnAccount(ElvnAdmin);
+		await setupPackAccount(ElvnAdmin);
+
+		const releaseId = 1;
+		const packPrice = 100;
+
+		const momentId = await mintMomentToken({
+			momentRecipient: ElvnAdmin,
+			momentAddress: ElvnAdmin,
+		});
+
+		await purchaseWithMoments(releaseId, packPrice, [[momentId]]);
+
+		const packRemainingCount = await getPackRemainingCount(releaseId);
+		expect(packRemainingCount).toEqual(1);
+
+		const momentsListRemainingCount = await getMomentsListRemainingCount(releaseId);
+		expect(momentsListRemainingCount).toEqual(1);
+
+		const price = await getPackPrice(releaseId);
+		expect(price).toEqual(toUFix64(packPrice));
 	});
 
 	it("shall be able buy pack token", async () => {
