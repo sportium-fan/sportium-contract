@@ -2,6 +2,10 @@ import FungibleToken from "../std/FungibleToken.cdc"
 
 import Elvn from "./Elvn.cdc"
 
+// AirdropElvn
+// 
+// testnet only
+// Used for elvn airdrop to users in cbt environment
 pub contract AirdropElvn {
 	access(self) let vault: @Elvn.Vault
 	access(self) let whitelist: {Address: Bool}

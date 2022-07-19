@@ -1,7 +1,8 @@
 import FungibleToken from "../std/FungibleToken.cdc"
 
+// deprecated
 pub contract Treasury {
-    pub let vault: @FungibleToken.Vault
+	pub let vault: @FungibleToken.Vault
 
     pub event Initialize()
 

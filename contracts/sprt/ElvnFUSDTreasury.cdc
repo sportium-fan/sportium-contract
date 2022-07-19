@@ -4,6 +4,9 @@ import FUSD from "../std/FUSD.cdc"
 
 import Elvn from "./Elvn.cdc"
 
+// ElvnFUSDTreasury
+// 
+// Elvn <-> Custody contract that allows FUSD to be swapped 1:1
 pub contract ElvnFUSDTreasury {
     access(contract) let elvnVault: @Elvn.Vault
     access(contract) let fusdVault: @FUSD.Vault

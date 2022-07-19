@@ -4,6 +4,14 @@ import FungibleToken from "../std/FungibleToken.cdc"
 import Elvn from "./Elvn.cdc"
 import Moments from "./Moments.cdc"
 
+// Pack
+//
+// A contract made to match Pack Token and [Moments] using `unsafeRandom`
+// 
+// caution
+// 1. The number of `salePacks` and `momentsListCandidate` may be different.
+// 2. `salePacks` is reduced in length when the user purchases a pack.
+// 3. `momentsListCandidate` is decremented when the user opens the pack.
 pub contract Pack {
     access(self) let vault: @Elvn.Vault
 

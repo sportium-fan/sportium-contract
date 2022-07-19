@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// It reads the code from the cadence file and converts it into a string to create a typescript file.
+//
+
 const fs = require("fs");
 const prettier = require("prettier");
 const camelCase = require("camelcase");

@@ -1,6 +1,7 @@
 import Pack from "../../contracts/sprt/Pack.cdc"
 import Moments from "../../contracts/sprt/Moments.cdc"
 
+// The user (tx auth) adds their Moment IDs to the Pack Contract sales items (salePacks)
 transaction(releaseId: UInt64, momentsIds: [UInt64]) {
     let admin: &Pack.Administrator
 
