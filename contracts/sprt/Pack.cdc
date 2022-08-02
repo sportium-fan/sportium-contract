@@ -265,7 +265,7 @@ pub contract Pack {
         }
 
         pub fun createPackToken(releaseId: UInt64, price: UFix64, momentsPerCount: UInt64): @Pack.Token {
-            let pack <- create Pack.Token(tokenId: Pack.totalSupply, releaseId, price, momentsPerCount)
+            let pack <- create Pack.Token(tokenId: Pack.totalSupply, releaseId: releaseId, price: price, momentsPerCount: momentsPerCount)
             Pack.totalSupply = Pack.totalSupply + 1
 
             emit CreatePackToken(packId: pack.id, releaseId: releaseId)
