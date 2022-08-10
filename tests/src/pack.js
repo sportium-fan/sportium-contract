@@ -92,6 +92,18 @@ export const buyPackPaymentByFUSD = async (account, releaseId) => {
 	});
 };
 
+export const buyPackPaymentByFLOW = async (account, releaseId) => {
+	const name = "pack/buy_pack_payment_by_flow";
+	const signers = [account];
+	const args = [releaseId];
+
+	return sendTransactionWithErrorRaised({
+		name,
+		signers,
+		args,
+	});
+};
+
 export const openPackReleaseId = async (account, releaseId) => {
 	const name = "pack/open_pack_release_id";
 	const signers = [account];

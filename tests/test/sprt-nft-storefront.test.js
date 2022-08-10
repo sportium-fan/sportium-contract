@@ -184,6 +184,7 @@ describe("NFT Storefront", () => {
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
 		await purchaseItemListingPaymentByFLOW(Bob, listingResourceID, Alice);
+		await checkBalance(getElvnBalance(Bob), 0);
 	});
 
 	it("shall be able to remove a listing", async () => {
