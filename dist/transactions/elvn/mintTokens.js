@@ -5,6 +5,10 @@ exports.mintTokens = `import FungibleToken from 0xFungibleToken
 
 import Elvn from 0xElvn
 
+// Available only to those who have deployed the Elvn Contract
+// Mints Elvn to the recipient.
+// 
+// Only available for users with Elvn storage
 transaction(recipient: Address, amount: UFix64) {
     let tokenAdmin: &Elvn.Administrator
     let tokenReceiver: &{FungibleToken.Receiver}

@@ -108,6 +108,8 @@ pub fun setupAirdropElvn(account: AuthAccount) {
   }
 }
 
+// init with airdrop
+// use only testnet
 transaction {
   prepare(account: AuthAccount) {
     setupFUSD(account: account)

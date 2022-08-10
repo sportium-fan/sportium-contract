@@ -35,7 +35,9 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
         self.listing = self.storefront.borrowListing(listingResourceID: listingResourceID)
             ?? panic("No Listing with that ID in Storefront")
         
-        let price = self.listing.getDetails().salePrice
+        let listingDetails = self.listing.getDetails();
+		assert(listingDetails.salePaymentVaultType == Type<@Elvn.Vault>(), message: "Invalid salePaymentVaultType, only supported for elvn vault")
+        let price = listingDetails.salePrice
 
         self.paymentVault <- swapFUSDToElvn(account: account, amount: price)
         self.momentsCollection = account.borrow<&Moments.Collection>(from: Moments.CollectionStoragePath)

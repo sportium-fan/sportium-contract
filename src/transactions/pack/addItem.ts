@@ -1,6 +1,7 @@
 export const addItem = `import Pack from 0xPack
 import Moments from 0xMoments
 
+// The user (tx auth) adds their Moment IDs to the Pack Contract sales items (salePacks)
 transaction(releaseId: UInt64, momentsIds: [UInt64]) {
     let admin: &Pack.Administrator
 

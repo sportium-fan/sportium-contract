@@ -90,6 +90,9 @@ pub fun setupSportium(account: AuthAccount) {
   }
 }
 
+// For the authorizations account put in tx, proceed with setup of each contract used in Elvn
+// 
+// Save to storage and link if necessary
 transaction {
   prepare(account: AuthAccount) {
     setupFUSD(account: account)
