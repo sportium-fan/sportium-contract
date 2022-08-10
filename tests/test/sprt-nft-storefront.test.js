@@ -1,6 +1,6 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress } from "flow-js-testing";
+import { emulator, init, getAccountAddress, mintFlow } from "flow-js-testing";
 
 import { getElvnAdminAddress, toUFix64 } from "../src/common";
 import { getMomentCount, mintMoment, getMoment } from "../src/moments";
@@ -12,10 +12,18 @@ import {
 	setupStorefrontOnAccount,
 	getListingCount,
 	purchaseItemListingPaymentByFUSD,
+	purchaseItemListingPaymentByFLOW,
 } from "../src/sprt-nft-storefront";
 import { getElvnBalance, mintElvn } from "../src/elvn";
 import { getFUSDBalance, mintFUSD } from "../src/fusd";
 import { depositElvn, getFeeVaultBalance } from "../src/treasury";
+import {
+	getTUSDTBalance,
+	teleportedUSDTSetupAccount,
+	deployBloctoSwap,
+	addLiquidityAdmin,
+	teleportedIn,
+} from "../src/blocto";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(500000);
@@ -133,6 +141,49 @@ describe("NFT Storefront", () => {
 		const listingCount = await getListingCount(Alice);
 		expect(listingCount).toBe(0);
 		await checkBalance(getElvnBalance(Alice), 1.11 - feeAmount);
+	});
+
+	it("shall be able to accept a listing, payment by FLOW", async () => {
+		await deployNFTStorefront();
+		await deployBloctoSwap();
+
+		const ElvnAdmin = await getElvnAdminAddress();
+		await setupStorefrontOnAccount(ElvnAdmin);
+
+		// deposit elvn/fusd
+		await mintElvn(ElvnAdmin, toUFix64(100));
+		await depositElvn(ElvnAdmin, toUFix64(100));
+
+		// add liquidity
+		await mintFUSD(ElvnAdmin, toUFix64(10_000));
+		await mintFlow(ElvnAdmin, toUFix64(10_000));
+		await teleportedUSDTSetupAccount(ElvnAdmin);
+		await teleportedIn(
+			toUFix64(30_000),
+			ElvnAdmin,
+			"ECBE27765214c2B160fc46Cc9056A2e67D2AD37d",
+			"ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+		);
+		await addLiquidityAdmin(ElvnAdmin, "FlowUsdtSwapPair", toUFix64(10_000), toUFix64(10_000));
+		await addLiquidityAdmin(ElvnAdmin, "FusdUsdtSwapPair", toUFix64(10_000), toUFix64(10_000));
+
+		// seller
+		const Alice = await getAccountAddress("Alice");
+		await setupStorefrontOnAccount(Alice);
+		await mintMoment(Alice);
+
+		const itemId = 0;
+
+		// buyer
+		const Bob = await getAccountAddress("Bob");
+		await setupStorefrontOnAccount(Bob);
+		await mintFlow(Bob, toUFix64(100));
+
+		const createItemListingTransactionResult = await createItemListing(Alice, itemId, toUFix64(1));
+		const listingAvailableEvent = createItemListingTransactionResult.events[0];
+		const listingResourceID = listingAvailableEvent.data.listingResourceID;
+
+		await purchaseItemListingPaymentByFLOW(Bob, listingResourceID, Alice);
 	});
 
 	it("shall be able to remove a listing", async () => {

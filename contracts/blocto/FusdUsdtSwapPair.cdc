@@ -475,7 +475,7 @@ pub contract FusdUsdtSwapPair: FungibleToken {
   }
 
   init() {
-    self.isFrozen = true // frozen until admin unfreezes
+    self.isFrozen = false // frozen until admin unfreezes
     self.totalSupply = 0.0
 
     self.TokenStoragePath = /storage/fusdUsdtFspLpVault
@@ -489,6 +489,7 @@ pub contract FusdUsdtSwapPair: FungibleToken {
     self.token2Vault <- TeleportedTetherToken.createEmptyVault() as! @TeleportedTetherToken.Vault
 
     let admin <- create Admin()
+    self.account.save(<-admin.createSwapProxy(), to: /storage/fusdUsdtSwapProxy)
     self.account.save(<-admin, to: /storage/fusdUsdtPairAdmin)
 
     // Emit an event that shows that the contract was initialized

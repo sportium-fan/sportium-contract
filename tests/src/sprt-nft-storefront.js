@@ -88,6 +88,14 @@ export const purchaseItemListingPaymentByFUSD = async (buyer, resourceId, seller
 	return sendTransactionWithErrorRaised({ name, args, signers });
 };
 
+export const purchaseItemListingPaymentByFLOW = async (buyer, resourceId, seller) => {
+	const name = "sprtNftStorefront/purchase_listing_payment_by_flow";
+	const args = [resourceId, seller];
+	const signers = [buyer];
+
+	return sendTransactionWithErrorRaised({ name, args, signers });
+};
+
 /**
  * Removes item with id equal to **item** from sale.
  * @param {string} owner - owner address
