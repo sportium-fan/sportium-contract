@@ -22,8 +22,6 @@ pub fun getFUSDToFlowPrice(amount: UFix64): UFix64 {
 }
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
-	let elvnVault: @Elvn.Vault
-
 	let momentsCollection: &Moments.Collection{NonFungibleToken.Receiver}
     let storefront: &SprtNFTStorefront.Storefront{SprtNFTStorefront.StorefrontPublic}
     let listing: &SprtNFTStorefront.Listing{SprtNFTStorefront.ListingPublic}
@@ -56,25 +54,28 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 		let tUSDTVault <- FlowSwapPair.swapToken1ForToken2(from: <- flowVault);
 		let fusdVault <- FusdUsdtSwapPair.swapToken2ForToken1(from: <- tUSDTVault);
 
-		if fusdVault.balance > elvnPrice {
-			let remainVault <- fusdVault.withdraw(amount: fusdVault.balance - elvnPrice) as! @FUSD.Vault
-			
-			let tUSDTVault <- FusdUsdtSwapPair.swapToken1ForToken2(from: <-remainVault)
-			let flowVault <- FlowSwapPair.swapToken2ForToken1(from: <- tUSDTVault)
-			
-			flowTokenVault.deposit(from: <- flowVault)
-		}
+		let elvnVault <- ElvnFUSDTreasury.swapFUSDToElvn(vault: <- fusdVault) as! @Elvn.Vault
+		let paymentVault <- elvnVault.withdraw(amount: elvnPrice)
 
-		self.elvnVault <- ElvnFUSDTreasury.swapFUSDToElvn(vault: <- fusdVault) as! @Elvn.Vault
-	}
-
-	execute {
 		let item <- self.listing.purchase(
-            payment: <-self.elvnVault
+            payment: <- paymentVault
         )
 
         self.momentsCollection.deposit(token: <-item)
 
         self.storefront.cleanup(listingResourceID: listingResourceID)
+
+		if elvnVault.balance > 0.0 {
+			let fusdVault <- ElvnFUSDTreasury.swapElvnToFUSD(vault: <- elvnVault) as! @FUSD.Vault
+			let tUSDTVault <- FusdUsdtSwapPair.swapToken1ForToken2(from: <-fusdVault)
+			let flowVault <- FlowSwapPair.swapToken2ForToken1(from: <- tUSDTVault)
+			
+			flowTokenVault.deposit(from: <- flowVault)
+		} else {
+			destroy elvnVault
+		}
+	}
+
+	execute {
 	}
 }

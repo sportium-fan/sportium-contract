@@ -22,8 +22,6 @@ pub fun getFUSDToFlowPrice(amount: UFix64): UFix64 {
 transaction(releaseId: UInt64) {
     let collection: &Pack.Collection
 
-	let elvnVault: @Elvn.Vault
-
     prepare(account: AuthAccount) {
 		self.collection = account.borrow<&Pack.Collection>(from: Pack.CollectionStoragePath) 
 			?? panic("Colud not borrow reference to the owner's Pack Collection!");
@@ -40,22 +38,25 @@ transaction(releaseId: UInt64) {
         let tUSDTVault <- FlowSwapPair.swapToken1ForToken2(from: <- flowVault);
         let fusdVault <- FusdUsdtSwapPair.swapToken2ForToken1(from: <- tUSDTVault);
 
-		if fusdVault.balance > elvnPrice {
-			let remainVault <- fusdVault.withdraw(amount: fusdVault.balance - elvnPrice) as! @FUSD.Vault
-			
-			let tUSDTVault <- FusdUsdtSwapPair.swapToken1ForToken2(from: <-remainVault)
+		let elvnVault <- ElvnFUSDTreasury.swapFUSDToElvn(vault: <- fusdVault) as! @Elvn.Vault
+		let paymentVault <- elvnVault.withdraw(amount: elvnPrice) as! @Elvn.Vault
+
+		self.collection
+			.deposit(
+				token: <- Pack.buyPack(releaseId: releaseId, vault: <- paymentVault)
+			)
+
+		if elvnVault.balance > 0.0 {
+			let fusdVault <- ElvnFUSDTreasury.swapElvnToFUSD(vault: <- elvnVault) as! @FUSD.Vault
+			let tUSDTVault <- FusdUsdtSwapPair.swapToken1ForToken2(from: <-fusdVault)
 			let flowVault <- FlowSwapPair.swapToken2ForToken1(from: <- tUSDTVault)
 			
 			flowTokenVault.deposit(from: <- flowVault)
+		} else {
+			destroy elvnVault
 		}
-
-		self.elvnVault <- ElvnFUSDTreasury.swapFUSDToElvn(vault: <- fusdVault) as! @Elvn.Vault
     }
 
     execute {
-		self.collection
-			.deposit(
-				token: <- Pack.buyPack(releaseId: releaseId, vault: <- self.elvnVault)
-			)
     }
 }
