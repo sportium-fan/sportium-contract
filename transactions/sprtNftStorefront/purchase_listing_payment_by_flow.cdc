@@ -11,15 +11,14 @@ import ElvnFUSDTreasury from "../../contracts/sprt/ElvnFUSDTreasury.cdc"
 import Moments from "../../contracts/sprt/Moments.cdc"
 import SprtNFTStorefront from "../../contracts/sprt/SprtNFTStorefront.cdc"
 
-// blocto swap route: fusd <-> tusdt <-> flow
-pub fun getFUSDToFlowPrice(amount: UFix64): UFix64 {
-	let quote0 = FusdUsdtSwapPair.quoteSwapExactToken1ForToken2(amount: amount * (1.0 - FusdUsdtSwapPair.getFeePercentage()))
-  	let quote = FlowSwapPair.quoteSwapExactToken2ForToken1(amount: quote0 * (1.0 - FlowSwapPair.getFeePercentage()))
-  	let poolAmounts0 = FlowSwapPair.getPoolAmounts()
-	let currentPrice = (poolAmounts0.token1Amount / poolAmounts0.token2Amount) * (1.0 - FlowSwapPair.getFeePercentage())
+// blocto swap route: tusdt -> fusd -> flow
+pub fun getTUSDTToFlowPrice(amount: UFix64): UFix64 {
+  	let tusdtQuote = FlowSwapPair.quoteSwapToken1ForExactToken2(amount: amount * (1.0 + FlowSwapPair.getFeePercentage()))
+	let fusdQuote = FusdUsdtSwapPair.quoteSwapExactToken2ForToken1(amount: tusdtQuote * (1.0 + FusdUsdtSwapPair.getFeePercentage()))
 
-	return currentPrice
+	return fusdQuote
 }
+
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 	let momentsCollection: &Moments.Collection{NonFungibleToken.Receiver}
@@ -45,7 +44,7 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 		let elvnPrice = listingDetails.salePrice;
 
 		let threshold = 1.01;
-		let flowAmount = getFUSDToFlowPrice(amount: elvnPrice) * threshold
+		let flowAmount = getTUSDTToFlowPrice(amount: elvnPrice) * threshold
 
 		let flowTokenVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault) 
         	?? panic("Could not borrow reference to the owner's Vault!")

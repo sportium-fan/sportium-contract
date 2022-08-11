@@ -9,14 +9,12 @@ import Elvn from "../../contracts/sprt/Elvn.cdc"
 import ElvnFUSDTreasury from "../../contracts/sprt/ElvnFUSDTreasury.cdc"
 import Pack from "../../contracts/sprt/Pack.cdc"
 
-// blocto swap route: fusd <-> tusdt <-> flow
-pub fun getFUSDToFlowPrice(amount: UFix64): UFix64 {
-	let quote0 = FusdUsdtSwapPair.quoteSwapExactToken1ForToken2(amount: amount * (1.0 - FusdUsdtSwapPair.getFeePercentage()))
-  	let quote = FlowSwapPair.quoteSwapExactToken2ForToken1(amount: quote0 * (1.0 - FlowSwapPair.getFeePercentage()))
-  	let poolAmounts0 = FlowSwapPair.getPoolAmounts()
-	let currentPrice = (poolAmounts0.token1Amount / poolAmounts0.token2Amount) * (1.0 - FlowSwapPair.getFeePercentage())
+// blocto swap route: tusdt -> fusd -> flow
+pub fun getTUSDTToFlowPrice(amount: UFix64): UFix64 {
+  	let tusdtQuote = FlowSwapPair.quoteSwapToken1ForExactToken2(amount: amount * (1.0 + FlowSwapPair.getFeePercentage()))
+	let fusdQuote = FusdUsdtSwapPair.quoteSwapExactToken2ForToken1(amount: tusdtQuote * (1.0 + FusdUsdtSwapPair.getFeePercentage()))
 
-	return currentPrice
+	return fusdQuote
 }
 
 transaction(releaseId: UInt64) {
@@ -32,7 +30,7 @@ transaction(releaseId: UInt64) {
         let elvnPrice = Pack.getPackPrice(releaseId: releaseId);
         
         let threshold = 1.01;
-        let flowAmount = getFUSDToFlowPrice(amount: elvnPrice) * threshold;
+        let flowAmount = getTUSDTToFlowPrice(amount: elvnPrice) * threshold;
         
         let flowVault <- flowTokenVault.withdraw(amount: flowAmount) as! @FlowToken.Vault;
         let tUSDTVault <- FlowSwapPair.swapToken1ForToken2(from: <- flowVault);
