@@ -287,8 +287,8 @@ pub contract Pack {
     }
 
     init() {
-        self.CollectionStoragePath = /storage/sportiumPackCollection
-        self.CollectionPublicPath = /public/sportiumPackCollection
+        self.CollectionStoragePath = /storage/sportiumPackCollectionDev0261
+        self.CollectionPublicPath = /public/sportiumPackCollectionDev0261
 
         self.momentsListCandidate <- {}
         self.salePacks <- {}
