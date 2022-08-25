@@ -28,6 +28,7 @@ export { openPackId as packOpenPackId } from "./transactions/pack/openPackId";
 export { openPackReleaseId as packOpenPackReleaseId } from "./transactions/pack/openPackReleaseId";
 export { purchaseWithMoments as packPurchaseWithMoments } from "./transactions/pack/purchaseWithMoments";
 export { setupAccount as packSetupAccount } from "./transactions/pack/setupAccount";
+export { transferPack as packTransferPack } from "./transactions/pack/transferPack";
 export { transferTokens as sportiumTokenTransferTokens } from "./transactions/sportiumToken/transferTokens";
 export { adminPurchaseListingAndSend as sprtNftStorefrontAdminPurchaseListingAndSend } from "./transactions/sprtNftStorefront/adminPurchaseListingAndSend";
 export { cleanupListing as sprtNftStorefrontCleanupListing } from "./transactions/sprtNftStorefront/cleanupListing";

@@ -36,4 +36,4 @@ transaction(releaseId: UInt64, momentsIds: [UInt64]) {
 		self.admin.addItem(pack: <-pack, momentsList: <-momentsList)
     }
 }
-`;
+ `;
