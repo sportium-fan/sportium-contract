@@ -37,10 +37,13 @@ pub contract Pack {
         pub let price: UFix64
         pub let momentsPerCount: UInt64
 
+        access(self) var opened: Bool
+
         pub fun openPacks(): @[Moments.NFT] {
             pre {
                 Pack.getMomentsListRemainingCount(releaseId: self.releaseId) > 0: "Not enough moments in Pack Contract"
                 UInt64(Pack.getMomentsLength(releaseId: self.releaseId)) == self.momentsPerCount: "Not equal momentsPerCount"
+                !self.opened: "Pack Tokens already used"
             }
 
             let momentsListLength = Pack.getMomentsListRemainingCount(releaseId: self.releaseId)
@@ -54,6 +57,7 @@ pub contract Pack {
                 let momentsRef = &momentsList[momentsIds.length] as &Moments.NFT
                 momentsIds.append(momentsRef.id)
             }
+            self.opened = true
             emit OpenPack(packId: self.id, momentsIds: momentsIds, address: self.owner?.address)
 
             return <- momentsList
@@ -64,6 +68,7 @@ pub contract Pack {
             self.releaseId = releaseId
             self.price = price
             self.momentsPerCount = momentsPerCount
+            self.opened = false
         }
     }
 
