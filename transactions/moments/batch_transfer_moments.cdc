@@ -9,7 +9,7 @@ transaction(recipient: Address, withdrawIds: [UInt64]) {
 		let collectionRef = account.borrow<&Moments.Collection>(from: Moments.CollectionStoragePath)
 			?? panic("Colud not borrow a reference to the owner's collection")
 
-			let depositRef = recipient.getCapability(Moments.CollectionPublicPath)!.borrow<&{NonFungibleToken.CollectionPublic}>()!
+		let depositRef = recipient.getCapability(Moments.CollectionPublicPath)!.borrow<&{NonFungibleToken.CollectionPublic}>()!
 
 		for withdrawId in withdrawIds {
 			let nft <- collectionRef.withdraw(withdrawID: withdrawId)
