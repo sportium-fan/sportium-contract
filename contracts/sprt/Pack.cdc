@@ -43,7 +43,7 @@ pub contract Pack {
             pre {
                 Pack.getMomentsListRemainingCount(releaseId: self.releaseId) > 0: "Not enough moments in Pack Contract"
                 UInt64(Pack.getMomentsLength(releaseId: self.releaseId)) == self.momentsPerCount: "Not equal momentsPerCount"
-                !self.opened: "Pack Tokens already used"
+                self.isAvailable(): "Pack Tokens already used"
             }
 
             let momentsListLength = Pack.getMomentsListRemainingCount(releaseId: self.releaseId)
@@ -61,6 +61,10 @@ pub contract Pack {
             emit OpenPack(packId: self.id, momentsIds: momentsIds, address: self.owner?.address)
 
             return <- momentsList
+        }
+
+        pub fun isAvailable(): Bool {
+            return !self.opened
         }
 
         init(tokenId: UInt64, releaseId: UInt64, price: UFix64, momentsPerCount: UInt64) {
@@ -85,13 +89,16 @@ pub contract Pack {
         pub fun getIds(): [UInt64] {
             let ids: [UInt64] = []
 
-            for key in self.ownedPacks.keys {
-                let ownedPack = (&self.ownedPacks[key] as &[Pack.Token]?)!
+            for releaseId in self.ownedPacks.keys {
+                let ownedPack = (&self.ownedPacks[releaseId] as &[Pack.Token]?)!
 
                 var i = 0;
-                while i < ownedPack!.length {
-                    ids.append(ownedPack[i].id)
-                    i = i + 1
+                while i < ownedPack.length {
+                    let pack = &ownedPack[i] as &Pack.Token;
+                    if pack.isAvailable() {
+                        ids.append(pack.id)
+                    }
+                    i = i + 1;
                 }
             }
 
@@ -101,17 +108,18 @@ pub contract Pack {
         pub fun getReleaseIds(): [UInt64] {
             let releaseIds: [UInt64] = []
 
-            for key in self.ownedPacks.keys {
-                let ownedPack = (&self.ownedPacks[key] as &[Pack.Token]?)!
+            for releaseId in self.ownedPacks.keys {
+                let ownedPack = (&self.ownedPacks[releaseId] as &[Pack.Token]?)!
 
-                if ownedPack.length > 0 {
-                    releaseIds.append(key)
+                let isAvailable = Pack.isAvailablePackList(packList: ownedPack);               
+                if isAvailable {
+                    releaseIds.append(releaseId);
                 }
             }
 
             return releaseIds
         }
-
+        
         pub fun withdrawReleaseId(releaseId: UInt64): @Pack.Token {
             pre {
                 self.ownedPacks[releaseId] != nil: "missing Pack releaseId: ".concat(releaseId.toString())
@@ -285,6 +293,19 @@ pub contract Pack {
                 return <- Pack.vault.withdraw(amount: balance)
             }
         }
+    }
+
+    pub fun isAvailablePackList(packList: &[Pack.Token]): Bool {
+        var i = 0;
+        while i < packList.length {
+            let pack = &packList[i] as &Pack.Token;
+            if pack.isAvailable() {
+                return true;
+            }
+            i = i + 1;
+        }
+
+        return false
     }
 
     pub fun createEmptyCollection(): @Pack.Collection {
