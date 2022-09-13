@@ -197,3 +197,4 @@ pub contract Elvn: FungibleToken {
         emit TokensInitialized(initialSupply: self.totalSupply)
     }
 }
+ 

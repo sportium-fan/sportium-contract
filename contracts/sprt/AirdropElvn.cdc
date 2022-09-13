@@ -66,3 +66,4 @@ pub contract AirdropElvn {
 		self.AirdropStoragePath = /storage/sportiumAirdropElvnForTestnet
 	}
 }
+ 
