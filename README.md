@@ -4,20 +4,19 @@
 
 | name             | address                                                                                         |
 | ---------------- | ----------------------------------------------------------------------------------------------- |
-| Elvn             | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Elvn)             |
-| ElvnFUSDTreasury | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.ElvnFUSDTreasury) |
-| ElvnFeeTreasury | [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.ElvnFeeTreasury) |
-| ElvnPackPurchaseTreasury | [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.ElvnPackPurchaseTreasury) |
-| Moments          | [0x6292b23b3eb3f999](https://flowscan.org/contract/A.6292b23b3eb3f999.Moments)          |
-| SprtNFTStorefront| [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.SprtNFTStorefront)          |
-| Pack | [0xdcef2dcb63f28dee](https://flowscan.org/contract/A.dcef2dcb63f28dee.Pack) |
+| Elvn             | [0x3084a96e617d3b0a](https://flowscan.org/contract/A.3084a96e617d3b0a.Elvn)             |
+| ElvnFUSDTreasury | [0x2292306bbb61edb6](https://flowscan.org/contract/A.2292306bbb61edb6.ElvnFUSDTreasury) |
+| ElvnFeeTreasury | [0x2292306bbb61edb6](https://flowscan.org/contract/A.2292306bbb61edb6.ElvnFeeTreasury) |
+| Moments          | [0xcbe56896caed3fd0](https://flowscan.org/contract/A.cbe56896caed3fd0.Moments)          |
+| SprtNFTStorefront| [0xd451b39aec488f34](https://flowscan.org/contract/A.d451b39aec488f34.SprtNFTStorefront)          |
+| Pack | [0x556da45d1bbac464](https://flowscan.org/contract/A.556da45d1bbac464.Pack) |
 | FlowToken| 0x1654653399040a61          |
 | FungibleToken| 0xf233dcee88fe0abe          |
 | NonFungibleToken| 0x1d7e57aa55817448      |
 | FUSD| 0x3c5959b568896393  |
 | FlowSwapPair|  [0xc6c77b9f5c7a378f](https://flowscan.org/contract/A.c6c77b9f5c7a378f.FlowSwapPair)   |
 | FusdUsdtSwapPair|  [0x87f3f233f34b0733](https://flowscan.org/contract/A.87f3f233f34b0733.FusdUsdtSwapPair)   |
-| TeleportedSportiumToken | TODO |
+| TeleportedSportiumToken | 0x475755d2c9dccc3a |
 | SprtUsdtSwapPair| 0x60e1db11f37ac469 |
 
 ## Testnet Contract Address
