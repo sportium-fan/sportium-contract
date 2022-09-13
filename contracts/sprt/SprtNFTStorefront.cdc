@@ -603,8 +603,8 @@ pub contract SprtNFTStorefront {
     }
 
     init () {
-        self.StorefrontStoragePath = /storage/SprtNFTStorefrontV1
-        self.StorefrontPublicPath = /public/SprtNFTStorefrontV1
+        self.StorefrontStoragePath = /storage/SprtNFTStorefrontV1Dev101
+        self.StorefrontPublicPath = /public/SprtNFTStorefrontV1Dev101
 
         self.feeInfo = FeeInfo(
             minimumPrice: 1.0, 
