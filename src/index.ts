@@ -1,5 +1,4 @@
 export { initializeAccount as accountInitializeAccount } from "./transactions/account/initializeAccount";
-export { initializeAccountWithAirdrop as accountInitializeAccountWithAirdrop } from "./transactions/account/initializeAccountWithAirdrop";
 export { deposit as airdropDeposit } from "./transactions/airdrop/deposit";
 export { destroy as airdropDestroy } from "./transactions/airdrop/destroy";
 export { mintWithDeopsit as airdropMintWithDeopsit } from "./transactions/airdrop/mintWithDeopsit";
