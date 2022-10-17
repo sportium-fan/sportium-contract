@@ -42,3 +42,4 @@ transaction(releaseId: UInt64, packPrice: UFix64, momentsIdsGroup: [[UInt64]]) {
 
     }
 }
+ 

@@ -45,4 +45,4 @@ pub fun main(address: Address): {String: UFix64} {
         "bloctoSwapSprtUsdtPairPrice": sprtUsdtPairQuote
     }
 }
-`;
+ `;
